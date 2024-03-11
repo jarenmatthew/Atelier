@@ -56,7 +56,7 @@ collagePics.forEach(pic => {
 
       // If there's a link, create an anchor element
       if (link) {
-        popupDescription.innerHTML = text + '<br>- <a href="' + link + '">Click here for more info</a>';
+        popupDescription.innerHTML = text + '<br>- <a href="' + link + '">See product</a>';
 
       } else {
           popupDescription.textContent = text;

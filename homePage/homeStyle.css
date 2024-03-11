@@ -167,6 +167,13 @@ img {
   margin: 0 auto; /* Center the collage horizontally */
 }
 
+.collage img {
+  width: 50%; /* Set the width to 100% to make all images the same width */
+  height: 100%; /* Set the height to 100% to maintain aspect ratio */
+  object-fit: cover; /* Ensure the image covers the entire container */
+}
+
+
 @media (min-height: 300px) {
   .collage {
     grid-template-columns: repeat(4, 1fr); /* 3 images per row for screens wider than 600px */
@@ -175,7 +182,7 @@ img {
 
 @media (min-height: 600px) {
   .collage {
-    grid-template-columns: repeat(3, 1fr); /* 3 images per row for screens wider than 600px */
+    grid-template-columns: repeat(4, 1fr); /* 3 images per row for screens wider than 600px */
   }
 }
 
