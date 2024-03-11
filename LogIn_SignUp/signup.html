@@ -1,3 +1,5 @@
+<!-- FILE CONTAINS THE SCRIPT, WILL MOVE SCRIPT IF FINALIZED NA -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -96,6 +98,7 @@
             </div>
             <div class="input-box">
                 <input type="password" class="input-field" placeholder="Password">
+                <!-- <span class="toggle-password" onclick="togglePasswordVisibility()">Show</span> -->
                 <i class="bx bx-lock-alt"></i>
             </div>
             <div class="input-box">
@@ -159,6 +162,21 @@
     }
 
 </script>
+
+<!-- <script>
+    function togglePasswordVisibility() {
+    var passwordInput = document.getElementById("password");
+    var toggleButton = document.querySelector(".toggle-password");
+    
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        toggleButton.textContent = "Hide";
+    } else {
+        passwordInput.type = "password";
+        toggleButton.textContent = "Show";
+    }
+}
+</script> -->
 
 </body>
 </html>
