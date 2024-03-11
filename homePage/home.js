@@ -40,6 +40,8 @@ const popupDescription = document.getElementById('popup-description');
 
 // Attach click event listeners to each collage picture
 // Attach click event listeners to each collage picture
+// Attach click event listeners to each collage picture
+// Attach click event listeners to each collage picture
 collagePics.forEach(pic => {
   pic.addEventListener('click', () => {
       // Get the image source and description of the clicked picture
@@ -49,23 +51,18 @@ collagePics.forEach(pic => {
       // Set the image source and description in the pop-up content
       popupImage.src = imageSrc;
 
-      // Parse the description to extract the text and the link
-      const descriptionParts = description.split(' - ');
-      const text = descriptionParts[0];
-      const link = descriptionParts[1];
+      // Replace the comma with a line break between "Whale House" and "John Doe"
+      const formattedDescription = description.replace(', ', '<br>');
 
-      // If there's a link, create an anchor element
-      if (link) {
-        popupDescription.innerHTML = text + '<br>- <a href="' + link + '">See product</a>';
-
-      } else {
-          popupDescription.textContent = text;
-      }
+      // Set the formatted description in the pop-up content
+      popupDescription.innerHTML = formattedDescription;
 
       // Show the pop-up container
       popupContainer.style.display = 'block';
   });
 });
+
+
 
 
 // Close the pop-up when clicking outside of it or on the close button
