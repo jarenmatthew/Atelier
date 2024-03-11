@@ -52,7 +52,109 @@
     </div>
     </div>
     </div>
+
+    <h3>Explore</h3>
+
+    <div class="collage">
+
+        <div class="collage_pics" data-description="Whale House, John Doe - product.html">
+            <img src="img/image5.png" style="width:100%" onclick="showDescription(this)">
+        </div>
+
+        <div class="collage_pics" data-description="Description for Image 6">
+            <img src="img/image6.png" style="width:100%" onclick="showDescription(this)">
+        </div>
+
+        <div class="collage_pics" data-description="Description for Image 7">
+            <img src="img/image7.png" style="width:100%" onclick="showDescription(this)">
+        </div>
+
+        <div class="collage_pics" data-description="Description for Image 8">
+            <img src="img/image8.png" style="width:100%" onclick="showDescription(this)">
+        </div>
+
+        <div class="collage_pics" data-description="Description for Image 9">
+            <img src="img/image9.png" style="width:100%" onclick="showDescription(this)">
+        </div>
+
+        <div class="collage_pics" data-description="Description for Image 10">
+            <img src="img/image10.png" style="width:100%" onclick="showDescription(this)">
+        </div>
+
+        <div class="collage_pics" data-description="Description for Image 11">
+            <img src="img/image11.png" style="width:100%" onclick="showDescription(this)">
+        </div>
+
+        <div class="collage_pics" data-description="Description for Image 12">
+            <img src="img/image12.png" style="width:100%" onclick="showDescription(this)">
+        </div>
+
+        <div class="collage_pics" data-description="Description for Image 13">
+            <img src="img/image13.png" style="width:100%" onclick="showDescription(this)">
+        </div>
+
+        <div class="collage_pics" data-description="Description for Image 14">
+            <img src="img/image14.png" style="width:100%" onclick="showDescription(this)">
+        </div>
+
+        <div class="collage_pics" data-description="Description for Image 15">
+            <img src="img/image15.png" style="width:100%" onclick="showDescription(this)">
+        </div>
+
+        <div class="collage_pics" data-description="Description for Image 16">
+            <img src="img/image16.png" style="width:100%" onclick="showDescription(this)">
+        </div>
+
+        <div class="collage_pics" data-description="Description for Image 17">
+            <img src="img/image17.png" style="width:100%" onclick="showDescription(this)">
+        </div>
+
+        <div class="collage_pics" data-description="Description for Image 18">
+            <img src="img/image18.png" style="width:100%" onclick="showDescription(this)">
+        </div>
+
+        <div class="collage_pics" data-description="Description for Image 19">
+            <img src="img/image19.png" style="width:100%" onclick="showDescription(this)">
+        </div>
+
+        <div class="collage_pics" data-description="Description for Image 20">
+            <img src="img/image20.png" style="width:100%" onclick="showDescription(this)">
+        </div>
+
+        <div class="collage_pics" data-description="Description for Image 21">
+            <img src="img/image21.png" style="width:100%" onclick="showDescription(this)">
+        </div>
+
+        <div class="collage_pics" data-description="Description for Image 22">
+            <img src="img/image22.png" style="width:100%" onclick="showDescription(this)">
+        </div>
+
+        <div class="collage_pics" data-description="Description for Image 23">
+            <img src="img/image23.png" style="width:100%" onclick="showDescription(this)">
+        </div>
+
+        <div class="collage_pics" data-description="Description for Image 24">
+            <img src="img/image24.png" style="width:100%" onclick="showDescription(this)">
+        </div>
+    </div>
+
+    <!-- Add a hidden pop-up container -->
+    <div id="popup-container" class="popup-container">
+        <div id="popup-content" class="popup-content">
+            <img id="popup-image" src="" alt="Clicked Image">
+            <p id="popup-description">Description goes here</p>
+        </div>
+    </div>
+
+
     
     <script src="home.js"></script>
+    <script>
+        function showDescription(image) {
+            var description = image.parentElement.getAttribute('data-description');
+            document.getElementById('popup-description').innerHTML = description;
+            document.getElementById('popup-container').style.display = 'block';
+        }
+    </script>
 </body>
 </html>
