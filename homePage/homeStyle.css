@@ -1,3 +1,11 @@
+/* Import the Inknut Antiqua font */
+@import url('https://fonts.googleapis.com/css2?family=Inknut+Antiqua&display=swap');
+
+/* Apply the font to all text elements */
+body, h1, h2, h3, h4, h5, h6, p, a, li {
+  font-family: 'Inknut Antiqua', serif;
+}
+
 #header {
   display: flex;
   align-items: center;
@@ -27,12 +35,12 @@
 
 .prof { /*profile image*/
   width: 80px; /* Adjust the width of the profile image */
-  margin-left: 325px;
+  margin-left: 175px;
 }
 
 h2 { /*atelier text*/
   margin: 0; /* No margin */
-  font-size: 35px; /* Adjust the font size as needed */
+  font-size: 25px; /* Adjust the font size as needed */
   margin-right: auto;
 }
 
@@ -44,11 +52,12 @@ a {
 #navbar {
   display: flex;
   align-items: center;
+  justify-content: center; /* Center the navbar horizontally */
 }
 
 #navbar li {
   list-style: none;
-  padding: 0 20px;
+  padding: 0 45px;
   position: relative;
 }
 
