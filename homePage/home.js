@@ -39,9 +39,6 @@ const popupImage = document.getElementById('popup-image');
 const popupDescription = document.getElementById('popup-description');
 
 // Attach click event listeners to each collage picture
-// Attach click event listeners to each collage picture
-// Attach click event listeners to each collage picture
-// Attach click event listeners to each collage picture
 collagePics.forEach(pic => {
   pic.addEventListener('click', () => {
       // Get the image source and description of the clicked picture
@@ -61,9 +58,6 @@ collagePics.forEach(pic => {
       popupContainer.style.display = 'block';
   });
 });
-
-
-
 
 // Close the pop-up when clicking outside of it or on the close button
 popupContainer.addEventListener('click', (e) => {
