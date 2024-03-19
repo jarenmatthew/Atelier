@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import SignUpPage from "./Pages/Signup/Signup.tsx";
+import LogInPage from "./Pages/Signup/Login.tsx";
 
 const router = createBrowserRouter([
   {
@@ -10,7 +10,7 @@ const router = createBrowserRouter([
     element: <div>Hello world!</div>,
   },
   { path: "/home", element: <App /> },
-  { path: "/signup", element: <SignUpPage /> },
+  { path: "/login", element: <LogInPage /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
