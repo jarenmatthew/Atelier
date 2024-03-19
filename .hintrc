@@ -23,6 +23,8 @@
       {
         "link-name": "off"
       }
-    ]
+    ],
+    "disown-opener": "off",
+    "typescript-config/is-valid": "off"
   }
 }
