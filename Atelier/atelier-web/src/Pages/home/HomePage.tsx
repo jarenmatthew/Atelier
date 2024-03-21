@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './HomePage.css';
+import logo from "./img/logo.jpg";
+import prof from "./img/profile.png";
+import image1 from "./img/image1.png";
+import image2 from "./img/image2.png";
+import image3 from "./img/image3.png";
+import image4 from "./img/image4.png";
+import image5 from "./img/image5.png";
+import cover1 from "./img/cover1.png";
+import cover2 from "./img/cover2.png";
+import cover3 from "./img/cover3.png";
 
 const Home: React.FC = () => {
   const [slideIndex, setSlideIndex] = useState(1);
@@ -12,6 +22,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     navigate('/home');
   }, [navigate]);
+
 
   const showSlides = (n: number) => {
     let slides = document.getElementsByClassName("mySlides") as HTMLCollectionOf<HTMLElement>;
@@ -56,7 +67,7 @@ const Home: React.FC = () => {
     <div>
       <header>
         <section id="header">
-          <a href="#"><img src="../assets/img/logo.jpg" className="logo" alt="" /></a>
+          <a href="#"><img src={logo} className="logo" alt="" /></a>
           <h2><a href="/home">Atelier</a></h2>
           <div>
             <ul id="navbar">
@@ -66,22 +77,22 @@ const Home: React.FC = () => {
               <li><a href="about.html">About Us</a></li>
             </ul>
           </div>
-          <a href="/Signup">Profile</a>
+          <a href="/Signup"><img src={prof} className="profile" alt="" /></a>
         </section>
       </header>
 
       <div className="slideshow-container">
         <div className="mySlides fade">
-          <img src="../assets/img/image1.png" style={{ width: "100%" }} />
+          <img src={image1} style={{ width: "100%" }} />
         </div>
         <div className="mySlides fade">
-          <img src="../assets/img/image2.png" style={{ width: "100%" }} />
+          <img src={image2} style={{ width: "100%" }} />
         </div>
         <div className="mySlides fade">
-          <img src="assets/img/image3.png" style={{ width: "100%" }} />
+          <img src={image3} style={{ width: "100%" }} />
         </div>
         <div className="mySlides fade">
-          <img src="assets/img/image4.png" style={{ width: "100%" }} />
+          <img src={image4} style={{ width: "100%" }} />
         </div>
         <div className="dot-container">
           <span className="dot" onClick={() => currentSlide(1)}></span>
@@ -95,18 +106,18 @@ const Home: React.FC = () => {
 
       <h4>Featured Artists</h4>
       <div className="artists-container">
-        <img className="featured-artist" width="350" height="100" src="assets/img/cover1.png" />
-        <img className="featured-artist" width="350" height="100" src="assets/img/cover2.png" />
-        <img className="featured-artist" width="350" height="100" src="assets/img/cover3.png" />
-        <img className="featured-artist" width="350" height="100" src="assets/img/cover1.png" />
-        <img className="featured-artist" width="350" height="100" src="assets/img/cover2.png" />
-        <img className="featured-artist" width="350" height="100" src="assets/img/cover3.png" />
+        <img className="featured-artist" width="350" height="100" src={cover1} />
+        <img className="featured-artist" width="350" height="100" src={cover2} />
+        <img className="featured-artist" width="350" height="100" src={cover3} />
+        <img className="featured-artist" width="350" height="100" src={cover1} />
+        <img className="featured-artist" width="350" height="100" src={cover2} />
+        <img className="featured-artist" width="350" height="100" src={cover3} />
       </div>
 
       <h4>Explore</h4>
       <div className="collage">
         <div className="collage_pics" data-description="Whale House, John Doe">
-          <img src="assets/img/image5.png" style={{ width: '100%' }} onClick={showDescription} />
+          <img src={image5} style={{ width: '100%' }} onClick={showDescription} />
         </div>
         <div className="collage_pics" data-description="Whale House, John Doe">
           <img src="assets/img/image6.png" style={{ width: '100%' }} onClick={showDescription} />
