@@ -11,6 +11,7 @@ import image5 from "./img/image5.png";
 import cover1 from "./img/cover1.png";
 import cover2 from "./img/cover2.png";
 import cover3 from "./img/cover3.png";
+import { Box } from '@mui/material';
 
 const Home: React.FC = () => {
   const [slideIndex, setSlideIndex] = useState(1);
@@ -106,15 +107,17 @@ const Home: React.FC = () => {
         <a className="next" onClick={() => plusSlides(1)}>&#10095;</a>
       </div>
 
-      <h4>Featured Artists</h4>
-      <div className="artists-container">
-        <img className="featured-artist" width="350" height="100" src={cover1} />
-        <img className="featured-artist" width="350" height="100" src={cover2} />
-        <img className="featured-artist" width="350" height="100" src={cover3} />
-        <img className="featured-artist" width="350" height="100" src={cover1} />
-        <img className="featured-artist" width="350" height="100" src={cover2} />
-        <img className="featured-artist" width="350" height="100" src={cover3} />
-      </div>
+      <Box>
+        <h4>Featured Artists</h4>
+        <div className="artists-container">
+          <img className="featured-artist" width="350" height="100" src={cover1} />
+          <img className="featured-artist" width="350" height="100" src={cover2} />
+          <img className="featured-artist" width="350" height="100" src={cover3} />
+          <img className="featured-artist" width="350" height="100" src={cover1} />
+          <img className="featured-artist" width="350" height="100" src={cover2} />
+          <img className="featured-artist" width="350" height="100" src={cover3} />
+        </div>
+      </Box>
 
       <h4>Explore</h4>
       <div className="collage">
