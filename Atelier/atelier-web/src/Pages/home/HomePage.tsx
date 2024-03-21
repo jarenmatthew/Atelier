@@ -89,30 +89,32 @@ const Home: React.FC = () => {
         </section>
       </header>
 
-      <div className="slideshow-container">
-        <div className="mySlides fade">
-          <img src={image1} style={{ width: "100%" }} />
+      <Box style={{ marginBottom: '100px' }}>
+        <div className="slideshow-container">
+          <div className="mySlides fade">
+            <img src={image1} style={{ width: "100%" }} />
+          </div>
+          <div className="mySlides fade">
+            <img src={image2} style={{ width: "100%" }} />
+          </div>
+          <div className="mySlides fade">
+            <img src={image3} style={{ width: "100%" }} />
+          </div>
+          <div className="mySlides fade">
+            <img src={image4} style={{ width: "100%" }} />
+          </div>
+          <div className="dot-container">
+            <span className="dot" onClick={() => currentSlide(1)}></span>
+            <span className="dot" onClick={() => currentSlide(2)}></span>
+            <span className="dot" onClick={() => currentSlide(3)}></span>
+            <span className="dot" onClick={() => currentSlide(4)}></span>
+          </div>
+          <a className="prev" onClick={() => plusSlides(-1)}>&#10094;</a>
+          <a className="next" onClick={() => plusSlides(1)}>&#10095;</a>
         </div>
-        <div className="mySlides fade">
-          <img src={image2} style={{ width: "100%" }} />
-        </div>
-        <div className="mySlides fade">
-          <img src={image3} style={{ width: "100%" }} />
-        </div>
-        <div className="mySlides fade">
-          <img src={image4} style={{ width: "100%" }} />
-        </div>
-        <div className="dot-container">
-          <span className="dot" onClick={() => currentSlide(1)}></span>
-          <span className="dot" onClick={() => currentSlide(2)}></span>
-          <span className="dot" onClick={() => currentSlide(3)}></span>
-          <span className="dot" onClick={() => currentSlide(4)}></span>
-        </div>
-        <a className="prev" onClick={() => plusSlides(-1)}>&#10094;</a>
-        <a className="next" onClick={() => plusSlides(1)}>&#10095;</a>
-      </div>
+      </Box>
 
-      <Box style={{ marginBottom: '120px' }}>
+      <Box style={{ marginBottom: '100px' }}>
         <h4>Featured Artists</h4>
         <div className="artists-container">
           <img className="featured-artist" width="350" height="100" src={cover1} />
@@ -124,7 +126,7 @@ const Home: React.FC = () => {
         </div>
       </Box>
 
-      <Box>
+      <Box style={{ marginBottom: '100px' }}>
         <h4>Explore</h4>
         <div className="collage">
           <div className="collage_pics" data-description="Whale House, John Doe">

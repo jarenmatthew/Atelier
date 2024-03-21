@@ -113,16 +113,21 @@ a {
 }
 
 .slideshow-container {
-  max-width: 1250px;
+  max-width: 1450px;
+  max-height: 650px;
   position: relative;
-  margin: 100px auto;
-  /* Set top and bottom margin to 50px and left and right margins to auto */
-  margin-left: 100px;
-  margin-right: 100px;
+  margin: 0 auto;
+  overflow: hidden;
 }
 
 .mySlides {
   display: none;
+}
+
+.mySlides img {
+  max-width: 100%;
+  max-height: auto;
+  object-fit: cover;
 }
 
 img {
