@@ -20,8 +20,9 @@ const Home: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    navigate('/home');
-  }, [navigate]);
+    showSlides(slideIndex); 
+    navigate('/home'); 
+  }, [navigate, slideIndex]);
 
 
   const showSlides = (n: number) => {
@@ -40,8 +41,9 @@ const Home: React.FC = () => {
   };
 
   const plusSlides = (n: number) => {
-    setSlideIndex(slideIndex + n);
-    showSlides(slideIndex);
+    const newIndex = slideIndex + n;
+    setSlideIndex(newIndex);
+    showSlides(newIndex);
   };
 
   const currentSlide = (n: number) => {
