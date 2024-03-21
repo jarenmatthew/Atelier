@@ -8,6 +8,11 @@ import image2 from "./img/image2.png";
 import image3 from "./img/image3.png";
 import image4 from "./img/image4.png";
 import image5 from "./img/image5.png";
+import image6 from "./img/image6.png";
+import image7 from "./img/image7.png";
+import image8 from "./img/image8.png";
+import image9 from "./img/image9.png";
+import image10 from "./img/image10.png";
 import cover1 from "./img/cover1.png";
 import cover2 from "./img/cover2.png";
 import cover3 from "./img/cover3.png";
@@ -107,7 +112,7 @@ const Home: React.FC = () => {
         <a className="next" onClick={() => plusSlides(1)}>&#10095;</a>
       </div>
 
-      <Box>
+      <Box style={{ marginBottom: '120px' }}>
         <h4>Featured Artists</h4>
         <div className="artists-container">
           <img className="featured-artist" width="350" height="100" src={cover1} />
@@ -119,46 +124,47 @@ const Home: React.FC = () => {
         </div>
       </Box>
 
-      <h4>Explore</h4>
-      <div className="collage">
-        <div className="collage_pics" data-description="Whale House, John Doe">
-          <img src={image5} style={{ width: '100%' }} onClick={showDescription} />
+      <Box>
+        <h4>Explore</h4>
+        <div className="collage">
+          <div className="collage_pics" data-description="Whale House, John Doe">
+            <img src={image5} style={{ width: '100%', height: '100%' }} onClick={showDescription} />
+          </div>
+          <div className="collage_pics" data-description="Whale House, John Doe">
+            <img src={image6} style={{ width: '100%' }} onClick={showDescription} />
+          </div>
+          <div className="collage_pics" data-description="Whale House, John Doe">
+            <img src={image7} style={{ width: '100%' }} onClick={showDescription} />
+          </div>
+          <div className="collage_pics" data-description="Whale House, John Doe">
+            <img src={image8} style={{ width: '100%' }} onClick={showDescription} />
+          </div>
+          <div className="collage_pics" data-description="Whale House, John Doe">
+            <img src={image9} style={{ width: '100%' }} onClick={showDescription} />
+          </div>
+          <div className="collage_pics" data-description="Whale House, John Doe">
+            <img src={image10} style={{ width: '100%' }} onClick={showDescription} />
+          </div>
+          <div className="collage_pics" data-description="Whale House, John Doe">
+            <img src={image1} style={{ width: '100%' }} onClick={showDescription} />
+          </div>
+          <div className="collage_pics" data-description="Whale House, John Doe">
+            <img src={image2} style={{ width: '100%' }} onClick={showDescription} />
+          </div>
+          <div className="collage_pics" data-description="Whale House, John Doe">
+            <img src={image3} style={{ width: '100%' }} onClick={showDescription} />
+          </div>
+          <div className="collage_pics" data-description="Whale House, John Doe">
+            <img src={image4} style={{ width: '100%' }} onClick={showDescription} />
+          </div>
+          <div className="collage_pics" data-description="Whale House, John Doe">
+            <img src={image5} style={{ width: '100%' }} onClick={showDescription} />
+          </div>
+          <div className="collage_pics" data-description="Whale House, John Doe">
+            <img src={image6} style={{ width: '100%' }} onClick={showDescription} />
+          </div>
         </div>
-        <div className="collage_pics" data-description="Whale House, John Doe">
-          <img src="assets/img/image6.png" style={{ width: '100%' }} onClick={showDescription} />
-        </div>
-        <div className="collage_pics" data-description="Whale House, John Doe">
-          <img src="assets/img/image7.png" style={{ width: '100%' }} onClick={showDescription} />
-        </div>
-        <div className="collage_pics" data-description="Whale House, John Doe">
-          <img src="assets/img/image8.png" style={{ width: '100%' }} onClick={showDescription} />
-        </div>
-        <div className="collage_pics" data-description="Whale House, John Doe">
-          <img src="assets/img/image9.png" style={{ width: '100%' }} onClick={showDescription} />
-        </div>
-        <div className="collage_pics" data-description="Whale House, John Doe">
-          <img src="assets/img/image10.png" style={{ width: '100%' }} onClick={showDescription} />
-        </div>
-        <div className="collage_pics" data-description="Whale House, John Doe">
-          <img src="assets/img/image11.png" style={{ width: '100%' }} onClick={showDescription} />
-        </div>
-        <div className="collage_pics" data-description="Whale House, John Doe">
-          <img src="assets/img/image12.png" style={{ width: '100%' }} onClick={showDescription} />
-        </div>
-        <div className="collage_pics" data-description="Whale House, John Doe">
-          <img src="assets/img/image13.png" style={{ width: '100%' }} onClick={showDescription} />
-        </div>
-        <div className="collage_pics" data-description="Whale House, John Doe">
-          <img src="assets/img/image14.png" style={{ width: '100%' }} onClick={showDescription} />
-        </div>
-        <div className="collage_pics" data-description="Whale House, John Doe">
-          <img src="assets/img/image15.png" style={{ width: '100%' }} onClick={showDescription} />
-        </div>
-        <div className="collage_pics" data-description="Whale House, John Doe">
-          <img src="assets/img/image16.png" style={{ width: '100%' }} onClick={showDescription} />
-        </div>
-        
-      </div>
+      </Box>
 
       <div id="popup-container" className="popup-container" onClick={handleClosePopup} style={{ display: popupDisplay }}>
         <div id="popup-content" className="popup-content">
