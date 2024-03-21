@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './HomePage.css';
 
 const Home: React.FC = () => {
@@ -6,6 +7,11 @@ const Home: React.FC = () => {
   const [popupDescription, setPopupDescription] = useState('');
   const [popupImageSrc, setPopupImageSrc] = useState('');
   const [popupDisplay, setPopupDisplay] = useState('none');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate('/home');
+  }, [navigate]);
 
   const showSlides = (n: number) => {
     let slides = document.getElementsByClassName("mySlides") as HTMLCollectionOf<HTMLElement>;
@@ -32,7 +38,8 @@ const Home: React.FC = () => {
     showSlides(n);
   };
 
-  const showDescription = (image: HTMLImageElement) => {
+  const showDescription = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
+    const image = e.currentTarget;
     const description = image.parentElement?.getAttribute('data-description') || '';
     setPopupDescription(description);
     setPopupImageSrc(image.src);
@@ -45,45 +52,98 @@ const Home: React.FC = () => {
     }
   };
 
-  const collagePics = document.querySelectorAll('.collage_pics');
-
   return (
     <div>
       <header>
         <section id="header">
-          <a href="#"><img src="img/logo.jpg" className="logo" alt="" /></a>
-          <h2><a href="home.html">Atelier</a></h2>
+          <a href="#"><img src="../assets/img/logo.jpg" className="logo" alt="" /></a>
+          <h2><a href="HomePage.tsx">Atelier</a></h2>
           <div>
             <ul id="navbar">
-              <li><a href="home.html">Home</a></li>
+              <li><a href="HomePage.tsx">Home</a></li>
               <li><a href="explore.html">Explore</a></li>
               <li><a href="shop.html">Shop</a></li>
               <li><a href="about.html">About Us</a></li>
             </ul>
           </div>
-          <a href="profile.html"><img src="img/profile.png" className="prof" alt="" /></a>
+          <a href="profile.html"><img src="assets/img/profile.png" className="prof" alt="" /></a>
         </section>
       </header>
 
-      {/* Slideshow */}
       <div className="slideshow-container">
-        {/* Slides */}
-        {/* Your slide components here */}
+        <div className="mySlides fade">
+          <img src="../assets/img/image1.png" style={{ width: "100%" }} />
+        </div>
+        <div className="mySlides fade">
+          <img src="../assets/img/image2.png" style={{ width: "100%" }} />
+        </div>
+        <div className="mySlides fade">
+          <img src="assets/img/image3.png" style={{ width: "100%" }} />
+        </div>
+        <div className="mySlides fade">
+          <img src="assets/img/image4.png" style={{ width: "100%" }} />
+        </div>
+        <div className="dot-container">
+          <span className="dot" onClick={() => currentSlide(1)}></span>
+          <span className="dot" onClick={() => currentSlide(2)}></span>
+          <span className="dot" onClick={() => currentSlide(3)}></span>
+          <span className="dot" onClick={() => currentSlide(4)}></span>
+        </div>
+        <a className="prev" onClick={() => plusSlides(-1)}>&#10094;</a>
+        <a className="next" onClick={() => plusSlides(1)}>&#10095;</a>
       </div>
 
-      {/* Featured Artists */}
       <h4>Featured Artists</h4>
       <div className="artists-container">
-        {/* Your featured artists components here */}
+        <img className="featured-artist" width="350" height="100" src="assets/img/cover1.png" />
+        <img className="featured-artist" width="350" height="100" src="assets/img/cover2.png" />
+        <img className="featured-artist" width="350" height="100" src="assets/img/cover3.png" />
+        <img className="featured-artist" width="350" height="100" src="assets/img/cover1.png" />
+        <img className="featured-artist" width="350" height="100" src="assets/img/cover2.png" />
+        <img className="featured-artist" width="350" height="100" src="assets/img/cover3.png" />
       </div>
 
-      {/* Explore */}
       <h4>Explore</h4>
       <div className="collage">
-        {/* Your explore collage components here */}
+        <div className="collage_pics" data-description="Whale House, John Doe">
+          <img src="assets/img/image5.png" style={{ width: '100%' }} onClick={showDescription} />
+        </div>
+        <div className="collage_pics" data-description="Whale House, John Doe">
+          <img src="assets/img/image6.png" style={{ width: '100%' }} onClick={showDescription} />
+        </div>
+        <div className="collage_pics" data-description="Whale House, John Doe">
+          <img src="assets/img/image7.png" style={{ width: '100%' }} onClick={showDescription} />
+        </div>
+        <div className="collage_pics" data-description="Whale House, John Doe">
+          <img src="assets/img/image8.png" style={{ width: '100%' }} onClick={showDescription} />
+        </div>
+        <div className="collage_pics" data-description="Whale House, John Doe">
+          <img src="assets/img/image9.png" style={{ width: '100%' }} onClick={showDescription} />
+        </div>
+        <div className="collage_pics" data-description="Whale House, John Doe">
+          <img src="assets/img/image10.png" style={{ width: '100%' }} onClick={showDescription} />
+        </div>
+        <div className="collage_pics" data-description="Whale House, John Doe">
+          <img src="assets/img/image11.png" style={{ width: '100%' }} onClick={showDescription} />
+        </div>
+        <div className="collage_pics" data-description="Whale House, John Doe">
+          <img src="assets/img/image12.png" style={{ width: '100%' }} onClick={showDescription} />
+        </div>
+        <div className="collage_pics" data-description="Whale House, John Doe">
+          <img src="assets/img/image13.png" style={{ width: '100%' }} onClick={showDescription} />
+        </div>
+        <div className="collage_pics" data-description="Whale House, John Doe">
+          <img src="assets/img/image14.png" style={{ width: '100%' }} onClick={showDescription} />
+        </div>
+        <div className="collage_pics" data-description="Whale House, John Doe">
+          <img src="assets/img/image15.png" style={{ width: '100%' }} onClick={showDescription} />
+        </div>
+        <div className="collage_pics" data-description="Whale House, John Doe">
+          <img src="assets/img/image16.png" style={{ width: '100%' }} onClick={showDescription} />
+        </div>
+        
       </div>
 
-      {/* Pop-up container */}
       <div id="popup-container" className="popup-container" onClick={handleClosePopup} style={{ display: popupDisplay }}>
         <div id="popup-content" className="popup-content">
           <img id="popup-image" src={popupImageSrc} alt="Clicked Image" />
@@ -91,7 +151,6 @@ const Home: React.FC = () => {
         </div>
       </div>
 
-      {/* Footer */}
       <footer>
         <section id="footer">
           <div>
@@ -104,10 +163,10 @@ const Home: React.FC = () => {
             </ul>
           </div>
           <div>
-            <a href="about.html"><img src="img/profile.png" className="socmed" alt="" /></a>
-            <a href="about.html"><img src="img/profile.png" className="socmed" alt="" /></a>
-            <a href="about.html"><img src="img/profile.png" className="socmed" alt="" /></a>
-            <a href="about.html"><img src="img/profile.png" className="socmed" alt="" /></a>
+            <a href="about.html"><img src="assets/img/profile.png" className="socmed" alt="" /></a>
+            <a href="about.html"><img src="assets/img/profile.png" className="socmed" alt="" /></a>
+            <a href="about.html"><img src="assets/img/profile.png" className="socmed" alt="" /></a>
+            <a href="about.html"><img src="assets/img/profile.png" className="socmed" alt="" /></a>
           </div>
         </section>
       </footer>
