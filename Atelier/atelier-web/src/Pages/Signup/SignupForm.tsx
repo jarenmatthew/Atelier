@@ -1,12 +1,20 @@
-import { useState } from "react";
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import TextField from "@mui/material/TextField";
 import { Box, Typography } from "@mui/material";
 import NavigationBar from "../../NavBar";
+import './signup_style.css';
 
 const SignUpForm = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    navigate('/Signup');
+  }, [navigate]);
+
   return (
     <Box display={"flex"} flexDirection={"column"} width={"450px"}>
       <Typography>Hello</Typography>

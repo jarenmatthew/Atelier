@@ -57,16 +57,16 @@ const Home: React.FC = () => {
       <header>
         <section id="header">
           <a href="#"><img src="../assets/img/logo.jpg" className="logo" alt="" /></a>
-          <h2><a href="HomePage.tsx">Atelier</a></h2>
+          <h2><a href="/home">Atelier</a></h2>
           <div>
             <ul id="navbar">
-              <li><a href="HomePage.tsx">Home</a></li>
+              <li><a href="/home">Home</a></li>
               <li><a href="explore.html">Explore</a></li>
               <li><a href="shop.html">Shop</a></li>
               <li><a href="about.html">About Us</a></li>
             </ul>
           </div>
-          <a href="profile.html"><img src="assets/img/profile.png" className="prof" alt="" /></a>
+          <a href="/Signup">Profile</a>
         </section>
       </header>
 
