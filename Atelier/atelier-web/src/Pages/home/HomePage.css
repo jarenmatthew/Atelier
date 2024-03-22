@@ -113,10 +113,11 @@ a {
 }
 
 .slideshow-container {
-  max-width: 1450px;
+  max-width: 1000px;
   max-height: 650px;
   position: relative;
   margin: 0 auto;
+  margin-top: 30px;
   overflow: hidden;
 }
 
@@ -356,8 +357,6 @@ div.featured-artists img {
 #footer div {
   display: flex;
   /* Ensure child elements are displayed flexibly */
-  align-items: center;
-  /* Align child elements vertically */
 }
 
 #footer h2 {
@@ -366,13 +365,15 @@ div.featured-artists img {
 
 #footer-navbar {
   list-style: none;
-  padding: 0;
+  padding: 0 45px;
   margin: 0;
+  position: relative;
 }
 
 #footer-navbar li {
   padding: 0 60px;
   /* Adjust padding for the links */
+  justify-content: center;
 }
 
 #footer-navbar li a {
@@ -383,10 +384,22 @@ div.featured-artists img {
   /* Add transition for smooth color change */
 }
 
+
+
 #footer-navbar li a:hover,
 #footer-navbar li a.active {
   color: #A96DA3;
   /* Change the color to lavender when hovering or active */
+}
+
+#footer-navbar li a.active::after,
+#footer-navbar li a:hover::after {
+  content: "";
+  width: 30%;
+  height: 2px;
+  position: absolute;
+  bottom: -4px;
+  left: 20px;
 }
 
 .socmed {
@@ -395,5 +408,5 @@ div.featured-artists img {
 }
 
 .socmed:last-child {
-  margin-right: 30px;
+  margin-right: 20px;
 }
