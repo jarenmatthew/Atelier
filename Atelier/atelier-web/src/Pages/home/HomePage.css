@@ -17,7 +17,7 @@ li {
 
 body {
   overflow-y: auto;
-  /* Enable vertical overflow scrolling */
+  background-image: url(Signup/bg2.jpg);
 }
 
 #header {

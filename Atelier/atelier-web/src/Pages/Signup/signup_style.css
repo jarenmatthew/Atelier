@@ -6,6 +6,10 @@
     align-items: center;
     height: 100vh; /* Make the container take the full height of the viewport */
   }
+
+  body{
+    background-image: url(Pages/Signup/bg2.jpg);
+  }
   
   .signup-form {
     width: 350px; /* Set the width of the form */
