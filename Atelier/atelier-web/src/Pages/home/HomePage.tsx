@@ -187,10 +187,10 @@ const Home: React.FC = () => {
             </ul>
           </div>
           <div>
-            <a href="about.html"><img src="assets/img/profile.png" className="socmed" alt="" /></a>
-            <a href="about.html"><img src="assets/img/profile.png" className="socmed" alt="" /></a>
-            <a href="about.html"><img src="assets/img/profile.png" className="socmed" alt="" /></a>
-            <a href="about.html"><img src="assets/img/profile.png" className="socmed" alt="" /></a>
+            <a href="about.html"><img src={prof} className="socmed" alt="" /></a>
+            <a href="about.html"><img src={prof} className="socmed" alt="" /></a>
+            <a href="about.html"><img src={prof} className="socmed" alt="" /></a>
+            <a href="about.html"><img src={prof} className="socmed" alt="" /></a>
           </div>
         </section>
       </footer>
