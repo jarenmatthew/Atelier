@@ -15,33 +15,46 @@ const SignUpForm = () => {
     navigate('/Signup');
   }, [navigate]);
 
-  return (
-    <Box display={"flex"} flexDirection={"column"} width={"450px"}>
-      <Typography>Hello</Typography>
+  const handleSubmit = (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
+    // Handle form submission here
+  };
 
-      <Box m="8px 0px 8px">
-        <TextField
-          variant="standard"
-          label="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
+  return (
+    <div className="container">
+      <Box display={"flex"} flexDirection={"column"} width={"450px"} className="signup-form">
+        <header>Sign Up</header>
+
+        <form onSubmit={handleSubmit}>
+          <Box m="8px 0px 8px">
+            <TextField
+              className="input-field"
+              variant="standard"
+              label="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </Box>
+          <TextField
+            className="input-field"
+            variant="outlined"
+            label="Email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <TextField
+            className="input-field"
+            variant="filled"
+            label="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button type="submit" className="submit">Sign Up</button>
+        </form>
       </Box>
-      <TextField
-        variant="outlined"
-        label="Email"
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <TextField
-        variant="filled"
-        label="Password"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-    </Box>
+    </div>
   );
 };
 export default SignUpForm;
