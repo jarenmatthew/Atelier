@@ -1,20 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LogInPage from "./Pages/Signup/LogIn.tsx";
-import LoginTest from "./Pages/Signup/LoginTest.tsx";
-import SignUpPage from "./Pages/Signup/SignIn.tsx";
+import Home from "./Pages/home/HomePage.tsx";
+import SignUpForm from "./Pages/Signup/SignupForm.tsx";
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <div>Hello world!</div>,
-  },
-  { path: "/home", element: <App /> },
-  { path: "/login", element: <LogInPage /> },
-  { path: "/test", element: <LoginTest /> },
-  { path: "/signup", element: <SignUpPage /> },
+  { path: "/", element: <Home /> },
+  { path: "/Signup", element: <SignUpForm /> },
+  { path: "/LogIn", element: <LogInPage /> },
+  { path: "/home", element: <Home /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

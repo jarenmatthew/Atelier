@@ -73,11 +73,6 @@ a {
   color: #A96DA3; /* Change the color to lavender when hovering or active */
 }
 
-
-#navbar li a:hover {
-  /* background-color: rgb(187, 143, 228); Highlight color when hovering */
-}
-
 #navbar li a.active::after,
 #navbar li a:hover::after {
   content: "";
