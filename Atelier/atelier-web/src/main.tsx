@@ -1,13 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import LogInPage from "./Pages/Signup/LogIn.tsx";
+import LogInPage from "./Pages/Login/LogIn.tsx";
 import Home from "./Pages/home/HomePage.tsx";
-import SignUpForm from "./Pages/Signup/SignupForm.tsx";
+import SignUpPage from "./Pages/Signup/SignUp.tsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
-  { path: "/Signup", element: <SignUpForm /> },
+  { path: "/Signup", element: <SignUpPage /> },
   { path: "/LogIn", element: <LogInPage /> },
   { path: "/home", element: <Home /> },
 ]);

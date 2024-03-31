@@ -1,38 +1,12 @@
-import {
-  Box,
-  Typography,
-  TextField,
-  Stack,
-  Link,
-  Checkbox,
-  FormGroup,
-  FormControlLabel,
-  Button,
-} from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
+import { Box, Typography, TextField, Stack, Link, Button } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom"; // Import Link from react-router-dom
 
-function LogInPage() {
-  const [username, setUsername] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+function SignUpPage() {
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleUsernameChange = (event: any) => {
-    setUsername(event.target.value);
-  };
-
-  const handleEmailChange = (event: any) => {
-    setEmail(event.target.value);
-  };
-
-  const handlePasswordChange = (event: any) => {
-    setPassword(event.target.value);
-  };
-
-  const handleSignUp = () => {
-    // Handle sign up logic
-    console.log("Signing up...");
-  };
   return (
     <Box minHeight={"100vh"} sx={{ background: "rgba(39, 39, 39, 0.4)" }}>
       {/* m = "0 auto" is used to center all the content, this serves as the container */}
@@ -44,17 +18,10 @@ function LogInPage() {
         </Box>
         <Box mt="100px">
           <Typography textAlign={"center"} variant="h5">
-            Welcome!
+            Sign Up
           </Typography>
         </Box>
-        {/* <Box mt="100px">
-          <Typography variant={"h12"}>Sign in to your account.</Typography>
-        </Box> */}
         <Box mt={"32px"}>
-          <Typography fontSize={"16px"}>
-            &nbsp;Sign in to your account.
-          </Typography>
-
           <Stack spacing={2}>
             <TextField
               fullWidth
@@ -92,27 +59,14 @@ function LogInPage() {
             variant="contained"
             sx={{ backgroundColor: "rgba(91, 160, 187)" }}
           >
-            Login
+            Create account
           </Button>
         </Box>
-        <Box mt="12px" display={"flex"} justifyContent={"space-between"}>
-          <FormGroup>
-            <FormControlLabel
-              control={<Checkbox color="default" sx={{ color: "white" }} />}
-              label={<Typography fontSize={15}>Remember me</Typography>}
-              sx={{
-                color: "white",
-                "& .MuiSvgIcon-root": { fontSize: 18 },
-              }}
-            />
-          </FormGroup>
-          <Link href="#">Forgot Password?</Link>
-        </Box>
-        <Box>
+        <Box mt={"40px"}>
           <Typography textAlign={"center"} variant="body1">
-            Don't have an account?{" "}
-            <Link component={RouterLink} to="/signup">
-              Sign Up
+            Already have an account?{" "}
+            <Link component={RouterLink} to="/Login">
+              Log In{" "}
             </Link>
           </Typography>
         </Box>
@@ -121,4 +75,4 @@ function LogInPage() {
   );
 }
 
-export default LogInPage;
+export default SignUpPage;

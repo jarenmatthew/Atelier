@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   Box,
   Typography,
@@ -10,33 +9,39 @@ import {
   FormControlLabel,
   Button,
 } from "@mui/material";
-import "./signup_style.css";
+import React from "react";
 import { Link as RouterLink } from "react-router-dom"; // Import Link from react-router-dom
+import background from "./assets/bg2.jpg";
 
-function SignUpPage() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+function LogInPage() {
+  const [username, setUsername] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
 
-  const handleUsernameChange = (event) => {
+  const handleUsernameChange = (event: any) => {
     setUsername(event.target.value);
   };
 
-  const handleEmailChange = (event) => {
+  const handleEmailChange = (event: any) => {
     setEmail(event.target.value);
   };
 
-  const handlePasswordChange = (event) => {
+  const handlePasswordChange = (event: any) => {
     setPassword(event.target.value);
   };
 
   const handleSignUp = () => {
-    // Handle sign-up logic
+    // Handle sign up logic
     console.log("Signing up...");
   };
-
   return (
-    <Box minHeight={"100vh"} sx={{ background: "rgba(39, 39, 39, 0.4)" }}>
+    <Box
+      minHeight={"100vh"}
+      sx={{
+        background: "rgba(39, 39, 39, 0.4)",
+        backgroundImage: "url('./assets/bg2.jpg')",
+      }}
+    >
       {/* m = "0 auto" is used to center all the content, this serves as the container */}
       <Box m="0 auto" maxWidth="500px">
         <Box mt={"32px"}>
@@ -46,10 +51,15 @@ function SignUpPage() {
         </Box>
         <Box mt="100px">
           <Typography textAlign={"center"} variant="h5">
-            Sign Up
+            Welcome!
           </Typography>
         </Box>
+
         <Box mt={"32px"}>
+          <Typography fontSize={"16px"}>
+            &nbsp;Sign in to your account.
+          </Typography>
+
           <Stack spacing={2}>
             <TextField
               fullWidth
@@ -87,14 +97,27 @@ function SignUpPage() {
             variant="contained"
             sx={{ backgroundColor: "rgba(91, 160, 187)" }}
           >
-            Create account
+            Login
           </Button>
         </Box>
-        <Box mt={"40px"}>
+        <Box mt="12px" display={"flex"} justifyContent={"space-between"}>
+          <FormGroup>
+            <FormControlLabel
+              control={<Checkbox color="default" sx={{ color: "white" }} />}
+              label={<Typography fontSize={15}>Remember me</Typography>}
+              sx={{
+                color: "white",
+                "& .MuiSvgIcon-root": { fontSize: 18 },
+              }}
+            />
+          </FormGroup>
+          <Link href="#">Forgot Password?</Link>
+        </Box>
+        <Box>
           <Typography textAlign={"center"} variant="body1">
-            Already have an account?{" "}
-            <Link component={RouterLink} to="/login">
-              Log In{" "}
+            Don't have an account?{" "}
+            <Link component={RouterLink} to="/Signup">
+              Sign Up
             </Link>
           </Typography>
         </Box>
@@ -103,4 +126,4 @@ function SignUpPage() {
   );
 }
 
-export default SignUpPage;
+export default LogInPage;
