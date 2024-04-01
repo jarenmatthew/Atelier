@@ -8,10 +8,22 @@ function SignUpPage() {
   const [password, setPassword] = useState("");
 
   return (
-    <Box minHeight={"100vh"} sx={{ background: "rgba(39, 39, 39, 0.4)" }}>
+    <Box
+      minHeight={"100vh"}
+      sx={{
+        backgroundImage: 'url("bg2.jpg")',
+        backgroundSize: "cover",
+        "&::before": {
+          content: '""',
+          position: "absolute",
+          inset: 0,
+          backgroundColor: "rgba(39, 39, 39, 0.4)",
+        },
+      }}
+    >
       {/* m = "0 auto" is used to center all the content, this serves as the container */}
       <Box m="0 auto" maxWidth="500px">
-        <Box mt={"32px"}>
+        <Box pt="32px">
           <Typography textAlign={"center"} variant="h3">
             Atelier
           </Typography>

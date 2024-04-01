@@ -1,5 +1,10 @@
 /* signup_style.css */
 
+/* @ SHERYLLLLLLL IF YOU SEE THIS
+disregard fileeee  
+ndi na neeeed */
+
+
 .container {
     display: flex;
     justify-content: center;
@@ -7,9 +12,9 @@
     height: 100vh; /* Make the container take the full height of the viewport */
   }
 
-  body{
+  /* body{
     background-image: url(Pages/Signup/bg2.jpg);
-  }
+  } */
   
   .signup-form {
     width: 350px; /* Set the width of the form */

@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LogInPage from "./Pages/Login/LogIn.tsx";
 import Home from "./Pages/home/HomePage.tsx";
 import SignUpPage from "./Pages/Signup/SignUp.tsx";
+import { CssBaseline } from "@mui/material";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -14,6 +15,7 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
+    <CssBaseline />
     <RouterProvider router={router} />
   </React.StrictMode>
 );

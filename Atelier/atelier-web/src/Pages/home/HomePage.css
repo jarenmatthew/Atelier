@@ -15,10 +15,10 @@ li {
   font-family: 'Inknut Antiqua', serif;
 }
 
-body {
+/* body {
   overflow-y: auto;
   background-image: url(Signup/bg2.jpg);
-}
+} */
 
 #header {
   display: flex;
