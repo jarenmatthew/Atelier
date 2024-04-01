@@ -39,12 +39,6 @@ function LogInPage() {
       sx={{
         backgroundImage: 'url("bg2.jpg")',
         backgroundSize: "cover",
-        "&::before": {
-          content: '""',
-          position: "absolute",
-          inset: 0,
-          backgroundColor: "rgba(39, 39, 39, 0.4)",
-        },
       }}
     >
       {/* m = "0 auto" is used to center all the content, this serves as the container */}
