@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './HomePage.css';
 import logo from "./img/logo.jpg";
 import prof from "./img/profile.png";
 import image1 from "./img/image1.png";
@@ -17,6 +16,7 @@ import cover1 from "./img/cover1.png";
 import cover2 from "./img/cover2.png";
 import cover3 from "./img/cover3.png";
 import { Box } from '@mui/material';
+import './HomePage.css';
 
 const Home: React.FC = () => {
   const [slideIndex, setSlideIndex] = useState(1);
