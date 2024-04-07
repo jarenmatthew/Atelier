@@ -14,6 +14,10 @@ import image9 from "./img/image9.png";
 import image10 from "./img/image10.png";
 import cover1 from "./img/cover1.png";
 import cover2 from "./img/cover2.png";
+import facebook from "./img/facebook.png";
+import messenger from "./img/messenger.png";
+import instagram from "./img/instagram.png";
+import twitter from "./img/twitter.png";
 import cover3 from "./img/cover3.png";
 import { Box } from '@mui/material';
 import './HomePage.css';
@@ -81,7 +85,7 @@ const Home: React.FC = () => {
             <ul id="navbar">
               <li><a href="/home">Home</a></li>
               <li><a href="explore.html">Explore</a></li>
-              <li><a href="shop.html">Shop</a></li>
+              <li><a href="/Product">Shop</a></li>
               <li><a href="about.html">About Us</a></li>
             </ul>
           </div>
@@ -175,25 +179,24 @@ const Home: React.FC = () => {
         </div>
       </div>
 
-      <footer>
-        <section id="footer">
+      <div id="footer">
           <div>
-            <h2><a href="home.html">Atelier</a></h2>
+            <h2>Atelier</h2>
             <ul id="footer-navbar">
-              <li><a href="home.html">About Us</a></li>
-              <li><a href="explore.html">Terms and Conditions</a></li>
-              <li><a href="shop.html">Contact Us</a></li>
-              <li><a href="about.html">Link 4</a></li>
+              <li><a href="#" className="active">Home</a></li>
+              <li><a href="#">Explore</a></li>
+              <li><a href="#">Shop</a></li>
+              <li><a href="#">About Us</a></li>
             </ul>
           </div>
-          <div>
-            <a href="about.html"><img src={prof} className="socmed" alt="" /></a>
-            <a href="about.html"><img src={prof} className="socmed" alt="" /></a>
-            <a href="about.html"><img src={prof} className="socmed" alt="" /></a>
-            <a href="about.html"><img src={prof} className="socmed" alt="" /></a>
+          <div className="socMedIcons">
+            <img src={twitter} alt="Twitter" className="socmed" />
+            <img src={facebook} alt="Facebook" className="socmed" />
+            <img src={messenger} alt="Messenger" className="socmed" />
+            <img src={instagram} alt="Instagram" className="socmed" />
           </div>
-        </section>
-      </footer>
+        </div>
+
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React from "react";
 
-const MyComponent: React.FC = () => {
+const Product: React.FC = () => {
   return (
     <div className="flex flex-col bg-white">
       <div className="flex gap-5 justify-between px-20 py-9 w-full bg-white shadow-sm max-md:flex-wrap max-md:px-5 max-md:max-w-full">
@@ -180,4 +180,4 @@ const MyComponent: React.FC = () => {
   );
 };
 
-export default MyComponent;
+export default Product;
