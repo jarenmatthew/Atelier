@@ -1,25 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import logo from "./img/logo.jpg";
-import prof from "./img/profile.png";
-import image1 from "./img/image1.png";
-import image2 from "./img/image2.png";
-import image3 from "./img/image3.png";
-import image4 from "./img/image4.png";
-import image5 from "./img/image5.png";
-import image6 from "./img/image6.png";
-import image7 from "./img/image7.png";
-import image8 from "./img/image8.png";
-import image9 from "./img/image9.png";
-import image10 from "./img/image10.png";
-import cover1 from "./img/cover1.png";
-import cover2 from "./img/cover2.png";
-import facebook from "./img/facebook.png";
-import messenger from "./img/messenger.png";
-import instagram from "./img/instagram.png";
-import twitter from "./img/twitter.png";
-import cover3 from "./img/cover3.png";
 import { Box } from '@mui/material';
+import { getDownloadURL, ref } from 'firebase/storage';
+import { storage } from '../../FirebaseConfig';
 import './HomePage.css';
 
 const Home: React.FC = () => {
@@ -27,17 +9,74 @@ const Home: React.FC = () => {
   const [popupDescription, setPopupDescription] = useState('');
   const [popupImageSrc, setPopupImageSrc] = useState('');
   const [popupDisplay, setPopupDisplay] = useState('none');
-  const navigate = useNavigate();
+  const [facebookIconURL, setFacebookIconURL] = useState('');
+  const [twitterIconURL, setTwitterIconURL] = useState('');
+  const [messengerIconURL, setMessengerIconURL] = useState('');
+  const [instagramIconURL, setInstagramIconURL] = useState('');
+  const [logoIconURL, setLogoIconURL] = useState('');
+  const [profileIconURL, setProfileIconURL] = useState('');
+  const [imageURLs, setImageURLs] = useState<string[]>([]);
 
   useEffect(() => {
-    showSlides(slideIndex); 
-    navigate('/home'); 
-  }, [navigate, slideIndex]);
+    fetchIconURLs(); // Fetch icon URLs
+  }, []);
 
+  useEffect(() => {
+    showSlides(slideIndex);
+  }, [slideIndex]);
+
+  const fetchIconURLs = async () => {
+    try {
+      // Fetch icon URLs from Firebase Storage
+      const storageRef = ref(storage, 'icons');
+      const facebookURL = await getDownloadURL(ref(storageRef, 'facebook.png'));
+      const twitterURL = await getDownloadURL(ref(storageRef, 'twitter.png'));
+      const instagramURL = await getDownloadURL(ref(storageRef, 'instagram.png'));
+      const messengerURL = await getDownloadURL(ref(storageRef, 'messenger.png'));
+      const logoURL = await getDownloadURL(ref(storageRef, 'logo.jpg'));
+      const profileURL = await getDownloadURL(ref(storageRef, 'profile.png'));
+      setFacebookIconURL(facebookURL);
+      setTwitterIconURL(twitterURL);
+      setInstagramIconURL(instagramURL);
+      setMessengerIconURL(messengerURL);
+      setLogoIconURL(logoURL);
+      setProfileIconURL(profileURL);
+
+      // Fetch image URLs from Firebase Storage
+      const imageRef = ref(storage, 'img');
+      const urls: string[] = await Promise.all([
+        'image1.png', 'image2.png', 'image3.png', 'image4.png', 'image5.png',
+        'image6.png', 'image7.png', 'image8.png', 'image9.png', 'image10.png', 'image11.png',
+        'image12.png', 'image13.png', 'image14.png', 'image15.png', 'image16.png',
+        'image17.png', 'image18.png', 'image19.png', 'image20.png', 'image21.png',
+        'image22.png', 'image23.png', 'image24.png', 'cover1.png', 'cover2.png', 'cover3.png',// Add all image names here
+      ].map(async (imageName) => {
+        return await getDownloadURL(ref(imageRef, imageName));
+      }));
+      const shuffledImageURLs = shuffleArray(urls);
+      setImageURLs(shuffledImageURLs);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  const shuffleArray = (array: any[]) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  };
 
   const showSlides = (n: number) => {
+    // Ensure that slides exist before accessing their properties
     let slides = document.getElementsByClassName("mySlides") as HTMLCollectionOf<HTMLElement>;
     let dots = document.getElementsByClassName("dot") as HTMLCollectionOf<HTMLElement>;
+    if (slides.length === 0 || dots.length === 0) {
+      // Elements not found, wait for the next render
+      return;
+    }
+    
     if (n > slides.length) setSlideIndex(1);
     if (n < 1) setSlideIndex(slides.length);
     for (let i = 0; i < slides.length; i++) {
@@ -79,7 +118,7 @@ const Home: React.FC = () => {
     <div>
       <header>
         <section id="header">
-          <a href="#"><img src={logo} className="logo" alt="" /></a>
+          <a href="#"><img src={logoIconURL} className="logo" alt="" /></a>
           <h2><a href="/home">Atelier</a></h2>
           <div>
             <ul id="navbar">
@@ -89,29 +128,21 @@ const Home: React.FC = () => {
               <li><a href="about.html">About Us</a></li>
             </ul>
           </div>
-          <a href="/Signup"><img src={prof} className="profile" alt="" /></a>
+          <a href="/Signup"><img src={profileIconURL} className="profile" alt="" /></a>
         </section>
       </header>
 
       <Box style={{ marginBottom: '100px' }}>
         <div className="slideshow-container">
-          <div className="mySlides fade">
-            <img src={image1} style={{ width: "100%" }} />
-          </div>
-          <div className="mySlides fade">
-            <img src={image2} style={{ width: "100%" }} />
-          </div>
-          <div className="mySlides fade">
-            <img src={image3} style={{ width: "100%" }} />
-          </div>
-          <div className="mySlides fade">
-            <img src={image4} style={{ width: "100%" }} />
-          </div>
+          {imageURLs.map((url, index) => (
+            <div key={index} className="mySlides fade">
+              <img src={url} style={{ width: "100%" }} />
+            </div>
+          ))}
           <div className="dot-container">
-            <span className="dot" onClick={() => currentSlide(1)}></span>
-            <span className="dot" onClick={() => currentSlide(2)}></span>
-            <span className="dot" onClick={() => currentSlide(3)}></span>
-            <span className="dot" onClick={() => currentSlide(4)}></span>
+            {imageURLs.map((_, index) => (
+              <span key={index} className="dot" onClick={() => currentSlide(index + 1)}></span>
+            ))}
           </div>
           <a className="prev" onClick={() => plusSlides(-1)}>&#10094;</a>
           <a className="next" onClick={() => plusSlides(1)}>&#10095;</a>
@@ -121,54 +152,20 @@ const Home: React.FC = () => {
       <Box style={{ marginBottom: '100px' }}>
         <h4>Featured Artists</h4>
         <div className="artists-container">
-          <img className="featured-artist" width="350" height="100" src={cover1} />
-          <img className="featured-artist" width="350" height="100" src={cover2} />
-          <img className="featured-artist" width="350" height="100" src={cover3} />
-          <img className="featured-artist" width="350" height="100" src={cover1} />
-          <img className="featured-artist" width="350" height="100" src={cover2} />
-          <img className="featured-artist" width="350" height="100" src={cover3} />
+          {imageURLs.slice(0, 6).map((url, index) => (
+            <img key={index} className="featured-artist" src={url} />
+          ))}
         </div>
       </Box>
 
       <Box style={{ marginBottom: '100px' }}>
         <h4>Explore</h4>
         <div className="collage">
-          <div className="collage_pics" data-description="Whale House, John Doe">
-            <img src={image5} style={{ width: '100%', height: '100%' }} onClick={showDescription} />
-          </div>
-          <div className="collage_pics" data-description="Whale House, John Doe">
-            <img src={image6} style={{ width: '100%' }} onClick={showDescription} />
-          </div>
-          <div className="collage_pics" data-description="Whale House, John Doe">
-            <img src={image7} style={{ width: '100%' }} onClick={showDescription} />
-          </div>
-          <div className="collage_pics" data-description="Whale House, John Doe">
-            <img src={image8} style={{ width: '100%' }} onClick={showDescription} />
-          </div>
-          <div className="collage_pics" data-description="Whale House, John Doe">
-            <img src={image9} style={{ width: '100%' }} onClick={showDescription} />
-          </div>
-          <div className="collage_pics" data-description="Whale House, John Doe">
-            <img src={image10} style={{ width: '100%' }} onClick={showDescription} />
-          </div>
-          <div className="collage_pics" data-description="Whale House, John Doe">
-            <img src={image1} style={{ width: '100%' }} onClick={showDescription} />
-          </div>
-          <div className="collage_pics" data-description="Whale House, John Doe">
-            <img src={image2} style={{ width: '100%' }} onClick={showDescription} />
-          </div>
-          <div className="collage_pics" data-description="Whale House, John Doe">
-            <img src={image3} style={{ width: '100%' }} onClick={showDescription} />
-          </div>
-          <div className="collage_pics" data-description="Whale House, John Doe">
-            <img src={image4} style={{ width: '100%' }} onClick={showDescription} />
-          </div>
-          <div className="collage_pics" data-description="Whale House, John Doe">
-            <img src={image5} style={{ width: '100%' }} onClick={showDescription} />
-          </div>
-          <div className="collage_pics" data-description="Whale House, John Doe">
-            <img src={image6} style={{ width: '100%' }} onClick={showDescription} />
-          </div>
+          {imageURLs.slice(6).map((url, index) => (
+            <div key={index} className="collage_pics" data-description="Whale House, John Doe">
+              <img src={url} style={{ width: '100%' }} onClick={showDescription} />
+            </div>
+          ))}
         </div>
       </Box>
 
@@ -183,20 +180,23 @@ const Home: React.FC = () => {
           <div>
             <h2>Atelier</h2>
             <ul id="footer-navbar">
-              <li><a href="#" className="active">Home</a></li>
-              <li><a href="#">Explore</a></li>
-              <li><a href="#">Shop</a></li>
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Terms and Conditions</a></li>
+              <li><a href="#">Contact Us</a></li>
               <li><a href="#">About Us</a></li>
             </ul>
           </div>
           <div className="socMedIcons">
-            <img src={twitter} alt="Twitter" className="socmed" />
-            <img src={facebook} alt="Facebook" className="socmed" />
-            <img src={messenger} alt="Messenger" className="socmed" />
-            <img src={instagram} alt="Instagram" className="socmed" />
+            <img src={twitterIconURL} alt="Twitter" className="socmed" />
+            <img src={facebookIconURL} alt="Facebook" className="socmed" />
+            <img src={messengerIconURL} alt="Messenger" className="socmed" />
+            <img src={instagramIconURL} alt="Instagram" className="socmed" />
           </div>
         </div>
 
+        <div id="copyright">
+          <h3>Copyrights 2024</h3>
+        </div>
     </div>
   );
 };
