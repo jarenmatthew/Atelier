@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { storage } from '../FirebaseConfig';
+import './FooterStyle.css';
 
 const Footer: React.FC = () => {
   const [twitterIconURL, setTwitterIconURL] = useState('');

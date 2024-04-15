@@ -1,0 +1,107 @@
+/* Import the Inknut Antiqua font */
+@import url('https://fonts.googleapis.com/css2?family=Inknut+Antiqua&display=swap');
+
+/* Apply the font to all text elements */
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+li {
+  font-family: 'Inknut Antiqua', serif;
+}
+
+#footer {
+    display: flex;
+    align-items: flex-start; /* Align items at the start of the container */
+    justify-content: space-between;
+    padding: 100px 80px 0;
+    background-color: #E2C1BE;
+    position: relative;
+    flex-direction: column; /* Arrange child elements in a column */
+    margin-bottom: -10px;
+  }
+  
+  #footer div {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  #footer h2 {
+    order: -1;
+    margin-right: 30px; /* Push to the left */
+    margin-bottom: 30px;
+  }
+  
+  #copyright {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    text-align: center;
+    background-color: rgba(226, 193, 190, 0.8);
+    padding: 10px 0; /* Add padding to copyright container */
+    margin-top: -10px; /* Adjust margin-top to overlap with footer */
+  }
+  
+  #footer-navbar {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Arrange links in 2 columns */
+    grid-template-rows: repeat(2, auto); /* Arrange links in 2 rows */
+    gap: 10px; /* Add gap between the links */
+    order: 1;
+  }
+  
+  #footer-navbar li {
+    padding: 0;
+  }
+  
+  #footer-navbar li a {
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    transition: color 0.3s ease;
+    position: relative;
+  }
+  
+  #footer-navbar li a:hover,
+  #footer-navbar li a.active {
+    color: #A96DA3;
+  }
+  
+  #footer-navbar li a.active::after,
+  #footer-navbar li a:hover::after {
+    content: "";
+    width: 30%;
+    height: 2px;
+    position: absolute;
+    bottom: -4px;
+    left: 20px;
+  }
+  
+  .socMedIcons {
+    order: 2;
+    display: flex; /* Use flexbox to align icons horizontally */
+    align-items: center; /* Align items vertically */
+  }
+  
+  .socmed {
+    width: 40px;
+  }
+  
+  .socmed:first-child {
+    margin-left: 0; /* Remove margin for the first icon */
+  }
+  
+  .socmed:last-child {
+    margin-right: 0; /* Add margin to the right of the last icon */
+  }
+  
+  
+  
