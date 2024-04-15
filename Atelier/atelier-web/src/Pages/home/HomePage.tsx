@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { storage } from '../../../FirebaseConfig';
-import { Link } from 'react-router-dom';
 import { Box } from '@mui/material';
 import './HomePage.css';
 import Header from '../../Header';
@@ -20,7 +20,7 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     showSlides(slideIndex);
-  }, [slideIndex]);
+  }, [slideIndex, imageURLs]); // Include imageURLs in the dependency array
 
   const fetchIconURLs = async () => {
     try {
@@ -64,9 +64,11 @@ const Home: React.FC = () => {
   };
 
   const plusSlides = (n: number) => {
-    const newIndex = slideIndex + n;
-    setSlideIndex(newIndex);
-    showSlides(newIndex);
+    setSlideIndex(prevSlideIndex => {
+      const newIndex = prevSlideIndex + n;
+      showSlides(newIndex);
+      return newIndex;
+    });
   };
 
   const currentSlide = (n: number) => {
