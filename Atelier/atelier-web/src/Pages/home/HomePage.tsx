@@ -62,8 +62,6 @@ const Home: React.FC = () => {
     dots[slideIndex - 1].className += " active";
   };
 
-
-
   const plusSlides = (n: number) => {
     const newIndex = slideIndex + n;
     setSlideIndex(newIndex);
