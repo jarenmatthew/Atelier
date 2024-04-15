@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../FirebaseConfig"; // Add this line prevent firebase not loading error
+import "../../../FirebaseConfig"; // Add this line prevent firebase not loading error
 import { getFirestore, addDoc, collection, getDocs } from "firebase/firestore";
 
 function FirebaseTest() {

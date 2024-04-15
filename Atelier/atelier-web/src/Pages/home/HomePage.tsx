@@ -1,20 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Box } from '@mui/material';
 import { getDownloadURL, ref } from 'firebase/storage';
-import { storage } from '../../FirebaseConfig';
+import { storage } from '../../../FirebaseConfig';
 import './HomePage.css';
+import Header from '../../Header';
+import Footer from '../../Footer';
 
 const Home: React.FC = () => {
   const [slideIndex, setSlideIndex] = useState(1);
   const [popupDescription, setPopupDescription] = useState('');
   const [popupImageSrc, setPopupImageSrc] = useState('');
   const [popupDisplay, setPopupDisplay] = useState('none');
-  const [facebookIconURL, setFacebookIconURL] = useState('');
-  const [twitterIconURL, setTwitterIconURL] = useState('');
-  const [messengerIconURL, setMessengerIconURL] = useState('');
-  const [instagramIconURL, setInstagramIconURL] = useState('');
-  const [logoIconURL, setLogoIconURL] = useState('');
-  const [profileIconURL, setProfileIconURL] = useState('');
   const [imageURLs, setImageURLs] = useState<string[]>([]);
 
   useEffect(() => {
@@ -27,21 +23,6 @@ const Home: React.FC = () => {
 
   const fetchIconURLs = async () => {
     try {
-      // Fetch icon URLs from Firebase Storage
-      const storageRef = ref(storage, 'icons');
-      const facebookURL = await getDownloadURL(ref(storageRef, 'facebook.png'));
-      const twitterURL = await getDownloadURL(ref(storageRef, 'twitter.png'));
-      const instagramURL = await getDownloadURL(ref(storageRef, 'instagram.png'));
-      const messengerURL = await getDownloadURL(ref(storageRef, 'messenger.png'));
-      const logoURL = await getDownloadURL(ref(storageRef, 'logo.jpg'));
-      const profileURL = await getDownloadURL(ref(storageRef, 'profile.png'));
-      setFacebookIconURL(facebookURL);
-      setTwitterIconURL(twitterURL);
-      setInstagramIconURL(instagramURL);
-      setMessengerIconURL(messengerURL);
-      setLogoIconURL(logoURL);
-      setProfileIconURL(profileURL);
-
       // Fetch image URLs from Firebase Storage
       const imageRef = ref(storage, 'img');
       const urls: string[] = await Promise.all([
@@ -116,22 +97,8 @@ const Home: React.FC = () => {
 
   return (
     <div>
-      <header>
-        <section id="header">
-          <a href="#"><img src={logoIconURL} className="logo" alt="" /></a>
-          <h2><a href="/home">Atelier</a></h2>
-          <div>
-            <ul id="navbar">
-              <li><a href="/home">Home</a></li>
-              <li><a href="explore.html">Explore</a></li>
-              <li><a href="/Product">Shop</a></li>
-              <li><a href="about.html">About Us</a></li>
-            </ul>
-          </div>
-          <a href="/Signup"><img src={profileIconURL} className="profile" alt="" /></a>
-        </section>
-      </header>
-
+      <Header />
+      <div>
       <Box style={{ marginBottom: '100px' }}>
         <div className="slideshow-container">
           {imageURLs.map((url, index) => (
@@ -175,28 +142,8 @@ const Home: React.FC = () => {
           <p id="popup-description">{popupDescription}</p>
         </div>
       </div>
-
-      <div id="footer">
-          <div>
-            <h2>Atelier</h2>
-            <ul id="footer-navbar">
-              <li><a href="#">About Us</a></li>
-              <li><a href="#">Terms and Conditions</a></li>
-              <li><a href="#">Contact Us</a></li>
-              <li><a href="#">About Us</a></li>
-            </ul>
-          </div>
-          <div className="socMedIcons">
-            <img src={twitterIconURL} alt="Twitter" className="socmed" />
-            <img src={facebookIconURL} alt="Facebook" className="socmed" />
-            <img src={messengerIconURL} alt="Messenger" className="socmed" />
-            <img src={instagramIconURL} alt="Instagram" className="socmed" />
-          </div>
-        </div>
-
-        <div id="copyright">
-          <h3>Copyrights 2024</h3>
-        </div>
+      </div>
+    <Footer />
     </div>
   );
 };

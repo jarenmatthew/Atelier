@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getDownloadURL, ref } from 'firebase/storage';
-import { storage } from '../../FirebaseConfig';
+import { storage } from '../FirebaseConfig';
 
 const HeaderFooter: React.FC = () => {
   const [logoIconURL, setLogoIconURL] = useState('');
@@ -55,23 +55,27 @@ const HeaderFooter: React.FC = () => {
         </section>
       </header>
 
-      <footer id="footer">
-        <div>
-          <h2>Atelier</h2>
-          <ul id="footer-navbar">
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Terms and Conditions</a></li>
-            <li><a href="#">Contact Us</a></li>
-            <li><a href="#">About Us</a></li>
-          </ul>
+      <div id="footer">
+          <div>
+            <h2>Atelier</h2>
+            <ul id="footer-navbar">
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Terms and Conditions</a></li>
+              <li><a href="#">Contact Us</a></li>
+              <li><a href="#">About Us</a></li>
+            </ul>
+          </div>
+          <div className="socMedIcons">
+            <img src={twitterIconURL} alt="Twitter" className="socmed" />
+            <img src={facebookIconURL} alt="Facebook" className="socmed" />
+            <img src={messengerIconURL} alt="Messenger" className="socmed" />
+            <img src={instagramIconURL} alt="Instagram" className="socmed" />
+          </div>
         </div>
-        <div className="socMedIcons">
-          <img src={twitterIconURL} alt="Twitter" className="socmed" />
-          <img src={facebookIconURL} alt="Facebook" className="socmed" />
-          <img src={messengerIconURL} alt="Messenger" className="socmed" />
-          <img src={instagramIconURL} alt="Instagram" className="socmed" />
+
+        <div id="copyright">
+          <h3>Copyrights 2024</h3>
         </div>
-      </footer>
     </div>
   );
 };
