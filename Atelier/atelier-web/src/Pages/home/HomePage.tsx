@@ -41,14 +41,6 @@ const Home: React.FC = () => {
     }
   };
 
-  const shuffleArray = (array: any[]) => {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-  };
-
   const showSlides = (n: number) => {
     // Ensure that slides exist before accessing their properties
     let slides = document.getElementsByClassName("mySlides") as HTMLCollectionOf<HTMLElement>;
@@ -70,6 +62,8 @@ const Home: React.FC = () => {
     dots[slideIndex - 1].className += " active";
   };
 
+
+
   const plusSlides = (n: number) => {
     const newIndex = slideIndex + n;
     setSlideIndex(newIndex);
@@ -79,6 +73,14 @@ const Home: React.FC = () => {
   const currentSlide = (n: number) => {
     setSlideIndex(n);
     showSlides(n);
+  };
+
+  const shuffleArray = (array: any[]) => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
   };
 
   const showDescription = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
