@@ -7,6 +7,7 @@ import Home from "./Pages/home/HomePage.tsx";
 import SignUpPage from "./Pages/Signup/SignUp.tsx";
 import FirebaseTest from "./Pages/test pages/FirebaseTest.tsx";
 import Product from "./Pages/Product/ProductPage.tsx";
+import Shop from "./Pages/shop/shopPage.tsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -14,6 +15,7 @@ const router = createBrowserRouter([
   { path: "/LogIn", element: <LogInPage /> },
   { path: "/home", element: <Home /> },
   { path: "/Product", element: <Product /> },
+  { path: "/shop", element: <Shop /> },
   { path: "/firebaseTest", element: <FirebaseTest /> },
 ]);
 
