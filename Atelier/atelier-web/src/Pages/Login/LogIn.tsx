@@ -12,11 +12,12 @@ import {
   IconButton,
 } from "@mui/material";
 import React from "react";
-import { Link as RouterLink } from "react-router-dom"; // Import Link from react-router-dom
+import { Link as RouterLink } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../../FirebaseConfig";
 
 function LogInPage() {
-  const [username, setUsername] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
@@ -25,8 +26,8 @@ function LogInPage() {
     setShowPassword(!showPassword);
   };
 
-  const handleUsernameChange = (event: any) => {
-    setUsername(event.target.value);
+  const signIn = async () => {
+    await createUserWithEmailAndPassword(auth, email, password);
   };
 
   const handleEmailChange = (event: any) => {
@@ -37,10 +38,6 @@ function LogInPage() {
     setPassword(event.target.value);
   };
 
-  const handleSignUp = () => {
-    // Handle sign up logic
-    console.log("Signing up...");
-  };
   return (
     <Box
       minHeight={"100vh"}
@@ -57,15 +54,10 @@ function LogInPage() {
             ATELIER
           </Typography>
         </Box>
-        {/* <Box mt="100px">
-          <Typography textAlign={"center"} variant="h5">
-            Welcome!
-          </Typography>
-        </Box> */}
 
         <Box mt={"90px"}>
           <Box m={"5px"}>
-            <Typography color={"white"} fontSize={"16px"}>
+            <Typography textAlign={"center"} color={"white"} fontSize={"16px"}>
               Login
             </Typography>
           </Box>
@@ -77,7 +69,6 @@ function LogInPage() {
               variant="filled"
               InputProps={{
                 disableUnderline: true,
-
                 style: {
                   backgroundColor: "rgba(255, 255, 255, 0.4)",
                   borderRadius: "12px",
@@ -129,11 +120,12 @@ function LogInPage() {
           <FormGroup>
             <FormControlLabel
               control={<Checkbox color="default" sx={{ color: "white" }} />}
-              // label={<Typography fontSize={16}>Remember me</Typography>}
-              label="Remember Me"
+              label={
+                <Typography fontFamily={"Poppins"}>Remember Me</Typography>
+              }
               sx={{
                 color: "white",
-                // "& .MuiSvgIcon-root": { fontSize: 20 },
+                "& .MuiSvgIcon-root": { fontSize: 21 },
               }}
             />
           </FormGroup>
@@ -145,7 +137,12 @@ function LogInPage() {
           </Box>
         </Box>
         <Box mt={"5px"}>
-          <Typography textAlign={"center"} variant="body1" color={"white"}>
+          <Typography
+            fontFamily={"Poppins"}
+            textAlign={"center"}
+            variant="body1"
+            color={"white"}
+          >
             Don't have an account?{" "}
             <Link
               component={RouterLink}
