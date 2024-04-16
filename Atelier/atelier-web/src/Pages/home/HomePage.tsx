@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Box } from '@mui/material';
+import { Link } from 'react-router-dom';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { storage } from '../../../FirebaseConfig';
+import { Box } from '@mui/material';
 import './HomePage.css';
 import Header from '../../Header';
 import Footer from '../../Footer';
@@ -20,7 +21,7 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     showSlides(slideIndex);
-  }, [slideIndex]);
+  }, [slideIndex, imageURLs]); // Include imageURLs in the dependency array
 
   const fetchIconURLs = async () => {
     try {
@@ -64,9 +65,11 @@ const Home: React.FC = () => {
   };
 
   const plusSlides = (n: number) => {
-    const newIndex = slideIndex + n;
-    setSlideIndex(newIndex);
-    showSlides(newIndex);
+    setSlideIndex(prevSlideIndex => {
+      const newIndex = prevSlideIndex + n;
+      showSlides(newIndex);
+      return newIndex;
+    });
   };
 
   const currentSlide = (n: number) => {
@@ -143,7 +146,9 @@ const Home: React.FC = () => {
       <div id="popup-container" className="popup-container" onClick={handleClosePopup} style={{ display: popupDisplay }}>
         <div id="popup-content" className="popup-content">
           <img id="popup-image" src={popupImageSrc} alt="Clicked Image" />
-          <p id="popup-description">{popupDescription}</p>
+          <p id="popup-description">
+          <Link to="/product">{popupDescription}</Link>
+          </p>
         </div>
       </div>
       </div>

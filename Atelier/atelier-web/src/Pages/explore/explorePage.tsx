@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { getDownloadURL, ref, listAll } from 'firebase/storage';
 import { storage } from '../../../FirebaseConfig';
-import './shopStyle.css';
+import './exploreStyle.css';
 import Header from '../../Header';
 import Footer from '../../Footer';
 
-const Shop: React.FC = () => {
+const Explore: React.FC = () => {
     const [selectedTag, setSelectedTag] = useState<string | null>(null);
     const [searchInput, setSearchInput] = useState<string>(''); // State for search input
     const [artworks, setArtworks] = useState<any[]>([]);
@@ -56,27 +56,18 @@ const Shop: React.FC = () => {
           <button className="search-button">Search</button>
         </div>
 
-            <div className="filter-tags">
-            <button onClick={() => setSelectedTag(null)}>All</button>
-            <button onClick={() => setSelectedTag('painting')}>Painting</button>
-            <button onClick={() => setSelectedTag('photograph')}>Photograph</button>
-            <button onClick={() => setSelectedTag('crafts')}>Crafts</button>
-            <button onClick={() => setSelectedTag('scripture')}>Scripture</button>
-            <button onClick={() => setSelectedTag('oil canvas')}>Oil Canvas</button>
-            </div>
+        <div className="filter-tags">
+          <button onClick={() => setSelectedTag(null)}>All</button>
+          <button onClick={() => setSelectedTag('painting')}>Painting</button>
+          <button onClick={() => setSelectedTag('photograph')}>Photograph</button>
+          <button onClick={() => setSelectedTag('crafts')}>Crafts</button>
+          <button onClick={() => setSelectedTag('scripture')}>Scripture</button>
+          <button onClick={() => setSelectedTag('oil canvas')}>Oil Canvas</button>
+        </div>
 
         <div className="artworks-container">
           {filteredArtworks.map((artwork, index) => (
-            <div key={index} className="artwork">
-                <div className="artwork-container">
-                    <img src={artwork.imageUrl} alt={artwork.type} />
-                    <div className="artwork-details">
-                    <p className="title">{artwork.title}, {artwork.artist}</p>
-                    <p className="price">{artwork.price}</p>
-                    <p className="category">{artwork.type}</p>
-                    </div>
-                </div>
-                </div>
+            <img key={index} src={artwork.imageUrl} alt={artwork.type} className="artwork" />
           ))}
         </div>
         <Footer />
@@ -85,4 +76,4 @@ const Shop: React.FC = () => {
   };
   
 
-export default Shop;
+export default Explore;
