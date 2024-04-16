@@ -53,7 +53,7 @@ const Footer: React.FC = () => {
       </div>
     </footer>
     <div className="copyright">
-        <p>Copyright 2024</p>
+        <h3>Copyright 2024</h3>
       </div>
     </div>
   );
