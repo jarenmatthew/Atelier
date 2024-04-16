@@ -213,9 +213,11 @@ h4 {
   /* Center the text horizontally */
 }
 
-div.artists-container {
+/*Featured Artist Section Style*/
+.artists-section {
   background-color: #fff;
-  overflow: auto;
+  overflow-x: auto;
+  /* Enable horizontal scrolling */
   white-space: nowrap;
   padding: 10px;
   margin-left: 100px;
@@ -224,19 +226,24 @@ div.artists-container {
 }
 
 .featured-artist {
-  max-width: 350px;
-  /* Set the maximum width of the container */
-  max-height: 350px;
-  /* Set the maximum height of the container */
+  width: 280px;
+  height: 280px;
   overflow: hidden;
-  /* Hide any overflowing content */
-  margin-right: 10px;
+  margin-right: 30px;
+  margin-left: 30px;
+  border-radius: 50%;
 }
 
-div.featured-artists img {
-  width: 100%;
-  /* Make sure the image fills its container */
-  height: 50%;
-  /* Maintain aspect ratio */
+.artist-wrapper {
+  display: inline-block;
+  /* Ensure each artist-wrapper is on the same line */
 }
 
+.artist-name {
+  text-align: center;
+  /* Center the text horizontally */
+  font-family: Arial, sans-serif;
+  /* Change the font family */
+  font-size: 16px;
+  /* Optionally adjust the font size */
+}
