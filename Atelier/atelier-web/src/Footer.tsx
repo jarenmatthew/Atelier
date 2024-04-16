@@ -34,6 +34,7 @@ const Footer: React.FC = () => {
   };
 
   return (
+    <div>
     <footer id="footer">
       <div>
         <h2>Atelier</h2>
@@ -51,6 +52,10 @@ const Footer: React.FC = () => {
         <img src={instagramIconURL} alt="Instagram" className="socmed" />
       </div>
     </footer>
+    <div className="copyright">
+        <p>Copyright 2024</p>
+      </div>
+    </div>
   );
 };
 

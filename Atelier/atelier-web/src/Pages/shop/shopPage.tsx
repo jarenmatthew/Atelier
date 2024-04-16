@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { getDownloadURL, ref, listAll } from 'firebase/storage';
 import { storage } from '../../../FirebaseConfig';
 import './shopStyle.css';
@@ -65,6 +66,7 @@ const Shop: React.FC = () => {
             <button onClick={() => setSelectedTag('oil canvas')}>Oil Canvas</button>
             </div>
 
+        <Link to="/product">
         <div className="artworks-container">
           {filteredArtworks.map((artwork, index) => (
             <div key={index} className="artwork">
@@ -79,6 +81,7 @@ const Shop: React.FC = () => {
                 </div>
           ))}
         </div>
+        </Link>
         <Footer />
       </div>
     );
