@@ -12,6 +12,7 @@ const Home: React.FC = () => {
   const [popupImageSrc, setPopupImageSrc] = useState('');
   const [popupDisplay, setPopupDisplay] = useState('none');
   const [imageURLs, setImageURLs] = useState<string[]>([]);
+  const names = ['John Doe', 'Alice Wane', 'Bobby Brown', 'Emma Rock', 'Amane Yugi', 'Tsukasa Yugi', 'Yashiro Nene'];
 
   useEffect(() => {
     fetchIconURLs(); // Fetch icon URLs
@@ -118,9 +119,12 @@ const Home: React.FC = () => {
 
       <Box style={{ marginBottom: '100px' }}>
         <h4>Featured Artists</h4>
-        <div className="artists-container">
-          {imageURLs.slice(0, 6).map((url, index) => (
-            <img key={index} className="featured-artist" src={url} />
+        <div className="artists-section">
+          {imageURLs.slice(0, 7).map((url, index) => (
+            <div key={index} className="artist-wrapper">
+              <img className="featured-artist" src={url} alt={`Featured Artist ${index + 1}`} />
+              <div className="artist-name">{names[index]}</div>
+            </div>
           ))}
         </div>
       </Box>
