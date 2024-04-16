@@ -50,18 +50,26 @@ function LogInPage() {
       {/* m = "0 auto" is used to center all the content, this serves as the container */}
       <Box m="0 auto" maxWidth="500px">
         <Box pt={"50px"}>
-          <Typography letterSpacing={"10px"} textAlign={"center"} variant="h3">
+          <Typography
+            fontWeight={"bold"}
+            letterSpacing={"10px"}
+            textAlign={"center"}
+            fontSize={"40px"}
+          >
             ATELIER
           </Typography>
         </Box>
-
-        <Box mt={"90px"}>
-          <Box m={"5px"}>
-            <Typography textAlign={"center"} color={"white"} fontSize={"16px"}>
-              Login
-            </Typography>
-          </Box>
-
+        <Box mt={"80px"}>
+          <Typography
+            fontFamily={"Poppins"}
+            textAlign={"center"}
+            color={"#413F3F"}
+            fontSize={"30px"}
+          >
+            Login
+          </Typography>
+        </Box>
+        <Box mt={"30px"}>
           <Stack spacing={3}>
             <TextField
               fullWidth
@@ -110,7 +118,7 @@ function LogInPage() {
                   height: "45px",
                 }}
               >
-                Login
+                Log in
               </Button>
             </Box>
           </Stack>
