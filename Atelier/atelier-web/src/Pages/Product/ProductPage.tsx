@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Box } from '@mui/material';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { storage } from '../../../FirebaseConfig';
 import './ProductStyle.css';
@@ -7,145 +6,119 @@ import Header from '../../Header';
 import Footer from '../../Footer';
 
 const Product: React.FC = () => {
-  const [slideIndex, setSlideIndex] = useState(1);
-  const [popupDescription, setPopupDescription] = useState('');
-  const [popupImageSrc, setPopupImageSrc] = useState('');
-  const [popupDisplay, setPopupDisplay] = useState('none');
-  const [imageURLs, setImageURLs] = useState<string[]>([]);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [stickerImageUrl, setStickerImageUrl] = useState<string | null>(null);
+  const [bookmarkImageUrl, setBookmarkImageUrl] = useState<string | null>(null);
+  const [mediumImageUrl, setMediumImageUrl] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchIconURLs(); // Fetch icon URLs
+    // Reference to the image in Firebase storage
+    const imageRef = ref(storage, 'bg2.jpg');
+    const stickerRef = ref(storage, 'bg2.jpg');
+    const bookmarkRef = ref(storage, 'bg2.jpg');
+    const mediumRef = ref(storage, 'bg2.jpg');
+
+    // Get the download URL of the images
+    getDownloadURL(imageRef)
+      .then((url) => {
+        // Set the image URL to state
+        setImageUrl(url);
+      })
+      .catch((error) => {
+        console.error('Error getting download URL:', error);
+      });
+
+    getDownloadURL(stickerRef)
+      .then((url) => {
+        // Set the sticker image URL to state
+        setStickerImageUrl(url);
+      })
+      .catch((error) => {
+        console.error('Error getting sticker image download URL:', error);
+      });
+
+    getDownloadURL(bookmarkRef)
+      .then((url) => {
+        // Set the bookmark image URL to state
+        setBookmarkImageUrl(url);
+      })
+      .catch((error) => {
+        console.error('Error getting bookmark image download URL:', error);
+      });
+
+    getDownloadURL(mediumRef)
+      .then((url) => {
+        // Set the medium image URL to state
+        setMediumImageUrl(url);
+      })
+      .catch((error) => {
+        console.error('Error getting medium image download URL:', error);
+      });
   }, []);
-
-  useEffect(() => {
-    showSlides(slideIndex);
-  }, [slideIndex]);
-
-  const fetchIconURLs = async () => {
-    try {
-      // Fetch image URLs from Firebase Storage
-      const imageRef = ref(storage, 'img');
-      const urls: string[] = await Promise.all([
-        'image1.png', 'image2.png', 'image3.png', 'image4.png', 'image5.png',
-        'image6.png', 'image7.png', 'image8.png', 'image9.png', 'image10.png', 'image11.png',
-        'image12.png', 'image13.png', 'image14.png', 'image15.png', 'image16.png',
-        'image17.png', 'image18.png', 'image19.png', 'image20.png', 'image21.png',
-        'image22.png', 'image23.png', 'image24.png', 'cover1.png', 'cover2.png', 'cover3.png',// Add all image names here
-      ].map(async (imageName) => {
-        return await getDownloadURL(ref(imageRef, imageName));
-      }));
-      const shuffledImageURLs = shuffleArray(urls);
-      setImageURLs(shuffledImageURLs);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  };
-
-  const showSlides = (n: number) => {
-    // Ensure that slides exist before accessing their properties
-    let slides = document.getElementsByClassName("mySlides") as HTMLCollectionOf<HTMLElement>;
-    let dots = document.getElementsByClassName("dot") as HTMLCollectionOf<HTMLElement>;
-    if (slides.length === 0 || dots.length === 0) {
-      // Elements not found, wait for the next render
-      return;
-    }
-    
-    if (n > slides.length) setSlideIndex(1);
-    if (n < 1) setSlideIndex(slides.length);
-    for (let i = 0; i < slides.length; i++) {
-      slides[i].style.display = "none";
-    }
-    for (let i = 0; i < dots.length; i++) {
-      dots[i].className = dots[i].className.replace(" active", "");
-    }
-    slides[slideIndex - 1].style.display = "block";
-    dots[slideIndex - 1].className += " active";
-  };
-
-  const plusSlides = (n: number) => {
-    const newIndex = slideIndex + n;
-    setSlideIndex(newIndex);
-    showSlides(newIndex);
-  };
-
-  const currentSlide = (n: number) => {
-    setSlideIndex(n);
-    showSlides(n);
-  };
-
-  const shuffleArray = (array: any[]) => {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-  };
-
-  const showDescription = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
-    const image = e.currentTarget;
-    const description = image.parentElement?.getAttribute('data-description') || '';
-    setPopupDescription(description);
-    setPopupImageSrc(image.src);
-    setPopupDisplay('block');
-  };
-
-  const handleClosePopup = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    if (e.target === e.currentTarget) {
-      setPopupDisplay('none');
-    }
-  };
 
   return (
     <div>
       <Header />
-      <div>
-      <Box style={{ marginBottom: '100px' }}>
-        <div className="slideshow-container">
-          {imageURLs.map((url, index) => (
-            <div key={index} className="mySlides fade">
-              <img src={url} style={{ width: "100%" }} />
-            </div>
-          ))}
-          <div className="dot-container">
-            {imageURLs.map((_, index) => (
-              <span key={index} className="dot" onClick={() => currentSlide(index + 1)}></span>
-            ))}
+      <div className="container">
+        <div className="artwork-container">
+          <div className="artwork">
+            {imageUrl && <img src={imageUrl} alt="Artwork" />}
           </div>
-          <a className="prev" onClick={() => plusSlides(-1)}>&#10094;</a>
-          <a className="next" onClick={() => plusSlides(1)}>&#10095;</a>
+          <p>Artwork Name</p>
         </div>
-      </Box>
-
-      <Box style={{ marginBottom: '100px' }}>
-        <h4>Featured Artists</h4>
-        <div className="artists-container">
-          {imageURLs.slice(0, 6).map((url, index) => (
-            <img key={index} className="featured-artist" src={url} />
-          ))}
+        <div className="details-container">
+          <div className="artist-info">
+            <div className="profile-pic"></div>
+            <p>Artist Name</p>
+          </div>
+          <div className="description">
+            <h3>Artwork Description</h3>
+            <h5>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.</h5>
+          </div>
+          <div className="tags">
+            <div className="tag">Tag 1</div>
+            <div className="tag">Tag 2</div>
+            <div className="tag">Tag 3</div>
+          </div>
+          <div className="price">$100</div>
+          <div className="buttons">
+            <a href="#" className="button">Buy</a>
+            <a href="#" className="button">Add to Cart</a>
+          </div>
         </div>
-      </Box>
-
-      <Box style={{ marginBottom: '100px' }}>
-        <h4>Explore</h4>
-        <div className="collage">
-          {imageURLs.slice(6).map((url, index) => (
-            <div key={index} className="collage_pics" data-description="Whale House, John Doe">
-              <img src={url} style={{ width: '100%' }} onClick={showDescription} />
+      </div>
+      <div className='available'>
+        <h3>Available as: <div className="tags"><div className="tag">Type of Artwork</div></div></h3>
+      </div>
+      <div className="availability">
+        <h2>Also available as:</h2>
+        <div className="availability-options">
+          <div className="availability-option">
+            <div className="availability-item">
+              {stickerImageUrl && <img src={stickerImageUrl} alt="Stickers" />}
+              <p>Stickers</p>
             </div>
-          ))}
-        </div>
-      </Box>
-
-      <div id="popup-container" className="popup-container" onClick={handleClosePopup} style={{ display: popupDisplay }}>
-        <div id="popup-content" className="popup-content">
-          <img id="popup-image" src={popupImageSrc} alt="Clicked Image" />
-          <p id="popup-description">{popupDescription}</p>
+            <div className="price">$10</div>
+          </div>
+          <div className="availability-option">
+            <div className="availability-item">
+              {bookmarkImageUrl && <img src={bookmarkImageUrl} alt="Bookmarks" />}
+              <p>Bookmarks</p>
+            </div>
+            <div className="price">$15</div>
+          </div>
+          <div className="availability-option">
+            <div className="availability-item">
+              {mediumImageUrl && <img src={mediumImageUrl} alt="Medium" />}
+              <p>Medium</p>
+            </div>
+            <div className="price">$20</div>
+          </div>
         </div>
       </div>
-      </div>
-    <Footer />
+      <Footer />
     </div>
   );
-};
+}
 
 export default Product;

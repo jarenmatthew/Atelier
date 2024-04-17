@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Box } from '@mui/material';
+import { Link } from 'react-router-dom';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { storage } from '../../../FirebaseConfig';
+import { Box } from '@mui/material';
 import './HomePage.css';
 import Header from '../../Header';
 import Footer from '../../Footer';
@@ -12,6 +13,7 @@ const Home: React.FC = () => {
   const [popupImageSrc, setPopupImageSrc] = useState('');
   const [popupDisplay, setPopupDisplay] = useState('none');
   const [imageURLs, setImageURLs] = useState<string[]>([]);
+  const names = ['John Doe', 'Alice Wane', 'Bobby Brown', 'Emma Rock', 'Amane Yugi', 'Tsukasa Yugi', 'Yashiro Nene'];
 
   useEffect(() => {
     fetchIconURLs(); // Fetch icon URLs
@@ -19,7 +21,7 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     showSlides(slideIndex);
-  }, [slideIndex]);
+  }, [slideIndex, imageURLs]); // Include imageURLs in the dependency array
 
   const fetchIconURLs = async () => {
     try {
@@ -63,9 +65,11 @@ const Home: React.FC = () => {
   };
 
   const plusSlides = (n: number) => {
-    const newIndex = slideIndex + n;
-    setSlideIndex(newIndex);
-    showSlides(newIndex);
+    setSlideIndex(prevSlideIndex => {
+      const newIndex = prevSlideIndex + n;
+      showSlides(newIndex);
+      return newIndex;
+    });
   };
 
   const currentSlide = (n: number) => {
@@ -118,9 +122,12 @@ const Home: React.FC = () => {
 
       <Box style={{ marginBottom: '100px' }}>
         <h4>Featured Artists</h4>
-        <div className="artists-container">
-          {imageURLs.slice(0, 6).map((url, index) => (
-            <img key={index} className="featured-artist" src={url} />
+        <div className="artists-section">
+          {imageURLs.slice(0, 7).map((url, index) => (
+            <div key={index} className="artist-wrapper">
+              <img className="featured-artist" src={url} alt={`Featured Artist ${index + 1}`} />
+              <div className="artist-name">{names[index]}</div>
+            </div>
           ))}
         </div>
       </Box>
@@ -139,7 +146,9 @@ const Home: React.FC = () => {
       <div id="popup-container" className="popup-container" onClick={handleClosePopup} style={{ display: popupDisplay }}>
         <div id="popup-content" className="popup-content">
           <img id="popup-image" src={popupImageSrc} alt="Clicked Image" />
-          <p id="popup-description">{popupDescription}</p>
+          <p id="popup-description">
+          <Link to="/product">{popupDescription}</Link>
+          </p>
         </div>
       </div>
       </div>

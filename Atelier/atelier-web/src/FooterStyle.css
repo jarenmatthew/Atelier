@@ -37,7 +37,7 @@ li {
     margin-bottom: 30px;
   }
   
-  #copyright {
+  .copyright {
     display: flex;
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically */
