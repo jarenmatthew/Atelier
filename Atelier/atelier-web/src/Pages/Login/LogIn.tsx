@@ -116,6 +116,7 @@ function LogInPage() {
                   backgroundColor: "rgba(91, 160, 187)",
                   borderRadius: "12px",
                   height: "45px",
+                  fontFamily: "Poppins",
                 }}
               >
                 Log in
