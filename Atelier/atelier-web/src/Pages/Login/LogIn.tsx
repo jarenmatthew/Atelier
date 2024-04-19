@@ -12,30 +12,34 @@ import {
   IconButton,
 } from "@mui/material";
 import React from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Navigate, Link as RouterLink } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../FirebaseConfig";
+import {
+  doSignInwithEmailandPassword,
+  doCreateUserwithEmailandPassword,
+} from "../../auth/auth";
+import { useAuth } from "../../auth/AuthContext";
 
 function LogInPage() {
+  const { userLoggedIn } = useAuth();
+
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [isSigningIn, setIsSigningIn] = React.useState(false);
+  const [errorMessage, setErrorMessage] = React.useState("");
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
-  const signIn = async () => {
-    await createUserWithEmailAndPassword(auth, email, password);
-  };
-
-  const handleEmailChange = (event: any) => {
-    setEmail(event.target.value);
-  };
-
-  const handlePasswordChange = (event: any) => {
-    setPassword(event.target.value);
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    if (!isSigningIn) {
+      setIsSigningIn(true);
+      await doSignInwithEmailandPassword(email, password);
+    }
   };
 
   return (
@@ -47,9 +51,10 @@ function LogInPage() {
         backgroundSize: "cover",
       }}
     >
+      {userLoggedIn && <Navigate to={"/home"} replace={true}></Navigate>}
       {/* m = "0 auto" is used to center all the content, this serves as the container */}
       <Box m="0 auto" maxWidth="500px">
-        <Box pt={"50px"}>
+        <Box pt={"40px"}>
           <Typography
             fontWeight={"bold"}
             letterSpacing={"10px"}
@@ -59,7 +64,7 @@ function LogInPage() {
             ATELIER
           </Typography>
         </Box>
-        <Box mt={"80px"}>
+        <Box mt={"70px"}>
           <Typography
             fontFamily={"Poppins"}
             textAlign={"center"}

@@ -15,17 +15,21 @@ import { auth } from "../../../FirebaseConfig";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 function SignUpPage() {
-  const [username, setUsername] = useState("");
   const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
   const [showPassword, setShowPassword] = React.useState(false);
-  const [password, setPassword] = useState("");
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
-  const signIn = async () => {
-    await createUserWithEmailAndPassword(auth, email, password);
+  const signUp = async () => {
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -38,7 +42,7 @@ function SignUpPage() {
     >
       {/* m = "0 auto" is used to center all the content, this serves as the container */}
       <Box m="0 auto" maxWidth="500px" fontFamily={"Poppins"}>
-        <Box pt={"50px"}>
+        <Box pt={"40px"}>
           <Typography
             fontWeight={"bold"}
             letterSpacing={"10px"}
@@ -48,7 +52,7 @@ function SignUpPage() {
             ATELIER
           </Typography>
         </Box>
-        <Box mt={"80px"}>
+        <Box mt={"70px"}>
           <Typography
             fontFamily={"Poppins"}
             textAlign={"center"}
@@ -64,6 +68,7 @@ function SignUpPage() {
               fullWidth
               label="Email"
               variant="filled"
+              onChange={(e) => setEmail(e.target.value)}
               InputProps={{
                 disableUnderline: true,
                 style: {
@@ -77,6 +82,7 @@ function SignUpPage() {
               fullWidth
               label="Password"
               variant="filled"
+              onChange={(e) => setPassword(e.target.value)}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -107,6 +113,7 @@ function SignUpPage() {
                   height: "45px",
                   fontFamily: "Poppins",
                 }}
+                onClick={signUp}
               >
                 Create account
               </Button>
@@ -127,7 +134,7 @@ function SignUpPage() {
               to="/login"
               sx={{ textDecoration: "none", color: "primary" }}
             >
-              Log in
+              Log In
             </Link>
           </Typography>
         </Box>
