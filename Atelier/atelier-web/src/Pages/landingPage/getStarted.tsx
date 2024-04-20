@@ -1,9 +1,9 @@
 import Footer from '../../Footer';
 import { Box } from '@mui/material';
 import './getStarted.css';
-import { Link } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 import { Height } from '@mui/icons-material';
-
+import LogInPage from '../Login/LogIn';
 
 
 const GetStarted: React.FC = () => {
@@ -16,7 +16,8 @@ const GetStarted: React.FC = () => {
                         <div className='atelier-logo'>
                         <img src='./src/assets/dummylogo.jpg' alt='Atelier Logo' id='logo'/>
                         <h2 className='atelier-title'>Atelier</h2>
-                        </div>
+                        
+                    </div>
                     <div style={{height: '250px'}}></div>
                     <h1 className='catch-phrase'>CATCH PHRASE</h1>
                     <p className='atelier-desc'> 
@@ -25,11 +26,11 @@ const GetStarted: React.FC = () => {
                         ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
                     </p>
                     <div style={{height: '50px'}}></div>
-                    <button id='get-started-button'>Get Started</button>
+                        <button  id='get-started-button'>Get Started</button>
                     </div>
 
                     <div className='hero-image'>
-                    <img src='./src/assets/atelier-room.png' alt='Atelier Room' id='hero'/>
+                        <img src='./src/assets/atelier-room.png' alt='Atelier Room' id='hero'/>
                     </div>
                 </div>
                 <div style={{height: '50px'}}></div>

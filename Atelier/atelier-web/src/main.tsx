@@ -10,6 +10,7 @@ import Product from "./Pages/Product/ProductPage.tsx";
 import Shop from "./Pages/shop/shopPage.tsx";
 import Explore from "./Pages/explore/explorePage.tsx";
 import About from "./Pages/aboutUs/aboutPage.tsx";
+import GetStarted from "./Pages/landingPage/getStarted.tsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
   { path: "/explore", element: <Explore /> },
   { path: "/about", element: <About /> },
   { path: "/firebaseTest", element: <FirebaseTest /> },
+  { path: "/landingPage", element: <GetStarted />}
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
