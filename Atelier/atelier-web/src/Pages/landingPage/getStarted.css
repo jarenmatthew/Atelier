@@ -1,21 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@300&display=swap');
+
 /* Style for sections, containers, and boxes */
 .sectionA {
     background-color: #E2C1BE;
     width: auto;
-    height: 850px;
+    height: 950px;
     display: flex;
 }
 
 .sectionB {
     background-color: #FFFFFF;
     width: auto;
-    height: 850px;
+    height: 1800px;
+}
+
+.sectionC {
+    background-color: #E2C1BE;
+    width: auto;
+    height: 950px;
+}
+
+.sectionD {
+    background-color: #FFFFFF;
+    width: auto;
+    height: 950px;
 }
 
 .sectionA-box1 {
     /*background-color: azure;*/
     margin: 10px;
-    width: 50%;
+    width: 45%;
     height: 830px;
     padding: 100px;
 }
@@ -27,8 +41,8 @@
 
 .sectionA-box2 {
     margin: 10px;
-    width: 50%;
-    height: 830px;
+    width: 55%;
+    height: 915px;
     padding: 40px;
 }
 
@@ -37,7 +51,18 @@
 
 /* Style for buttons, icons, and logo */
 .get-started-button {
+    width: 200px;
+    height: 70px;
     padding: 15px 25px;
+    background-color: #A96DA3;
+    font-family: 'Montserrat';
+    font-size: large;
+    font-weight: 500;
+    font-size: 25px;
+    color: #FFFFFF;
+    border-radius: 10px;
+    border-width: 0px;
+    box-shadow: 2px 2px 10px 1px #253B3B58;
 }
 
 #logo {

@@ -25,17 +25,22 @@ const GetStarted: React.FC = () => {
                         et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip 
                         ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
                     </p>
-                    <button className='get-started-button'>GET STARTED</button>
-
+                    <div style={{height: '50px'}}></div>
+                    <button className='get-started-button'>Get Started</button>
                     </div>
 
                     <div className='sectionA-box2'>
                     <img src='./src/assets/dummylogo.jpg' alt='Atelier Logo' id='bigimg'/>
-
-
                     </div>
                 </div>
+
                 <div className='sectionB'>
+                </div>
+
+                <div className='sectionC'>
+                </div>
+
+                <div className='sectionD'>
                 </div>
             </Box>
 
