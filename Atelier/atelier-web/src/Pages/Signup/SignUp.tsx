@@ -9,7 +9,7 @@ import {
   InputAdornment,
   IconButton,
 } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom"; // Import Link from react-router-dom
+import { Navigate, Link as RouterLink } from "react-router-dom"; // Import Link from react-router-dom
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../FirebaseConfig";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
@@ -17,6 +17,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 function SignUpPage() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [isSignedUp, setIsSignedUp] = useState(false);
 
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -27,10 +28,15 @@ function SignUpPage() {
   const signUp = async () => {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
+      setIsSignedUp(true);
     } catch (err) {
       console.log(err);
     }
   };
+
+  if (isSignedUp) {
+    return <Navigate to="/login" replace={true} />;
+  }
 
   return (
     <Box

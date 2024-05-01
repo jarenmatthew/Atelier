@@ -15,32 +15,30 @@ import React from "react";
 import { Navigate, Link as RouterLink } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { auth } from "../../../FirebaseConfig";
-import {
-  doSignInwithEmailandPassword,
-  doCreateUserwithEmailandPassword,
-} from "../../auth/auth";
-import { useAuth } from "../../auth/AuthContext";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 function LogInPage() {
-  const { userLoggedIn } = useAuth();
-
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [isSigningIn, setIsSigningIn] = React.useState(false);
-  const [errorMessage, setErrorMessage] = React.useState("");
+  const [IsLoggedIn, setIsLoggedIn] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    if (!isSigningIn) {
-      setIsSigningIn(true);
-      await doSignInwithEmailandPassword(email, password);
+  const logIn = async () => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      setIsLoggedIn(true);
+    } catch (err) {
+      console.log(err);
     }
   };
+
+  if (IsLoggedIn) {
+    return <Navigate to="/home" replace={true} />;
+  }
 
   return (
     <Box
@@ -51,7 +49,6 @@ function LogInPage() {
         backgroundSize: "cover",
       }}
     >
-      {userLoggedIn && <Navigate to={"/home"} replace={true}></Navigate>}
       {/* m = "0 auto" is used to center all the content, this serves as the container */}
       <Box m="0 auto" maxWidth="500px">
         <Box pt={"40px"}>
@@ -80,6 +77,7 @@ function LogInPage() {
               fullWidth
               label="Email"
               variant="filled"
+              onChange={(e) => setEmail(e.target.value)}
               InputProps={{
                 disableUnderline: true,
                 style: {
@@ -93,6 +91,7 @@ function LogInPage() {
               fullWidth
               label="Password"
               variant="filled"
+              onChange={(e) => setPassword(e.target.value)}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -123,6 +122,7 @@ function LogInPage() {
                   height: "45px",
                   fontFamily: "Poppins",
                 }}
+                onClick={logIn}
               >
                 Log in
               </Button>
