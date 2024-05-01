@@ -31,7 +31,7 @@ const Header: React.FC = () => {
     <header>
       <section id="header">
         <Link to="/"><img src={logoIconURL} className="logo" alt="" /></Link>
-        <h2><Link to="/home">Atelier</Link></h2>
+        <h2><Link to="/landingPage">Atelier</Link></h2>
         <div>
           <ul id="navbar">
             <li><Link to="/home">Home</Link></li>

@@ -1,0 +1,188 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@300&display=swap');
+
+/* Style for sections, containers, and boxes */
+.hero-section {
+    background-color: #E2C1BE;
+    width: auto;
+    height: 950px;
+    display: flex;
+}
+
+.atelier-brand {
+    /*background-color: azure;*/
+    margin: 10px;
+    width: 45%;
+    height: 830px;
+    padding: 100px;
+}
+
+.atelier-logo {
+    display: flex;
+    align-items: center;
+}
+
+.atelier-title {
+    padding: 0px;
+}
+
+.hero-image {
+    margin: 10px;
+    width: 55%;
+    height: 915px;
+    padding: 40px;
+}
+
+.main-features-section {
+    background-color: #FFFFFF;
+    width: 100%;
+    height: 1500px;
+    padding: 5px 100px;
+}
+
+.main-feature-box {
+    width: 100%;
+    height: 450px;
+    display: flex;
+    padding: 10px;
+}
+
+.main-feature-img {
+    width: 40%;
+    height: 100%;
+    padding: 0px 0px 0px 125px;
+}
+
+.main-feature-desc {
+    width: 60%;
+    height: 100%;
+    padding: 100px 45px;
+}
+
+.main-feature-desc2 {
+    width: 60%;
+    height: 100%;
+    padding: 100px 45px;
+    text-align: right;
+}
+
+.main-feature-img2 {
+    width: 40%;
+    height: 100%;
+    padding: 0px 125px 0px 0px;
+}
+
+.featured-arts-section {
+    background-color: #E2C1BE;
+    width: auto;
+    height: 725px;
+    padding-top: 25px;
+}
+
+.artworks-box {
+    width: 100%;
+    height: 600px;
+    display: flex;
+    padding: 10px 200px;
+}
+
+.artwork-img {
+    width: 50%;
+    height: 580px;
+    padding: 50px 85px;
+}
+
+.featured-artists-section {
+    width: 100%;
+    height: 650px;
+}
+
+.artists-box {
+    display: flex;
+    padding: 50px 200px;
+    place-content: center;
+}
+
+.artist-profile {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    padding: 25px 70px;
+
+}
+
+
+/* Style for headers, paragraphs, and texts */
+.features-heading {
+    width: 100%;
+    height: 50px;
+    text-align: center;
+}
+
+
+/* Style for buttons, icons, and logo */
+#get-started-button {
+    width: 250px;
+    height: 70px;
+    padding: 15px 25px;
+    background-color: #A96DA3;
+    font-family: 'Montserrat';
+    font-size: large;
+    font-weight: 600;
+    font-size: 25px;
+    color: #FFFFFF;
+    border-radius: 10px;
+    border-width: 0px;
+    box-shadow: 2px 2px 10px 1px #253B3B58;
+}
+
+#logo {
+    width: 55px;
+    height: 55px;
+    margin-right: 15px;
+    box-shadow: 2px 2px 10px 1px #253B3B58;
+}
+
+#hero {
+    width: 100%;
+    height: 100%;
+    box-shadow: 2px 2px 10px 1px #253B3B58;
+    transition: all 0.3s ease;
+}
+
+#hero:hover {
+    transform: scale(1.1);
+}
+
+#mfimg {
+    width: 100%;
+    height: 100%;
+    transition: all 0.3s ease;
+}
+
+#mfimg:hover {
+    transform: scale(1.1);
+}
+
+#artwork {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    box-shadow: 2px 2px 10px 1px #253B3B58;
+    transition: all 0.3s ease;
+}
+
+#artwork:hover {
+    transform: scale(1.1);
+}
+
+#artist {
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+    box-shadow: 2px 2px 10px 1px #253B3B58;
+    transition: all 0.3s ease;
+}
+
+#artist:hover {
+    transform: scale(1.1);
+}
