@@ -55,10 +55,8 @@ header {
 }
 
 .icons {
-  width: 60%;
+  width: 45%;
   margin-left: 20%;
-  border-radius: 50%;
-  box-shadow: 1px 1px 1px 1px #253B3B58;
 }
 
 #profile-box {

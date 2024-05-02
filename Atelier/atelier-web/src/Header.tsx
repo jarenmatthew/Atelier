@@ -8,6 +8,9 @@ import './HeaderStyle.css';
 const Header: React.FC = () => {
   const [logoIconURL, setLogoIconURL] = useState('');
   const [profileIconURL, setProfileIconURL] = useState('');
+  const [notifURL, setNotifIconURL] = useState('');
+  const [messageURL, setMessageIconURL] = useState('');
+  const [cartURL, setCartIconURL] = useState('');
 
   useEffect(() => {
     fetchIconURLs(); // Fetch icon URLs
@@ -19,9 +22,15 @@ const Header: React.FC = () => {
       const iconsRef = ref(storage, 'icons');
       const logoURL = await getDownloadURL(ref(iconsRef, 'atelier-logo.png'));
       const profileURL = await getDownloadURL(ref(iconsRef, 'hanako.jpg'));
+      const cartURL = await getDownloadURL(ref(iconsRef, 'cart-icon.png'));
+      const messageURL = await getDownloadURL(ref(iconsRef, 'message-icon.png'));
+      const notifURL = await getDownloadURL(ref(iconsRef, 'notif-icon.png'));
       
       setLogoIconURL(logoURL);
       setProfileIconURL(profileURL);
+      setCartIconURL(cartURL);
+      setMessageIconURL(messageURL);
+      setNotifIconURL(notifURL);
     } catch (error) {
       console.error('Error fetching icon URLs:', error);
     }
@@ -49,9 +58,9 @@ const Header: React.FC = () => {
         <div id='header-icons'>
           <div id='icons-box'>
             <div></div>
-            <div><Link to="/"><img src={profileIconURL} className="icons" alt="Profile Circle" /></Link></div>
-            <div><Link to="/"><img src={profileIconURL} className="icons" alt="Profile Circle" /></Link></div>
-            <div><Link to="/"><img src={profileIconURL} className="icons" alt="Profile Circle" /></Link></div>
+            <div><Link to="/"><img src={cartURL} className="icons" alt="Profile Circle" /></Link></div>
+            <div><Link to="/"><img src={messageURL} className="icons" alt="Profile Circle" /></Link></div>
+            <div><Link to="/"><img src={notifURL} className="icons" alt="Profile Circle" /></Link></div>
           </div>
           
           <div id='profile-box'>
