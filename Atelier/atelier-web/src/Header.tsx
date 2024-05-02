@@ -17,8 +17,8 @@ const Header: React.FC = () => {
     try {
       // Fetch icon URLs from Firebase Storage
       const iconsRef = ref(storage, 'icons');
-      const logoURL = await getDownloadURL(ref(iconsRef, 'logo.jpg'));
-      const profileURL = await getDownloadURL(ref(iconsRef, 'profile.png'));
+      const logoURL = await getDownloadURL(ref(iconsRef, 'atelier-logo.png'));
+      const profileURL = await getDownloadURL(ref(iconsRef, 'hanako.jpg'));
       
       setLogoIconURL(logoURL);
       setProfileIconURL(profileURL);
@@ -30,17 +30,35 @@ const Header: React.FC = () => {
   return (
     <header>
       <section id="header">
-        <Link to="/"><img src={logoIconURL} className="logo" alt="" /></Link>
-        <h2><Link to="/landingPage">Atelier</Link></h2>
-        <div>
-          <ul id="navbar">
-            <li><Link to="/home">Home</Link></li>
-            <li><Link to="/explore">Explore</Link></li>
-            <li><Link to="/shop">Shop</Link></li>
-            <li><Link to="/about">About Us</Link></li>
-          </ul>
+
+        <div id='atelier-brand'>
+          <div>
+          <Link to="/"><img src={logoIconURL} className="logo" alt="Atelier Logo" /></Link>
+          </div>
         </div>
-        <Link to="/signup"><img src={profileIconURL} className="profile" alt="" /></Link>
+
+        <div id='navi'>
+            <ul id="navbar">
+              <li><Link to="/home">Home</Link></li>
+              <li><Link to="/explore">Explore</Link></li>
+              <li><Link to="/shop">Shop</Link></li>
+              <li><Link to="/about">About Us</Link></li>
+            </ul>
+        </div>
+
+        <div id='header-icons'>
+          <div id='icons-box'>
+            <div></div>
+            <div><Link to="/"><img src={profileIconURL} className="icons" alt="Profile Circle" /></Link></div>
+            <div><Link to="/"><img src={profileIconURL} className="icons" alt="Profile Circle" /></Link></div>
+            <div><Link to="/"><img src={profileIconURL} className="icons" alt="Profile Circle" /></Link></div>
+          </div>
+          
+          <div id='profile-box'>
+          <Link to="/signup"><img src={profileIconURL} className="profile" alt="Profile Circle" /></Link>
+          </div>
+        </div>
+        
       </section>
     </header>
   );
