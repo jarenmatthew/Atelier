@@ -69,7 +69,7 @@ function LogInPage() {
             fontFamily={"Inknut Antiqua"}
             textAlign={"center"}
             color={"black"}
-            fontSize={"25px"}
+            fontSize={"22px"}
           >
             Login
           </Typography>
@@ -123,7 +123,7 @@ function LogInPage() {
                   backgroundColor: "#875782",
                   borderRadius: "12px",
                   height: "45px",
-                  fontFamily: "Montseratt",
+                  fontFamily: "Montserrat",
                   "&:hover": {
                     backgroundColor: "#CF9893",},
                 }}
