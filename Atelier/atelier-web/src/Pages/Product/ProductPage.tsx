@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { storage } from '../../../FirebaseConfig';
 import './ProductStyle.css';
 import Header from '../../Header';
 import Footer from '../../Footer';
+
 
 const Product: React.FC = () => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
@@ -57,22 +60,27 @@ const Product: React.FC = () => {
   }, []);
 
   return (
+    
     <div>
       <Header />
       <div className="container">
         <div className="artwork-container">
+          <p>Artwork Name</p>
           <div className="artwork">
             {imageUrl && <img src={imageUrl} alt="Artwork" />}
           </div>
-          <p>Artwork Name</p>
+          <div className='available'>
+        <h5>Stock Available: <div className="tags_"><div className="tag">12</div></div></h5>
+      </div>
         </div>
         <div className="details-container">
           <div className="artist-info">
             <div className="profile-pic"></div>
             <p>Artist Name</p>
           </div>
+          
           <div className="description">
-            <h3>Artwork Description</h3>
+            {/* <h3>Artwork Description</h3> */}
             <h5>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.</h5>
           </div>
           <div className="tags">
@@ -82,35 +90,33 @@ const Product: React.FC = () => {
           </div>
           <div className="price">$100</div>
           <div className="buttons">
-            <a href="#" className="button">Buy</a>
-            <a href="#" className="button">Add to Cart</a>
+            <a href="#" className="button"> <ShoppingCartCheckoutIcon />        Buy</a>
+            <a href="#" className="button"> <ShoppingCartIcon />  Add to Cart</a>
           </div>
         </div>
       </div>
-      <div className='available'>
-        <h3>Available as: <div className="tags"><div className="tag">Type of Artwork</div></div></h3>
-      </div>
+      
       <div className="availability">
-        <h2>Also available as:</h2>
+        <h4>You May Also Like:</h4>
         <div className="availability-options">
           <div className="availability-option">
             <div className="availability-item">
               {stickerImageUrl && <img src={stickerImageUrl} alt="Stickers" />}
-              <p>Stickers</p>
+              <p>Artwork Title</p>
             </div>
             <div className="price">$10</div>
           </div>
           <div className="availability-option">
             <div className="availability-item">
               {bookmarkImageUrl && <img src={bookmarkImageUrl} alt="Bookmarks" />}
-              <p>Bookmarks</p>
+              <p>Artwork Title</p>
             </div>
             <div className="price">$15</div>
           </div>
           <div className="availability-option">
             <div className="availability-item">
               {mediumImageUrl && <img src={mediumImageUrl} alt="Medium" />}
-              <p>Medium</p>
+              <p>Artwork Title</p>
             </div>
             <div className="price">$20</div>
           </div>

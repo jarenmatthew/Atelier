@@ -48,10 +48,11 @@ function LogInPage() {
   return (
     <Box
       minHeight={"100vh"}
-      fontFamily={"Poppins"}
+      fontFamily={"Inknut Antiqua"}
       sx={{
-        backgroundImage: 'url("bg2.jpg")',
-        backgroundSize: "cover",
+        backgroundColor: "#E2C1BE",
+        // backgroundImage: 'url("bg2.jpg")',
+        // backgroundSize: "cover",
       }}
     >
       {/* m = "0 auto" is used to center all the content, this serves as the container */}
@@ -62,16 +63,18 @@ function LogInPage() {
             letterSpacing={"10px"}
             textAlign={"center"}
             fontSize={"40px"}
+            fontStyle={"Water Brush"}
+            color={"#91488A"}
           >
             ATELIER
           </Typography>
         </Box>
         <Box mt={"70px"}>
           <Typography
-            fontFamily={"Poppins"}
+            fontFamily={"Inknut Antiqua"}
             textAlign={"center"}
-            color={"#413F3F"}
-            fontSize={"30px"}
+            color={"black"}
+            fontSize={"22px"}
           >
             Login
           </Typography>
@@ -122,10 +125,12 @@ function LogInPage() {
                 size="medium"
                 variant="contained"
                 sx={{
-                  backgroundColor: "rgba(91, 160, 187)",
+                  backgroundColor: "#875782",
                   borderRadius: "12px",
                   height: "45px",
-                  fontFamily: "Poppins",
+                  fontFamily: "Montserrat",
+                  "&:hover": {
+                    backgroundColor: "#CF9893",},
                 }}
                 onClick={onLogIn}
               >
@@ -140,16 +145,16 @@ function LogInPage() {
             <FormControlLabel
               control={<Checkbox color="default" sx={{ color: "white" }} />}
               label={
-                <Typography fontFamily={"Poppins"}>Remember Me</Typography>
+                <Typography fontFamily={"Montserrat"}>Remember Me</Typography>
               }
               sx={{
-                color: "white",
+                color: "black",
                 "& .MuiSvgIcon-root": { fontSize: 21 },
               }}
             />
           </FormGroup>
           <Box pt={"6px"}>
-            <Link href="#" sx={{ textDecoration: "none", color: "secondary" }}>
+            <Link href="#" sx={{ textDecoration: "underline", color: "black" ,fontFamily: "Montserrat",}}>
               {/* backgroundColor: "#7A5980", */}
               Forgot Password?
             </Link>
@@ -157,16 +162,17 @@ function LogInPage() {
         </Box>
         <Box mt={"5px"}>
           <Typography
-            fontFamily={"Poppins"}
+            fontFamily={"Montserrat"}
             textAlign={"center"}
             variant="body1"
-            color={"white"}
+            color={"black"}
+            fontSize={"18"}
           >
             Don't have an account?{" "}
             <Link
               component={RouterLink}
               to="/Signup"
-              sx={{ textDecoration: "none", color: "primary" }}
+              sx={{ textDecoration: "underline", color: "black",fontSize:"18px", fontWeight:"bold" }}
             >
               Sign Up
             </Link>

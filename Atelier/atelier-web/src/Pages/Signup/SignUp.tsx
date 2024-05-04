@@ -42,8 +42,9 @@ function SignUpPage() {
     <Box
       minHeight={"100vh"}
       sx={{
-        backgroundImage: 'url("bg2.jpg")',
-        backgroundSize: "cover",
+        backgroundColor: "#E2C1BE",
+        // backgroundImage: 'url("bg2.jpg")',
+        // backgroundSize: "cover",
       }}
     >
       {/* m = "0 auto" is used to center all the content, this serves as the container */}
@@ -54,16 +55,17 @@ function SignUpPage() {
             letterSpacing={"10px"}
             textAlign={"center"}
             fontSize={"40px"}
+            color={"#91488A"}
           >
             ATELIER
           </Typography>
         </Box>
         <Box mt={"70px"}>
           <Typography
-            fontFamily={"Poppins"}
+            fontFamily={"Inknut Antiqua"}
             textAlign={"center"}
-            color={"#413F3F"}
-            fontSize={"30px"}
+            color={"black"}
+            fontSize={"22px"}
           >
             Sign Up
           </Typography>
@@ -114,10 +116,12 @@ function SignUpPage() {
                 size="medium"
                 variant="contained"
                 sx={{
-                  backgroundColor: "rgba(91, 160, 187)",
+                  backgroundColor: "#875782",
                   borderRadius: "12px",
                   height: "45px",
-                  fontFamily: "Poppins",
+                  fontFamily: "Montserrat",
+                  "&:hover": {
+                    backgroundColor: "#CF9893",},
                 }}
                 onClick={signUp}
               >
@@ -129,16 +133,16 @@ function SignUpPage() {
 
         <Box mt={"40px"}>
           <Typography
-            fontFamily={"Poppins"}
+            fontFamily={"Montserrat"}
             textAlign={"center"}
             variant="body1"
-            color={"white"}
+            color={"black"}
           >
             Already have an account?{" "}
             <Link
               component={RouterLink}
               to="/login"
-              sx={{ textDecoration: "none", color: "primary" }}
+              sx={{ textDecoration: "underline", color: "black", fontWeight:"bold"}}
             >
               Log In
             </Link>

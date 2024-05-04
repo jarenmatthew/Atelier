@@ -1,20 +1,32 @@
+/* Add padding to the entire page */
+/* body {
+  padding: 20px;
+} */
+
 .container {
+  /* padding: 10px; */
+  border-radius: 10px;
+  /* margin: auto; */
   display: flex;
   justify-content: space-between;
   align-items: flex-start; /* Align items to the top */
-  padding: 10px;
-  border-radius: 10px;
-  margin-bottom: 10px;
+  align-content: center;
+  /* margin-bottom: 10px; */
+  /* height: 100%;
+  width: 100%; */
+  margin-top: 10px;
+  padding: 0px 60px 60px 60px;
 }
 
 .artwork-container {
-  margin-right: 20px;
+  /* margin-right: 20px; */
+  /* padding-right: 20px; */
   background-color: #BC7C9C;
   display: flex;
   flex-direction: column; /* Align items vertically */
   justify-content: flex-start; /* Align items to the top */
   align-items: center;
-  padding: 20px;
+  padding: 10px;
   border-radius: 10px;
   width: 50%; /* Occupy half of the available space */
   text-align: center;
@@ -25,9 +37,10 @@
   flex-direction: column; /* Align items vertically */
   justify-content: center; /* Align items vertically in the center */
   align-items: flex-start; /* Align items to the left */
-  padding: 20px;
+  /* padding: 20px; */
   border-radius: 10px;
   width: 50%; /* Occupy half of the available space */
+  padding-left: 20px; /* Add spacing between artwork and details */
 }
 
 .description {
@@ -35,7 +48,13 @@
   padding: 10px;
   border-radius: 5px;
   margin-bottom: 30px; /* Add space after the description */
-  width: 150%;
+  width: 200%;
+ 
+}
+
+.description h5{
+  font-family: "Montseratt";
+  font-weight: lighter;
 }
 
 .artwork {
@@ -67,13 +86,23 @@
   display: flex;
   gap: 5px;
   margin-bottom: 20px; /* Add space after the tags */
+  font-size: small;
+  font-family: "Inknut antiqua";
+}
+
+.tags_ {
+  display: inline-block;
+  gap: 5px;
+  margin-bottom: 20px; /* Add space after the tags */
 }
 
 .tag {
+  display: inline-block;
   background-color: #ECD6D4; /* Green color */
   padding: 5px 10px;
   border-radius: 5px;
   margin-right: 5px; /* Add space between tags */
+ 
 }
 
 .price {
@@ -86,28 +115,44 @@
 
 .buttons {
   display: flex;
+  color: black;
   gap: 10px;
+  font-family: "Montseratt";
+  font-size: small;
+  width: 120%;
 }
 
 .button {
-  background-color: #CF9893; /* Red color */
-  color: #fff;
+  /* flex: 1; */
+  background-color: #CF9893; 
   padding: 10px 20px;
   border-radius: 5px;
   text-decoration: none;
+ display: inline-block; 
+  font-family: "Montseratt";
+  font-size: small;
 }
 
+.button svg {
+  margin-right: 5px; /* spacing between icon and text */
+  font-size: small;
+}
 .availability {
-  margin-top: 20px;
+  margin-top: 10px;
   padding: 0px 60px 60px 60px;
 }
 
-.available h3 {
+.available h5 {
   margin: -50px 60px 50px 60px;
+  font-family: "Monteseratt";
+  font-weight: lighter;
+
 }
 
-.availability h2 {
+.availability h4 {
   margin-bottom: 10px;
+  text-align: left;
+
 }
 
 .availability-options {
@@ -129,4 +174,14 @@
 
 .availability-option p {
   margin-bottom: 5px;
+}
+
+.artwork-container p{
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Hover effect for buttons */
+.button:hover {
+  background-color: #B45B69; 
 }
