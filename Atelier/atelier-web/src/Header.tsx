@@ -42,7 +42,7 @@ const Header: React.FC = () => {
 
         <div id='atelier-brand'>
           <div>
-          <Link to="/"><img src={logoIconURL} className="logo" alt="Atelier Logo" /></Link>
+          <Link to="/landingPage"><img src={logoIconURL} className="logo" alt="Atelier Logo" /></Link>
           </div>
         </div>
 
