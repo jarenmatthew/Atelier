@@ -2,6 +2,10 @@ import React, { ReactNode, useContext, useEffect, useState } from "react";
 import { auth } from "../../FirebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
 
+// interface User {
+//   currentUser:
+// }
+
 const AuthContext = React.createContext({
   currentUser: null,
   userLoggedIn: false,

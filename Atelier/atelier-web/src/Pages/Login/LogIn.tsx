@@ -14,29 +14,34 @@ import {
 import React from "react";
 import { Navigate, Link as RouterLink } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { auth } from "../../../FirebaseConfig";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { doSignInwithEmailandPassword } from "../../auth/auth";
+import { useAuth } from "../../auth/AuthContext";
 
 function LogInPage() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [IsLoggedIn, setIsLoggedIn] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
+  const [isSigningIn, setIsSigningIn] = React.useState(false);
+
+  const { userLoggedIn } = useAuth();
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
-  const logIn = async () => {
+  const onLogIn = async (e) => {
+    e.preventDefault();
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      setIsLoggedIn(true);
+      if (!isSigningIn) {
+        setIsSigningIn(true);
+        await doSignInwithEmailandPassword(email, password);
+      }
     } catch (err) {
       console.log(err);
     }
   };
 
-  if (IsLoggedIn) {
+  if (userLoggedIn) {
     return <Navigate to="/home" replace={true} />;
   }
 
@@ -122,7 +127,7 @@ function LogInPage() {
                   height: "45px",
                   fontFamily: "Poppins",
                 }}
-                onClick={logIn}
+                onClick={onLogIn}
               >
                 Log in
               </Button>

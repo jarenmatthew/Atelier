@@ -12,6 +12,7 @@ import Explore from "./Pages/explore/explorePage.tsx";
 import About from "./Pages/aboutUs/aboutPage.tsx";
 import GetStarted from "./Pages/landingPage/getStarted.tsx";
 import User from "./Pages/Profile/userProfile.tsx";
+import { AuthProvider } from "./auth/AuthContext.tsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -23,13 +24,15 @@ const router = createBrowserRouter([
   { path: "/explore", element: <Explore /> },
   { path: "/about", element: <About /> },
   { path: "/firebaseTest", element: <FirebaseTest /> },
-  { path: "/landingPage", element: <GetStarted />},
-  { path: "/user", element: <User />},
+  { path: "/landingPage", element: <GetStarted /> },
+  { path: "/user", element: <User /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <CssBaseline />
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>
 );
