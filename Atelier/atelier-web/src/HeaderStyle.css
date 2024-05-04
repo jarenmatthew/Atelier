@@ -24,7 +24,7 @@ header {
 #header {
   display: flex;
   align-items: center;
-  padding: 15px 80px;
+  padding: 1% 5%;
   background-color: #FFFFFF;
   box-shadow: 2px 2px 2px 1px #253B3B58;
 }
@@ -72,16 +72,6 @@ header {
   margin: 3%;
 }
 
-
-h2 {
-  /*atelier text*/
-  margin: 0;
-  /* No margin */
-  font-size: 25px;
-  /* Adjust the font size as needed */
-  margin-right: auto;
-}
-
 a {
   text-decoration: none;
   color: black;
@@ -96,13 +86,13 @@ a {
 
 #navbar li {
   list-style: none;
-  padding: 0 45px;
+  padding: 0 5%;
   position: relative;
 }
 
 #navbar li a {
   text-decoration: none;
-  font-size: 16px;
+  font-size: 100%;
   font-weight: 600;
   transition: color 0.3s ease;
   /* Add transition for smooth color change */

@@ -90,10 +90,10 @@ const GetStarted: React.FC = () => {
 
                     <div className='artworks-box'>
                         <div className='artwork-img'>
-                            <img src="./src/assets/dummylogo.jpg" alt="Featured Artwork" id='artwork'/>
+                            <img src="./src/assets/artwork1.jpg" alt="Featured Artwork" id='artwork'/>
                         </div>
                         <div className='artwork-img'>
-                            <img src="./src/assets/dummylogo.jpg" alt="Featured Artwork" id='artwork'/>
+                            <img src="./src/assets/artwork2.jpg" alt="Featured Artwork" id='artwork'/>
                         </div>
                     </div>
                 </div>
@@ -106,17 +106,17 @@ const GetStarted: React.FC = () => {
 
                     <div className='artists-box'>
                         <div className='artist-profile'>
-                        <img src="./src/assets/dummylogo.jpg" alt="Artist Profile" id='artist'/>
+                        <img src="./src/assets/avatar1.png" alt="Artist Profile" id='artist'/>
                         <h4>Name</h4>
 
                         </div>
                         <div className='artist-profile'>
-                        <img src="./src/assets/dummylogo.jpg" alt="Artist Profile" id='artist'/>
+                        <img src="./src/assets/avatar2.png" alt="Artist Profile" id='artist'/>
                         <h4>Name</h4>
 
                         </div>
                         <div className='artist-profile'>
-                        <img src="./src/assets/dummylogo.jpg" alt="Artist Profile" id='artist'/>
+                        <img src="./src/assets/avatar3.png" alt="Artist Profile" id='artist'/>
                         <h4>Name</h4>
 
                         </div>

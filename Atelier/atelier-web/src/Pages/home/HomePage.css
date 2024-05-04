@@ -21,11 +21,12 @@ li {
 } */
 
 .slideshow-container {
-  max-width: 1000px;
-  max-height: 650px;
+  width: 1550px;
+  height: 600px;
   position: relative;
   margin: 0 auto;
   margin-top: 30px;
+  background-size: cover;
   overflow: hidden;
 }
 
@@ -35,14 +36,14 @@ li {
 
 .mySlides img {
   max-width: 100%;
-  max-height: auto;
+  max-height: 100%;
   object-fit: cover;
 }
 
 img {
   max-width: 100%;
   /* Ensure the image fits within the container */
-  height: auto;
+  height: 100%;
   /* Maintain the aspect ratio of the image */
 }
 
@@ -112,13 +113,13 @@ img {
 
 .collage {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   /* Responsive column count */
-  grid-auto-rows: minmax(50px, auto);
+  grid-auto-rows: minmax(100px, auto);
   /* Responsive row height */
-  grid-gap: 10px;
+  grid-gap: 15px;
   /* Adjust the gap between grid items */
-  max-width: 1250px;
+  max-width: 1550px;
   max-height: 1000px;
   margin-left: 100px;
   margin-right: 100px;
@@ -151,7 +152,7 @@ img {
 
 @media (min-height: 900px) {
   .collage {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     /* 4 images per row for screens wider than 900px */
   }
 }
@@ -169,6 +170,7 @@ h4 {
   /* Add some space between h4 and collage */
   margin-left: 100px;
   margin-right: 100px;
+  font-size: larger;
 }
 
 /* CSS for pop-up container and content */
