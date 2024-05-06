@@ -37,7 +37,7 @@ function LogInPage() {
   };
   
   if (IsLoggedIn) {
-    return <Navigate to="/home" replace={true} />;
+    return <Navigate to="/home" replace={false} />;
   }
 
   return (

@@ -41,7 +41,7 @@ const Header: React.FC<HeaderProps> = ({ isLoggedIn }) => {
 
   const handleProfileClick = () => {
     // Redirect to user profile page if logged in
-    if (isLoggedIn) {
+    if (!isLoggedIn) {
       window.location.href = '/User'; // Or use React Router's <Link> component
     } else {
       window.location.href = '/LogIn';
