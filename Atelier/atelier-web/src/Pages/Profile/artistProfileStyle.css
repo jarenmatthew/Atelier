@@ -1,16 +1,37 @@
-h1,
-h2,
-p,
-h4 {
+@import url('https://fonts.googleapis.com/css2?family=Inknut+Antiqua&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:wght@300&display=swap');
+
+/* Style for Text and Fonts */
+p {
     font-size: small;
     text-align: left;
     font-family: 'Courier New', Courier, monospace;
 }
 
+#artist-name {
+    font-family: 'Inknut Antiqua', serif;
+    font-size: 150%;
+    font-weight: 600;
+}
+
+#artist-username {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 110%;
+    font-weight: 400;
+}
+
+#artist-followers {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 100%;
+    font-weight: 400;
+}
+
+
+
+/* Style for Containers, Boxes, divs */
 #profile-banner {
     width: 100vw;
     height: 80vh;
-    background-color: aqua;
 }
 
 #profile-cover {
@@ -43,19 +64,16 @@ img.cover-photo {
     display: flex;
     width: 50%;
     height: 100%;
-    background-color: aquamarine;
 
 }
 
 #profile-buttons {
     width: 50%;
     height: 100%;
-    background-color: blueviolet;
 }
 
 #profile-picture {
     width: 25%;
-    background-color: burlywood;
     overflow: hidden;
 }
 
@@ -68,7 +86,29 @@ img.profile-photo {
 
 #profile-deets {
     width: 75%;
+    line-height: 10px;
+    padding-left: 5%;
+    padding-top: 5%;
     text-align: left;
-    background-color: cadetblue;
+}
+
+/* Style for Buttons */
+.artist-profile-btns {
+    width: 35%;
+    height: 25%;
+    border-radius: 5px;
+    margin-left: 5%;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 100%;
+    font-weight: 500;
+    color: #FFFFFF;
+    background-color: #875782;
+    box-shadow: 1px 1px 1px 1px #253B3B58;
+    border: none;
+}
+
+#profile-buttons {
+    display: flex;
+    flex-direction: row-reverse;
 
 }
