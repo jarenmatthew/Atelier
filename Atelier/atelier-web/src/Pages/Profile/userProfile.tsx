@@ -1,35 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { getDownloadURL, ref, listAll } from "firebase/storage";
-import { storage, db } from "../../../FirebaseConfig";
-import "./userProfileStyle.css";
-import Header from "../../Header";
-import Footer from "../../Footer";
-import "./userProfileStyle.css";
 import { useAuth } from "../../auth/AuthContext";
 import { Typography } from "@mui/material";
+import Header from '../../Header';
+import Footer from '../../Footer';
+import './userProfileStyle.css';
+import { getFirestore, getDoc, doc } from "firebase/firestore";
+import { User as FirebaseUser } from "firebase/auth";
 
 const User: React.FC = () => {
-  const navigate = useNavigate();
-
-  const { currentUser } = useAuth();
-
-  if (currentUser === null) {
-    navigate("/login");
-  }
-
-  // to trix: HAHA
-  // might not need code below        "might"
-  // can use "useAuth / currentUser" to access the data of users
+  const currentUser = useAuth().currentUser as FirebaseUser | null;
   const [userData, setUserData] = useState<any>(null);
+
   useEffect(() => {
-    // Fetch user data from Firestore collection
-    const fetchUserData = async () => {
+    const fetchUserData = async (uid: string) => {
       try {
-        const userRef = db.collection("users").doc("user_id"); // Replace 'user_id' with actual user ID
-        const userDoc = await userRef.get();
-        if (userDoc.exists) {
-          setUserData(userDoc.data());
+        const db = getFirestore();
+        const userRef = doc(db, "accounts", uid);
+        const userDoc = await getDoc(userRef);
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          setUserData(userData);
         } else {
           console.log("No such document!");
         }
@@ -37,9 +27,16 @@ const User: React.FC = () => {
         console.error("Error fetching user data:", error);
       }
     };
+  
+    if (currentUser && currentUser.uid) {
+      fetchUserData(currentUser.uid);
+    }
+  }, [currentUser]);
 
-    fetchUserData();
-  }, []);
+  // Render user profile only if user is logged in
+  if (!currentUser) {
+    return <Typography>Please log in to view your profile</Typography>;
+  }
 
   return (
     <div>
@@ -48,19 +45,21 @@ const User: React.FC = () => {
         <img loading="lazy" srcSet="..." className="user-image" />
         <div className="user-details">
           <div className="user-header">
-            <img loading="lazy" srcSet="..." className="avatar" />
-            <div className="username">{userData?.displayName}</div>
+            {/* Display user's name */}
+            <div className="username">{userData?.Name}</div>
           </div>
-          <div className="user-username">@{userData?.username}</div>
+          <div className="user-username">@{userData?.Username}</div>
           <div className="user-stats">
-            {userData?.followers} Followers | {userData?.following} Following
+            {/* Display user's followers and following */}
+            {userData?.Followers} Followers | {userData?.Following} Following
           </div>
           <div className="user-buttons">
             <div className="user-button">Collection</div>
             <div className="user-button">Exhibit</div>
           </div>
           <div className="user-bio">
-            <p>{userData?.bio}</p>
+            {/* Display user's bio */}
+            <p>{userData?.Bio}</p>
           </div>
           <div className="user-social-media">
             <a href={userData?.socialMedia?.facebook}>
@@ -73,12 +72,12 @@ const User: React.FC = () => {
               <img src="instagram-icon.png" alt="Instagram" />
             </a>
           </div>
-          <Typography>hi {currentUser.email}</Typography>
-
+          <Typography>hi {currentUser?.email}</Typography>
           <div className="user-contact-info">
-            <p>Email: {userData?.email}</p>
-            <p>Phone: {userData?.phone}</p>
-            <p>Website: {userData?.website}</p>
+            {/* Display user's email, phone, and website */}
+            <p>Email: {userData?.Email}</p>
+            <p>Phone: {userData?.Phone}</p>
+            <p>Website: {userData?.Website}</p>
           </div>
         </div>
       </div>
