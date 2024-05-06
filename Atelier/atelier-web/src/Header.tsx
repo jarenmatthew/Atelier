@@ -58,12 +58,8 @@ const Header: React.FC = () => {
         <div id='header-icons'>
           <div id='icons-box'>
             <div></div>
-<<<<<<< HEAD
             <div><Link to="/cart"><img src={cartURL} className="icons" alt="My Cart" /></Link></div>
             <div className="cart-count">0</div>
-=======
-            <div><Link to="/"><img src={cartURL} className="icons" alt="Profile Circle" /></Link></div>
->>>>>>> e06ed908cec6ee21cc00f2072765c604037a092d
             <div><Link to="/"><img src={messageURL} className="icons" alt="Profile Circle" /></Link></div>
             <div><Link to="/"><img src={notifURL} className="icons" alt="Profile Circle" /></Link></div>
           </div>
