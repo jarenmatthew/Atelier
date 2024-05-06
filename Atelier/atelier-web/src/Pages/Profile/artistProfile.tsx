@@ -19,7 +19,6 @@ const Artist: React.FC = () => {
           const iconsRef = ref(storage, 'img');
           const coverURL = await getDownloadURL(ref(iconsRef, 'cover2.png'));
           
-          
           setLogoIconURL(coverURL);
           
         } catch (error) {
@@ -45,16 +44,21 @@ const Artist: React.FC = () => {
                         </div>
 
                         <div id='profile-deets'>
-                            <p>Artist Name</p>
-                            <p>@username</p>
-                            <p>21 Followers</p>
-
+                            <p id='artist-name'>Artist Name</p>
+                            <p id='artist-username'>@username</p>
+                            <p id='artist-followers'>21 Followers</p>
                         </div>
 
                     </div>
 
                     <div id='profile-buttons'>
+                        <button className='artist-profile-btns' id='msg-button'>
+                            Message
+                        </button>
 
+                        <button className='artist-profile-btns' id='follow-button'>
+                            Follow
+                        </button>
                     </div>
                 </div>
 
