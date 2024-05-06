@@ -5,3 +5,9 @@ import { storage } from '../../../FirebaseConfig';
 import './CartStyle.css';
 import Header from '../../Header';
 import Footer from '../../Footer';
+
+const Cart: React.FC = () => {
+    return <div>MyCart</div>;
+}
+
+export default Cart; 

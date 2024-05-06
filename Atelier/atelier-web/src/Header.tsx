@@ -58,7 +58,7 @@ const Header: React.FC = () => {
         <div id='header-icons'>
           <div id='icons-box'>
             <div></div>
-            <div><Link to="/"><img src={cartURL} className="icons" alt="Profile Circle" /></Link></div>
+            <div><Link to="/cart"><img src={cartURL} className="icons" alt="Profile Circle" /></Link></div>
             <div><Link to="/"><img src={messageURL} className="icons" alt="Profile Circle" /></Link></div>
             <div><Link to="/"><img src={notifURL} className="icons" alt="Profile Circle" /></Link></div>
           </div>
