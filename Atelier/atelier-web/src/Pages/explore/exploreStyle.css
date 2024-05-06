@@ -31,7 +31,7 @@
     background-color: #555E6F;
   }
   
-  .search-input {
+  input[type="text"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 20px;
