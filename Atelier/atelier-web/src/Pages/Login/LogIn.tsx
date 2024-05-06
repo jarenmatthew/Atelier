@@ -14,45 +14,39 @@ import {
 import React from "react";
 import { Navigate, Link as RouterLink } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { doSignInwithEmailandPassword } from "../../auth/auth";
-import { useAuth } from "../../auth/AuthContext";
+import { auth } from "../../../FirebaseConfig";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 function LogInPage() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [IsLoggedIn, setIsLoggedIn] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
-  const [isSigningIn, setIsSigningIn] = React.useState(false);
-
-  const { userLoggedIn } = useAuth();
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
-  const onLogIn = async (e) => {
-    e.preventDefault();
+  const logIn = async () => {
     try {
-      if (!isSigningIn) {
-        setIsSigningIn(true);
-        await doSignInwithEmailandPassword(email, password);
-      }
+      await signInWithEmailAndPassword(auth, email, password);
+      setIsLoggedIn(true);
     } catch (err) {
       console.log(err);
     }
   };
 
-  if (userLoggedIn) {
+  if (IsLoggedIn) {
     return <Navigate to="/home" replace={true} />;
   }
 
   return (
     <Box
       minHeight={"100vh"}
-      fontFamily={"Inknut Antiqua"}
+      fontFamily={"Poppins"}
       sx={{
-        backgroundColor: "#E2C1BE",
-        // backgroundImage: 'url("bg2.jpg")',
-        // backgroundSize: "cover",
+        backgroundImage: 'url("bg2.jpg")',
+        backgroundSize: "cover",
       }}
     >
       {/* m = "0 auto" is used to center all the content, this serves as the container */}
@@ -63,18 +57,16 @@ function LogInPage() {
             letterSpacing={"10px"}
             textAlign={"center"}
             fontSize={"40px"}
-            fontStyle={"Water Brush"}
-            color={"#91488A"}
           >
             ATELIER
           </Typography>
         </Box>
         <Box mt={"70px"}>
           <Typography
-            fontFamily={"Inknut Antiqua"}
+            fontFamily={"Poppins"}
             textAlign={"center"}
-            color={"black"}
-            fontSize={"22px"}
+            color={"#413F3F"}
+            fontSize={"30px"}
           >
             Login
           </Typography>
@@ -125,14 +117,12 @@ function LogInPage() {
                 size="medium"
                 variant="contained"
                 sx={{
-                  backgroundColor: "#875782",
+                  backgroundColor: "rgba(91, 160, 187)",
                   borderRadius: "12px",
                   height: "45px",
-                  fontFamily: "Montserrat",
-                  "&:hover": {
-                    backgroundColor: "#CF9893",},
+                  fontFamily: "Poppins",
                 }}
-                onClick={onLogIn}
+                onClick={logIn}
               >
                 Log in
               </Button>
@@ -145,16 +135,16 @@ function LogInPage() {
             <FormControlLabel
               control={<Checkbox color="default" sx={{ color: "white" }} />}
               label={
-                <Typography fontFamily={"Montserrat"}>Remember Me</Typography>
+                <Typography fontFamily={"Poppins"}>Remember Me</Typography>
               }
               sx={{
-                color: "black",
+                color: "white",
                 "& .MuiSvgIcon-root": { fontSize: 21 },
               }}
             />
           </FormGroup>
           <Box pt={"6px"}>
-            <Link href="#" sx={{ textDecoration: "underline", color: "black" ,fontFamily: "Montserrat",}}>
+            <Link href="#" sx={{ textDecoration: "none", color: "secondary" }}>
               {/* backgroundColor: "#7A5980", */}
               Forgot Password?
             </Link>
@@ -162,17 +152,16 @@ function LogInPage() {
         </Box>
         <Box mt={"5px"}>
           <Typography
-            fontFamily={"Montserrat"}
+            fontFamily={"Poppins"}
             textAlign={"center"}
             variant="body1"
-            color={"black"}
-            fontSize={"18"}
+            color={"white"}
           >
             Don't have an account?{" "}
             <Link
               component={RouterLink}
               to="/Signup"
-              sx={{ textDecoration: "underline", color: "black",fontSize:"18px", fontWeight:"bold" }}
+              sx={{ textDecoration: "none", color: "primary" }}
             >
               Sign Up
             </Link>
