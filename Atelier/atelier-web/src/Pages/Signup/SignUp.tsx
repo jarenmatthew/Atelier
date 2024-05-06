@@ -9,15 +9,17 @@ import {
   InputAdornment,
   IconButton,
 } from "@mui/material";
-import { Navigate, Link as RouterLink } from "react-router-dom"; // Import Link from react-router-dom
+import { Navigate, Link as RouterLink } from "react-router-dom";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../FirebaseConfig";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { getFirestore, addDoc, collection } from "firebase/firestore";
 
 function SignUpPage() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [isSignedUp, setIsSignedUp] = useState(false);
+  const [error, setError] = useState("");
 
   const [showPassword, setShowPassword] = React.useState(false);
 
@@ -25,10 +27,32 @@ function SignUpPage() {
     setShowPassword(!showPassword);
   };
 
+  const db = getFirestore();
+
+  const saveDataToFirestore = async () => {
+    try {
+      const docRef = await addDoc(collection(db, "accounts"), {
+        email: email,
+        password: password,
+      });
+      console.log("Document written with ID: ", docRef.id);
+    } catch (err) {
+      console.error("Error adding document: ", err);
+    }
+  };
+
   const signUp = async () => {
+    if (password.length < 6) {
+      setError("Password should be at least 6 characters long.");
+      return;
+    }
+
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       setIsSignedUp(true);
+      await saveDataToFirestore();
+      setEmail("");
+      setPassword("");
     } catch (err) {
       console.log(err);
     }
@@ -43,11 +67,8 @@ function SignUpPage() {
       minHeight={"100vh"}
       sx={{
         backgroundColor: "#E2C1BE",
-        // backgroundImage: 'url("bg2.jpg")',
-        // backgroundSize: "cover",
       }}
     >
-      {/* m = "0 auto" is used to center all the content, this serves as the container */}
       <Box m="0 auto" maxWidth="500px" fontFamily={"Poppins"}>
         <Box pt={"40px"}>
           <Typography
@@ -76,6 +97,7 @@ function SignUpPage() {
               fullWidth
               label="Email"
               variant="filled"
+              value={email}
               onChange={(e) => setEmail(e.target.value)}
               InputProps={{
                 disableUnderline: true,
@@ -90,6 +112,7 @@ function SignUpPage() {
               fullWidth
               label="Password"
               variant="filled"
+              value={password}
               onChange={(e) => setPassword(e.target.value)}
               InputProps={{
                 endAdornment: (
@@ -110,6 +133,11 @@ function SignUpPage() {
                 },
               }}
             />
+            {error && (
+              <Typography variant="body2" color="error">
+                {error}
+              </Typography>
+            )}
             <Box mt="12px" display={"flex"} justifyContent={"center"}>
               <Button
                 fullWidth
@@ -121,7 +149,8 @@ function SignUpPage() {
                   height: "45px",
                   fontFamily: "Montserrat",
                   "&:hover": {
-                    backgroundColor: "#CF9893",},
+                    backgroundColor: "#CF9893",
+                  },
                 }}
                 onClick={signUp}
               >
@@ -142,7 +171,7 @@ function SignUpPage() {
             <Link
               component={RouterLink}
               to="/login"
-              sx={{ textDecoration: "underline", color: "black", fontWeight:"bold"}}
+              sx={{ textDecoration: "underline", color: "black", fontWeight: "bold" }}
             >
               Log In
             </Link>
