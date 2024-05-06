@@ -26,8 +26,6 @@ p {
     font-weight: 400;
 }
 
-
-
 /* Style for Containers, Boxes, divs */
 #profile-banner {
     width: 100vw;
@@ -103,12 +101,21 @@ img.profile-photo {
     font-weight: 500;
     color: #FFFFFF;
     background-color: #875782;
-    box-shadow: 1px 1px 1px 1px #253B3B58;
-    border: none;
+    border-color: transparent;
 }
 
 #profile-buttons {
     display: flex;
     flex-direction: row-reverse;
+}
 
+.artist-profile-btns:active {
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+.artist-profile-btns:hover {
+    background-color: #FFFFFF;
+    color: #000000;
+    border-color: #875782;
 }
