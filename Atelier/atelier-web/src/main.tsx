@@ -17,7 +17,7 @@ import Artist from "./Pages/Profile/artistProfile.tsx";
 
 
 const router = createBrowserRouter([
-  { path: "/", element: <Home /> },
+  { path: "/", element: <GetStarted /> },
   { path: "/Signup", element: <SignUpPage /> },
   { path: "/LogIn", element: <LogInPage /> },
   { path: "/home", element: <Home /> },

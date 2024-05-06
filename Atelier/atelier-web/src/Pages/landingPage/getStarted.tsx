@@ -4,6 +4,7 @@ import './getStarted.css';
 import { Link, Route } from 'react-router-dom';
 import { Height } from '@mui/icons-material';
 import LogInPage from '../Login/LogIn';
+import { Link as RouterLink } from 'react-router-dom';
 
 
 const GetStarted: React.FC = () => {
@@ -26,7 +27,9 @@ const GetStarted: React.FC = () => {
                         ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
                     </p>
                     <div style={{height: '50px'}}></div>
-                        <button  id='get-started-button'>Get Started</button>
+                    <Link component={RouterLink} to="/signup" id='get-started-button'>
+                        Get Started
+                    </Link>
                     </div>
 
                     <div className='hero-image'>
