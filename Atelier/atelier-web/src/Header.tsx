@@ -1,11 +1,14 @@
-// Header.tsx
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { storage } from '../FirebaseConfig';
 import './HeaderStyle.css';
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  isLoggedIn: boolean;
+}
+
+const Header: React.FC<HeaderProps> = ({ isLoggedIn }) => {
   const [logoIconURL, setLogoIconURL] = useState('');
   const [profileIconURL, setProfileIconURL] = useState('');
   const [notifURL, setNotifIconURL] = useState('');
@@ -36,13 +39,22 @@ const Header: React.FC = () => {
     }
   };
 
+  const handleProfileClick = () => {
+    // Redirect to user profile page if logged in
+    if (isLoggedIn) {
+      window.location.href = '/User'; // Or use React Router's <Link> component
+    } else {
+      window.location.href = '/LogIn';
+    }
+  };
+
   return (
     <header>
       <section id="header">
 
         <div id='atelier-brand'>
           <div>
-          <Link to="/landingPage"><img src={logoIconURL} className="logo" alt="Atelier Logo" /></Link>
+            <Link to="/landingPage"><img src={logoIconURL} className="logo" alt="Atelier Logo" /></Link>
           </div>
         </div>
 
@@ -65,7 +77,7 @@ const Header: React.FC = () => {
           </div>
           
           <div id='profile-box'>
-          <Link to="/signup"><img src={profileIconURL} className="profile" alt="Profile Circle" /></Link>
+              <img src={profileIconURL} className="profile" alt="Profile Circle" onClick={handleProfileClick} />
           </div>
         </div>
         

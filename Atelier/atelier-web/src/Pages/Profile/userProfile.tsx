@@ -33,52 +33,26 @@ const User: React.FC = () => {
     }
   }, [currentUser]);
 
-  // Render user profile only if user is logged in
-  if (!currentUser) {
-    return <Typography>Please log in to view your profile</Typography>;
-  }
-
   return (
     <div>
-      <Header />
+      <Header isLoggedIn={true} />
       <div className="container">
         <img loading="lazy" srcSet="..." className="user-image" />
         <div className="user-details">
           <div className="user-header">
             {/* Display user's name */}
-            <div className="username">{userData?.Name}</div>
+            <div className="username">{userData?.name}</div>
           </div>
-          <div className="user-username">@{userData?.Username}</div>
+          <div className="user-username">@{userData?.username}</div>
           <div className="user-stats">
             {/* Display user's followers and following */}
-            {userData?.Followers} Followers | {userData?.Following} Following
-          </div>
-          <div className="user-buttons">
-            <div className="user-button">Collection</div>
-            <div className="user-button">Exhibit</div>
+            {userData?.followers} Followers | {userData?.following} Following
           </div>
           <div className="user-bio">
             {/* Display user's bio */}
-            <p>{userData?.Bio}</p>
+            <p>{userData?.bio}</p>
           </div>
-          <div className="user-social-media">
-            <a href={userData?.socialMedia?.facebook}>
-              <img src="facebook-icon.png" alt="Facebook" />
-            </a>
-            <a href={userData?.socialMedia?.twitter}>
-              <img src="twitter-icon.png" alt="Twitter" />
-            </a>
-            <a href={userData?.socialMedia?.instagram}>
-              <img src="instagram-icon.png" alt="Instagram" />
-            </a>
-          </div>
-          <Typography>hi {currentUser?.email}</Typography>
-          <div className="user-contact-info">
-            {/* Display user's email, phone, and website */}
-            <p>Email: {userData?.Email}</p>
-            <p>Phone: {userData?.Phone}</p>
-            <p>Website: {userData?.Website}</p>
-          </div>
+          {/* Additional fields can be displayed similarly */}
         </div>
       </div>
       <Footer />
