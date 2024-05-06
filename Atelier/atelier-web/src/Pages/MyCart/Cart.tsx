@@ -30,6 +30,8 @@ const Cart: React.FC = () => {
                 <p></p>
                 <img src="./src/assets/remove-icon.png" alt="Remove" id="remove" />
             </div>
+            <hr />
+            
         </div>
       </div>
     </div>
