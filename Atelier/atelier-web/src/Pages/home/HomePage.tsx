@@ -28,11 +28,11 @@ const Home: React.FC = () => {
       // Fetch image URLs from Firebase Storage
       const imageRef = ref(storage, 'img');
       const urls: string[] = await Promise.all([
-        'image1.png', 'image2.png', 'image3.png', 'image4.png', 'image5.png',
-        'image6.png', 'image7.png', 'image8.png', 'image9.png', 'image10.png', 'image11.png',
-        'image12.png', 'image13.png', 'image14.png', 'image15.png', 'image16.png',
-        'image17.png', 'image18.png', 'image19.png', 'image20.png', 'image21.png',
-        'image22.png', 'image23.png', 'image24.png', 'cover1.png', 'cover2.png', 'cover3.png',// Add all image names here
+        'image18.png', 'image19.png', 'image20.png', 'image21.png', 'image22.png', 'image23.png',
+        'image7.png', 'image8.png', 'image9.png', 'image10.png', 'image11.png', 'image12.png',
+        'image1.png', 'image2.png', 'image3.png', 'image4.png', 'image5.png', 'image6.png',
+        'image13.png', 'image14.png', 'image15.png','image16.png', 'image17.png', 'image17.png',
+        'image24.png', 'cover1.png', 'cover2.png', 'cover3.png',// Add all image names here
       ].map(async (imageName) => {
         return await getDownloadURL(ref(imageRef, imageName));
       }));
@@ -101,17 +101,18 @@ const Home: React.FC = () => {
 
   return (
     <div>
-      <Header />
+      <Header isLoggedIn={false} />
       <div>
+
       <Box style={{ marginBottom: '100px' }}>
         <div className="slideshow-container">
-          {imageURLs.map((url, index) => (
+          {imageURLs.slice(0, 7).map((url, index) => (
             <div key={index} className="mySlides fade">
               <img src={url} style={{ width: "100%" }} />
             </div>
           ))}
           <div className="dot-container">
-            {imageURLs.map((_, index) => (
+            {imageURLs.slice(0, 7).map((_, index) => (
               <span key={index} className="dot" onClick={() => currentSlide(index + 1)}></span>
             ))}
           </div>
@@ -121,7 +122,7 @@ const Home: React.FC = () => {
       </Box>
 
       <Box style={{ marginBottom: '100px' }}>
-        <h4>Featured Artists</h4>
+        <p className='text-header'>Featured Artists</p>
         <div className="artists-section">
           {imageURLs.slice(0, 7).map((url, index) => (
             <div key={index} className="artist-wrapper">
@@ -133,7 +134,7 @@ const Home: React.FC = () => {
       </Box>
 
       <Box style={{ marginBottom: '100px' }}>
-        <h4>Explore</h4>
+        <p className='text-header'>Explore</p>
         <div className="collage">
           {imageURLs.slice(6).map((url, index) => (
             <div key={index} className="collage_pics" data-description="Whale House, John Doe">
