@@ -13,6 +13,7 @@ import About from "./Pages/aboutUs/aboutPage.tsx";
 import GetStarted from "./Pages/landingPage/getStarted.tsx";
 import User from "./Pages/Profile/userProfile.tsx";
 import Artist from "./Pages/Profile/artistProfile.tsx";
+import MyCart from "./Pages/MyCart/Cart.tsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -27,6 +28,7 @@ const router = createBrowserRouter([
   { path: "/landingPage", element: <GetStarted />},
   { path: "/user", element: <User />},
   { path: "/Profile", element: <Artist />},
+  { path: "/Cart", element: <MyCart />}
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
