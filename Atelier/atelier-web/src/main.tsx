@@ -17,7 +17,7 @@ import Artist from "./Pages/Profile/artistProfile.tsx";
 
 
 const router = createBrowserRouter([
-  { path: "/", element: <Home /> },
+  { path: "/", element: <GetStarted /> },
   { path: "/Signup", element: <SignUpPage /> },
   { path: "/LogIn", element: <LogInPage /> },
   { path: "/home", element: <Home /> },
@@ -29,7 +29,8 @@ const router = createBrowserRouter([
   { path: "/landingPage", element: <GetStarted />},
   { path: "/user", element: <User />},
   { path: "/Profile", element: <Artist />},
-  { path: "/Cart", element: <MyCart />}
+  { path: "/Cart", element: <MyCart />},
+
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

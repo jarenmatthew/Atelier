@@ -20,6 +20,7 @@ const User: React.FC = () => {
         if (userDoc.exists()) {
           const userData = userDoc.data();
           setUserData(userData);
+          console.log(userData);
         } else {
           console.log("No such document!");
         }
@@ -33,25 +34,20 @@ const User: React.FC = () => {
     }
   }, [currentUser]);
 
-  // Render user profile only if user is logged in
-  if (!currentUser) {
-    return <Typography>Please log in to view your profile</Typography>;
-  }
-
   return (
     <div>
-      <Header />
+      <Header isLoggedIn={false} />
       <div className="container">
         <img loading="lazy" srcSet="..." className="user-image" />
         <div className="user-details">
           <div className="user-header">
             {/* Display user's name */}
-            <div className="username">{userData?.Name}</div>
+            <div className="username">{userData?.name}</div>
           </div>
           <div className="user-username">@{userData?.Username}</div>
           <div className="user-stats">
             {/* Display user's followers and following */}
-            {userData?.Followers} Followers | {userData?.Following} Following
+            {userData?.followers} Followers | {userData?.Following} Following
           </div>
           <div className="user-buttons">
             <div className="user-button">Collection</div>
@@ -75,8 +71,8 @@ const User: React.FC = () => {
           <Typography>hi {currentUser?.email}</Typography>
           <div className="user-contact-info">
             {/* Display user's email, phone, and website */}
-            <p>Email: {userData?.Email}</p>
-            <p>Phone: {userData?.Phone}</p>
+            <p>Email: {userData?.email}</p>
+            <p>Phone: {userData?.number}</p>
             <p>Website: {userData?.Website}</p>
           </div>
         </div>
