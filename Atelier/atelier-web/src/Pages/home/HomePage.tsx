@@ -126,7 +126,7 @@ const Home: React.FC = () => {
         <div className="artists-section">
           {imageURLs.slice(0, 7).map((url, index) => (
             <div key={index} className="artist-wrapper">
-              <img className="featured-artist" src={url} alt={`Featured Artist ${index + 1}`} />
+              <Link to="/Profile"><img className="featured-artist" src={url} alt={`Featured Artist ${index + 1}`} /></Link>
               <div className="artist-name">{names[index]}</div>
             </div>
           ))}
