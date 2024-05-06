@@ -12,6 +12,7 @@ import Explore from "./Pages/explore/explorePage.tsx";
 import About from "./Pages/aboutUs/aboutPage.tsx";
 import GetStarted from "./Pages/landingPage/getStarted.tsx";
 import User from "./Pages/Profile/userProfile.tsx";
+import Artist from "./Pages/Profile/artistProfile.tsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -25,6 +26,7 @@ const router = createBrowserRouter([
   { path: "/firebaseTest", element: <FirebaseTest /> },
   { path: "/landingPage", element: <GetStarted />},
   { path: "/user", element: <User />},
+  { path: "/Profile", element: <Artist />},
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
