@@ -129,10 +129,10 @@ img {
   /* Responsive column count */
   grid-auto-rows: minmax(100px, auto);
   /* Responsive row height */
-  grid-gap: 15px;
+  grid-gap: 1%;
   /* Adjust the gap between grid items */
-  max-width: 1550px;
-  max-height: 1000px;
+  width: 90dvw;
+  height: auto;
   margin-left: 100px;
   margin-right: 100px;
   margin-bottom: 100px;
@@ -140,9 +140,8 @@ img {
 
 .collage img {
   width: 70%;
-  /* Set the width to 100% to make all images the same width */
   height: 100%;
-  /* Set the height to 100% to maintain aspect ratio */
+  border-radius: 5px;
   object-fit: cover;
   /* Ensure the image covers the entire container */
 }
@@ -164,7 +163,7 @@ img {
 
 @media (min-height: 900px) {
   .collage {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     /* 4 images per row for screens wider than 900px */
   }
 }
