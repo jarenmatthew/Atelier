@@ -58,7 +58,7 @@ const Product: React.FC = () => {
 
   return (
     <div>
-      <Header />
+      <Header isLoggedIn={false} />
       <div className="container">
         <div className="artwork-container">
           <div className="artwork">
