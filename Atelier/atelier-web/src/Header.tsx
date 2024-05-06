@@ -54,7 +54,7 @@ const Header: React.FC<HeaderProps> = ({ isLoggedIn }) => {
 
         <div id='atelier-brand'>
           <div>
-            <Link to="/landingPage"><img src={logoIconURL} className="logo" alt="Atelier Logo" /></Link>
+            <Link to="/home"><img src={logoIconURL} className="logo" alt="Atelier Logo" /></Link>
           </div>
         </div>
 
@@ -63,7 +63,7 @@ const Header: React.FC<HeaderProps> = ({ isLoggedIn }) => {
               <li><Link to="/home">Home</Link></li>
               <li><Link to="/explore">Explore</Link></li>
               <li><Link to="/shop">Shop</Link></li>
-              <li><Link to="/about">About Us</Link></li>
+              <li><Link to="/landingPage">About Us</Link></li>
             </ul>
         </div>
 
