@@ -8,12 +8,13 @@ import SignUpPage from "./Pages/Signup/SignUp.tsx";
 import FirebaseTest from "./Pages/test pages/FirebaseTest.tsx";
 import Product from "./Pages/Product/ProductPage.tsx";
 import Shop from "./Pages/shop/shopPage.tsx";
+import MyCart from "./Pages/MyCart/Cart.tsx";
 import Explore from "./Pages/explore/explorePage.tsx";
 import About from "./Pages/aboutUs/aboutPage.tsx";
 import GetStarted from "./Pages/landingPage/getStarted.tsx";
 import User from "./Pages/Profile/userProfile.tsx";
 import Artist from "./Pages/Profile/artistProfile.tsx";
-import MyCart from "./Pages/MyCart/Cart.tsx";
+
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
