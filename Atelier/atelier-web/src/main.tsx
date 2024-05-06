@@ -9,11 +9,10 @@ import FirebaseTest from "./Pages/test pages/FirebaseTest.tsx";
 import Product from "./Pages/Product/ProductPage.tsx";
 import Shop from "./Pages/shop/shopPage.tsx";
 import Explore from "./Pages/explore/explorePage.tsx";
-import MyCart from "./Pages/MyCart/Cart.tsx";
 import About from "./Pages/aboutUs/aboutPage.tsx";
 import GetStarted from "./Pages/landingPage/getStarted.tsx";
 import User from "./Pages/Profile/userProfile.tsx";
-import { AuthProvider } from "./auth/AuthContext.tsx";
+import Artist from "./Pages/Profile/artistProfile.tsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -25,16 +24,14 @@ const router = createBrowserRouter([
   { path: "/explore", element: <Explore /> },
   { path: "/about", element: <About /> },
   { path: "/firebaseTest", element: <FirebaseTest /> },
-  { path: "/landingPage", element: <GetStarted /> },
-  { path: "/user", element: <User /> },
-  { path: "/Cart", element: <MyCart />}
+  { path: "/landingPage", element: <GetStarted />},
+  { path: "/user", element: <User />},
+  { path: "/Profile", element: <Artist />},
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <CssBaseline />
-    <AuthProvider>
-      <RouterProvider router={router} />
-    </AuthProvider>
+    <RouterProvider router={router} />
   </React.StrictMode>
 );

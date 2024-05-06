@@ -1,0 +1,74 @@
+h1,
+h2,
+p,
+h4 {
+    font-size: small;
+    text-align: left;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#profile-banner {
+    width: 100vw;
+    height: 80vh;
+    background-color: aqua;
+}
+
+#profile-cover {
+    width: 80dvw;
+    height: 40dvh;
+    margin: 3vh auto;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+}
+
+img.cover-photo {
+    display: inline;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#profile-elements {
+    display: flex;
+    width: 80vw;
+    height: 20vh;
+    margin: 0 auto;
+}
+
+#profile-cont {
+    display: flex;
+    width: 50%;
+    height: 100%;
+    background-color: aquamarine;
+
+}
+
+#profile-buttons {
+    width: 50%;
+    height: 100%;
+    background-color: blueviolet;
+}
+
+#profile-picture {
+    width: 25%;
+    background-color: burlywood;
+    overflow: hidden;
+}
+
+img.profile-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 100%;
+}
+
+#profile-deets {
+    width: 75%;
+    text-align: left;
+    background-color: cadetblue;
+
+}
