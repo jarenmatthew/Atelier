@@ -28,12 +28,13 @@ const Cart: React.FC = () => {
                 <p></p>
                 <button className="quantity">0</button>
                 <p></p>
-                <img src="./src/assets/remove-icon.png" alt="Remove" id="remove" />
+                <img src="./src/assets/remove-icon.png" alt="" id="remove" />
             </div>
             <hr />
-            
+
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
