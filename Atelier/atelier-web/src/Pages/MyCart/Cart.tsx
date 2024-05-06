@@ -5,11 +5,12 @@ import { storage } from "../../../FirebaseConfig";
 import "./CartStyle.css";
 import Header from "../../Header";
 import Footer from "../../Footer";
+//import remove_icon from '../assets/remove-icon.png';
 
 const Cart: React.FC = () => {
   return (
     <div>
-      <Header />
+     <Header isLoggedIn={false} />
       <div className="CartItems">
         <div className="CartItems-main">
             <p>Product</p>
@@ -22,7 +23,12 @@ const Cart: React.FC = () => {
         <hr />
         <div>
             <div className="CartItems-format">
-                
+                <img src="" alt="cart-product-icon"/>
+                <p></p>
+                <p></p>
+                <button className="quantity">0</button>
+                <p></p>
+                <img src="./src/assets/remove-icon.png" alt="Remove" id="remove" />
             </div>
         </div>
       </div>
