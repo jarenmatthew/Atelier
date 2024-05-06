@@ -10,7 +10,22 @@ const Cart: React.FC = () => {
   return (
     <div>
       <Header />
-      <h2>My Cart</h2>
+      <div className="CartItems">
+        <div className="CartItems-main">
+            <p>Product</p>
+            <p>Title</p>
+            <p>Price</p>
+            <p>Quantitiy</p>
+            <p>Total</p>
+            <p>Remove</p>
+        </div>
+        <hr />
+        <div>
+            <div className="CartItems-format">
+                
+            </div>
+        </div>
+      </div>
     </div>
   );
 };
