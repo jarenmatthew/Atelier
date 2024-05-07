@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Box,
   Typography,
@@ -12,17 +11,17 @@ import {
   InputAdornment,
   IconButton,
 } from "@mui/material";
+import React from "react";
 import { Navigate, Link as RouterLink } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { auth } from "../../../FirebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { doc, getDoc, getFirestore } from "firebase/firestore";
 
 function LogInPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [IsLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [showPassword, setShowPassword] = React.useState(false);
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -30,35 +29,14 @@ function LogInPage() {
 
   const logIn = async () => {
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-
-      const db = getFirestore();
-      // Retrieve user data document from Firestore
-      const userDocRef = doc(db, "users", user.uid); // Adjust collection name if necessary
-      const userDocSnapshot = await getDoc(userDocRef);
-      
-      if (userDocSnapshot.exists()) {
-        const userData = userDocSnapshot.data();
-        const role = userData.role;
-
-        // Redirect based on the role
-        if (role === "artist") {
-          return <Navigate to="/Profile" replace={false} />;
-        } else {
-          return <Navigate to="/user" replace={false} />;
-        }
-      } else {
-        console.log("User data not found");
-      }
-
+      await signInWithEmailAndPassword(auth, email, password);
       setIsLoggedIn(true);
     } catch (err) {
       console.log(err);
     }
   };
-
-  if (isLoggedIn) {
+  
+  if (IsLoggedIn) {
     return <Navigate to="/home" replace={false} />;
   }
 

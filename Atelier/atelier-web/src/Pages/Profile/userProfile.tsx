@@ -15,7 +15,7 @@ const User: React.FC = () => {
     const fetchUserData = async (uid: string) => {
       try {
         const db = getFirestore();
-        const userRef = doc(db, "userAccounts", uid);
+        const userRef = doc(db, "accounts", uid);
         const userDoc = await getDoc(userRef);
         if (userDoc.exists()) {
           const userData = userDoc.data();
@@ -36,7 +36,7 @@ const User: React.FC = () => {
 
   return (
     <div>
-      <Header isLoggedIn={false} />
+      <Header />
       <div className="container">
         {/* Display user profile information */}
         <div id="profile-banner">

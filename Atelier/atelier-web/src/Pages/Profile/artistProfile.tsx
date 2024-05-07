@@ -28,7 +28,7 @@ const Artist: React.FC = () => {
     
     return (
         <div>
-            <Header isLoggedIn={true} />
+            <Header />
             
             <div id='profile-banner'>
 

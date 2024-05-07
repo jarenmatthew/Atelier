@@ -36,6 +36,10 @@ function SignUpPage() {
   const [error, setError] = useState("");
   const [usernameError, setUsernameError] = useState("");
   const [role, setRole] = useState("user"); // Default role is set to "user"
+  const [followersCount, setFollowersCount] = useState(0);
+  const [followingCount, setFollowingCount] = useState(0);
+  const [coverPhoto, setCoverPhoto] = useState("");
+  const [profilePhoto, setProfilePhoto] = useState("");
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -52,42 +56,48 @@ function SignUpPage() {
 
   const saveDataToFirestore = async () => {
     try {
-      const accountCollection = role === "user" ? "userAccounts" : "artistAccounts";
+      const accountCollection = "accounts"; // Use a single collection for all accounts
       const docRef = await addDoc(collection(db, accountCollection), {
         email: email,
         password: password,
         username: username,
         displayName: displayName,
+        role: role,
+        followersCount: followersCount,
+        followingCount: followingCount,
+        coverPhoto: coverPhoto,
+        profilePhoto: profilePhoto,
       });
       console.log("Document written with ID: ", docRef.id);
     } catch (err) {
       console.error("Error adding document: ", err);
     }
   };
-
+  
   const signUp = async () => {
     if (password.length < 6) {
       setError("Password should be at least 6 characters long.");
       return;
     }
-
+  
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
       return;
     }
-
+  
     try {
-      // Check if the username is already taken
+      // Check if the username is already taken in the appropriate collection based on the selected role
       const usernameQuery = query(
         collection(db, "accounts"),
-        where("username", "==", username)
+        where("username", "==", username),
+        where("role", "==", role) // Check for username availability in the appropriate collection
       );
       const usernameSnapshot = await getDocs(usernameQuery);
       if (!usernameSnapshot.empty) {
         setUsernameError("Username is already taken.");
         return;
       }
-
+  
       await createUserWithEmailAndPassword(auth, email, password);
       setIsSignedUp(true);
       await saveDataToFirestore();
@@ -96,10 +106,15 @@ function SignUpPage() {
       setUsername("");
       setDisplayName("");
       setConfirmPassword("");
+      setFollowersCount(0);
+      setFollowingCount(0);
+      setCoverPhoto("");
+      setProfilePhoto("");
     } catch (err) {
       console.log(err);
     }
   };
+  
 
   if (isSignedUp) {
     return <Navigate to="/login" replace={true} />;
