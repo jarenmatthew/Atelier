@@ -63,12 +63,7 @@ header {
   height: 20%;
 }
 
-.icons {
-  width: 100%;
-  padding: 25%;
-}
-
-#icons-box {
+#icons-main-container {
   width: 60%;
   margin-left: 10%;
   margin-right: 5%;
@@ -76,6 +71,29 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.icons {
+  width: 100%;
+  padding: 25%;
+}
+
+.icons-box {
+  position: relative;
+}
+
+.cart-count {
+  width: 25px;
+  height: 25px;
+  padding: 3px;
+  font-size: 12px;
+  border-radius: 15px;
+  position: absolute;
+  color: white;
+  text-align: center;
+  background-color: red;
+  top: 0;
+  right: 0;
 }
 
 a {
@@ -119,17 +137,4 @@ a {
   position: absolute;
   bottom: -4px;
   left: 20px;
-}
-
-
-.cart-count {
-  width: 25px;
-  height: 25px;
-  padding: 3px;
-  font-size: 12px;
-  border-radius: 15px;
-  float: right;
-  color: white;
-  text-align: center;
-  background-color: red;
 }
