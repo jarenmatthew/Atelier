@@ -63,7 +63,7 @@ const Header: React.FC<HeaderProps> = ({ isLoggedIn }) => {
               <li><Link to="/home">Home</Link></li>
               <li><Link to="/explore">Explore</Link></li>
               <li><Link to="/shop">Shop</Link></li>
-              <li><Link to="/landingPage">About Us</Link></li>
+              <li><Link to="/about">About Us</Link></li>
             </ul>
         </div>
 
