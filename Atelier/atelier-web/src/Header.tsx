@@ -90,11 +90,13 @@ const Header: React.FC = () => {
   return (
     <header>
       <section id="header">
+
         <div id='atelier-brand'>
           <div>
             <Link to="/home"><img src={logoIconURL} className="logo" alt="Atelier Logo" /></Link>
           </div>
         </div>
+
         <div id='navi'>
             <ul id="navbar">
               <li><Link to="/home">Home</Link></li>
@@ -103,18 +105,24 @@ const Header: React.FC = () => {
               <li><Link to="/about">About Us</Link></li>
             </ul>
         </div>
+
         <div id='header-icons'>
+
           <div id='icons-box'>
-            <div></div>
-            <div><Link to="/cart"><img src={cartURL} className="icons" alt="My Cart" /></Link></div>
-            <div className="cart-count">0</div>
-            <div><Link to="/"><img src={messageURL} className="icons" alt="Profile Circle" /></Link></div>
-            <div><Link to="/"><img src={notifURL} className="icons" alt="Profile Circle" /></Link></div>
+            <div>
+              <Link to="/cart"><img src={cartURL} className="icons" alt="cart" /></Link>
+              {/*<div className="cart-count">0</div>*/}
+            </div>
+            <div><Link to="/"><img src={messageURL} className="icons" alt="message" /></Link></div>
+            <div><Link to="/"><img src={notifURL} className="icons" alt="notif" /></Link></div>
           </div>
+         
           <div id='profile-box'>
               <img src={profileIconURL} className="profile" alt="Profile Circle" onClick={handleProfileClick} />
           </div>
+
         </div>
+
       </section>
     </header>
   );

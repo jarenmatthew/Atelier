@@ -101,7 +101,7 @@ const Home: React.FC = () => {
 
   return (
     <div>
-      <Header isLoggedIn={false} />
+      <Header />
       <div>
 
       <Box style={{ marginBottom: '100px' }}>
