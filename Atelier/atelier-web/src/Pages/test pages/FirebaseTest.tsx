@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../../../FirebaseConfig"; // Add this line prevent firebase not loading error
-import { getFirestore, addDoc, collection, getDocs } from "firebase/firestore";
+import { getFirestore, addDoc, collection, getDocs, DocumentData } from "firebase/firestore";
 
 function FirebaseTest() {
   const [inputValue1, setInputValue1] = useState("");
@@ -19,11 +19,10 @@ function FirebaseTest() {
 
   const fetchDataFromFirestore = async () => {
     const querySnapshot = await getDocs(collection(db, "myCollection"));
-    const temporaryArr = [];
+    const temporaryArr: ((prevState: never[]) => never[]) | DocumentData[] = [];
     querySnapshot.forEach((doc) => {
       temporaryArr.push(doc.data());
     });
-    setStoredValues(temporaryArr);
   };
 
   return (
