@@ -46,7 +46,9 @@ const Shop: React.FC = () => {
     return (
       <div>
         <Header />
-        <h2>Explore and discover amazing artworks and artists!</h2>
+
+        <h2 className='text-header'>Explore and discover amazing artworks and artists!</h2>
+        
         <div className="search-bar">
           <input
             type="text"

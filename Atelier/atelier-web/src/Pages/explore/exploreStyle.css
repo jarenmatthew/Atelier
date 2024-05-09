@@ -1,13 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inknut+Antiqua&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
-.container {
-  max-width: 800px;
-  margin: 5%;
-  padding: 50px;
-  align-items: center;
-}
-
 h2.text-header {
   width: 80dvw;
   text-align: left;
@@ -70,7 +63,7 @@ input[type="text"] {
   padding: 10px 30px;
   margin-right: 15px;
   background-color: #E2C1BE;
-  color: #3B3B58;
+  color: black;
   border: none;
   border-radius: 5px;
   cursor: pointer;
