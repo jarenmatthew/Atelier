@@ -45,7 +45,9 @@ const Explore: React.FC = () => {
     return (
       <div>
         <Header />
-        <h2>Explore and discover amazing artworks and artists!</h2>
+
+        <h2 className='text-header'>Explore and discover amazing artworks and artists!</h2>
+
         <div className="search-bar">
           <input
             type="text"
@@ -65,11 +67,12 @@ const Explore: React.FC = () => {
           <button onClick={() => setSelectedTag('oil canvas')}>Oil Canvas</button>
         </div>
 
-        <div className="artworks-container">
+        <div style={{ marginBottom: '200px' }} className="artworks-container">
           {filteredArtworks.map((artwork, index) => (
             <img key={index} src={artwork.imageUrl} alt={artwork.type} className="artwork" />
           ))}
         </div>
+
         <Footer />
       </div>
     );

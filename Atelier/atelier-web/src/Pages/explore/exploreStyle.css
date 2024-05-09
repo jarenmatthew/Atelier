@@ -1,113 +1,122 @@
-.container {
-    max-width: 800px;
-    margin: 5%;
-    padding: 50px;
-    align-items: center;
-  }
-  
-  h2 {
-    margin: 50px;
-  }
+@import url('https://fonts.googleapis.com/css2?family=Inknut+Antiqua&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
-  .search-bar {
-    display: flex;
-    align-items: center;
-    margin: 50px;
-    border-color: black;
-  }
-  
-  .search-button {
-    background-color: #7A5980;
-    color: #fff;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-left: 10px; /* Adjust margin-left to create space between input and button */
-    margin-bottom: 10px;
-  }
-  
-  .search-button:hover {
-    background-color: #555E6F;
-  }
-  
-  input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .filter-tags {
-    overflow-x: auto;
-    white-space: nowrap;
-    align-items: center;
-    display: flex;
-    gap: 5px;
-    margin: 20px auto; /* Set margin to auto for horizontal centering */
-  }  
-  
-  .filter-tags button {
-    display: inline-block;
-    padding: 10px 30px;
-    margin: 20px auto;
-    background-color: #ECD6D4;
-    color: #000000;
-    border: none;
-    cursor: pointer;
-  }
-  
-  .filter-tags button:hover {
-    background-color: #7A5980;
-  }
-  
+.container {
+  max-width: 800px;
+  margin: 5%;
+  padding: 50px;
+  align-items: center;
+}
+
+h2.text-header {
+  width: 80dvw;
+  text-align: left;
+  margin: 0 auto;
+  padding-top: 50px;
+  padding-bottom: 25px;
+  font-weight: 700;
+  font-size: 150%;
+  color: black;
+  font-family: 'Inknut Antiqua', serif;
+}
+
+.search-bar {
+  width: 80dvw;
+  margin: 0 auto;
+  display: flex;
+}
+
+.search-button {
+  margin-bottom: auto;
+  margin-left: 25px;
+  background-color: #875782;
+  width: 20%;
+  color: #FFFFFF;
+  border: none;
+  padding: 15px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 110%;
+  font-weight: 500;
+}
+
+.search-button:hover {
+  background-color: #E2C1BE;
+  color: #3B3B58;
+  font-weight: 600;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 15px;
+  border: 1px solid #626279;
+  border-radius: 5px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 110%;
+  font-weight: 500;
+}
+
+.filter-tags {
+  width: 80dvw;
+  margin: 0 auto;
+  display: start;
+  padding-top: 1%;
+  padding-bottom: 2%;
+}
+
+.filter-tags button {
+  display: inline-block;
+  padding: 10px 30px;
+  margin-right: 15px;
+  background-color: #E2C1BE;
+  color: #3B3B58;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 100%;
+  font-weight: 500;
+}
+
+.filter-tags button:hover {
+  background-color: #875782;
+  color: #232335;
+}
+
+.artworks-container {
+  width: 80dvw;
+  height: auto;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap: 1%;
+}
+
+@media (min-height: 300px) {
   .artworks-container {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 10px;
-    justify-content: center; /* Center the containers horizontally */
-    align-items: center;
-    margin: 50px;
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 images per row for screens wider than 600px */
   }
-  
-  .artwork {
-    width: 250px;
-    height: 350px; /* Set a fixed height for consistency */
-    margin: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+}
+
+@media (min-height: 600px) {
+  .artworks-container {
+    grid-template-columns: repeat(4, 1fr);
+    /* 3 images per row for screens wider than 600px */
   }
-  
-  .artwork-container {
-    width: 100%;
-    height: 100%; /* Make the container fill the artwork div */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+}
+
+@media (min-height: 900px) {
+  .artworks-container {
+    grid-template-columns: repeat(5, 1fr);
+    /* 4 images per row for screens wider than 900px */
   }
-  
-  .artwork img {
-    width: 100%;
-    height: 70%; /* Adjust the height of the image */
-    object-fit: cover; /* Maintain aspect ratio and cover the container */
-    border-radius: 5px;
-  }
-  
-  .artwork-details {
-    width: 100%;
-    height: 40%; /* Adjust the height of the details */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: small;
-  }
-  
-  
-  .artwork-details p {
-    margin: 5px 0;
-  }
-  
-  
+}
+
+.artworks-container img {
+  width: 100%;
+  margin-left: auto;
+  border-radius: 5px;
+  object-fit: cover;
+}

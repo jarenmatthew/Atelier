@@ -135,7 +135,6 @@ img {
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  /* Responsive column count */
   grid-gap: 1%;
 }
 
@@ -145,11 +144,6 @@ img {
   object-fit: cover;
   /* Ensure the image covers the entire container */
 }
-
-.collage_pics {
-  width: 100%;
-}
-
 
 @media (min-height: 300px) {
   .collage {
