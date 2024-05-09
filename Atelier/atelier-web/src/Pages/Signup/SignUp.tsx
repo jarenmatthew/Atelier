@@ -8,11 +8,14 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  IconButton,
+  InputAdornment,
 } from "@mui/material";
-import { Navigate } from "react-router-dom";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../FirebaseConfig";
 import { getFirestore, addDoc, collection } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 function SignUpPage() {
   const [email, setEmail] = useState("");
@@ -23,15 +26,18 @@ function SignUpPage() {
   const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
   const [description, setDescription] = useState("");
-  const [profilePhoto, setProfilePhoto] = useState(null);
-  const [coverPhoto, setCoverPhoto] = useState(null);
+  const [profilePhoto, setProfilePhoto] = useState<File | null>(null);
+  const [coverPhoto, setCoverPhoto] = useState<File | null>(null);
   const [openDialog, setOpenDialog] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const navigate = useNavigate();
   const db = getFirestore();
 
   const saveDataToFirestore = async () => {
     try {
-      const accountCollection = "accounts"; // Use a single collection for all accounts
+      const accountCollection = "accounts";
       const docRef = await addDoc(collection(db, accountCollection), {
         email: email,
         fullName: fullName,
@@ -69,11 +75,8 @@ function SignUpPage() {
   const handleDialogClose = () => {
     setOpenDialog(false);
     saveDataToFirestore();
+    navigate("/user"); // Redirect to user profile page after launching profile
   };
-
-  if (isSignedUp) {
-    return <Navigate to="/login" replace={true} />;
-  }
 
   return (
     <Box minHeight={"100vh"} sx={{ backgroundColor: "#E2C1BE" }}>
@@ -115,7 +118,7 @@ function SignUpPage() {
           />
           <TextField
             fullWidth
-            type="password"
+            type={showPassword ? "text" : "password"}
             label="Password"
             variant="filled"
             value={password}
@@ -126,11 +129,21 @@ function SignUpPage() {
                 backgroundColor: "rgba(255, 255, 255, 0.4)",
                 borderRadius: "12px",
               },
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => setShowPassword(!showPassword)}
+                    edge="end"
+                  >
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              ),
             }}
           />
           <TextField
             fullWidth
-            type="password"
+            type={showConfirmPassword ? "text" : "password"}
             label="Confirm Password"
             variant="filled"
             value={confirmPassword}
@@ -141,6 +154,16 @@ function SignUpPage() {
                 backgroundColor: "rgba(255, 255, 255, 0.4)",
                 borderRadius: "12px",
               },
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    edge="end"
+                  >
+                    {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              ),
             }}
           />
           {error && (
@@ -202,7 +225,12 @@ function SignUpPage() {
             fullWidth
             type="file"
             label="Profile Photo"
-            onChange={(e) => setProfilePhoto(e.target.files[0])}
+            onChange={(e) => {
+              const target = e.target as HTMLInputElement;
+              if (target.files && target.files.length > 0) {
+                setProfilePhoto(target.files[0]);
+              }
+            }}
             InputLabelProps={{ shrink: true }}
             sx={{ mb: 2 }}
           />
@@ -210,7 +238,12 @@ function SignUpPage() {
             fullWidth
             type="file"
             label="Cover Photo"
-            onChange={(e) => setCoverPhoto(e.target.files[0])}
+            onChange={(e) => {
+              const target = e.target as HTMLInputElement;
+              if (target.files && target.files.length > 0) {
+                setCoverPhoto(target.files[0]);
+              }
+            }}
             InputLabelProps={{ shrink: true }}
           />
         </DialogContent>
