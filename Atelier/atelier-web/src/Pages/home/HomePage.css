@@ -1,24 +1,28 @@
 /* Import the Inknut Antiqua font */
 @import url('https://fonts.googleapis.com/css2?family=Inknut+Antiqua&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
-/* Apply the font to all text elements */
+/* Text Styles */
 body,
+h5,
+h6,
+p,
+a,
+li {
+  font-family: 'Montserrat', sans-serif;
+}
+
 h1,
 h2,
 h3,
-h4,
-h5,
-h6,
-a,
-li {
+h4 {
   font-family: 'Inknut Antiqua', serif;
 }
 
 p.text-header {
-  margin-bottom: 20px;
-  /* Add some space between h4 and collage */
-  margin-left: 100px;
-  margin-right: 100px;
+  width: 80dvw;
+  margin: 0 auto;
+  padding-bottom: 25px;
   font-weight: 700;
   font-size: 150%;
   color: black;
@@ -31,8 +35,10 @@ p.text-header {
   background-image: url(Signup/bg2.jpg);
 } */
 
+/* Container, Boxes Styles */
+
 .slideshow-container {
-  width: 90dvw;
+  width: 80dvw;
   height: 60dvh;
   position: relative;
   margin: 0 auto;
@@ -124,26 +130,24 @@ img {
 }
 
 .collage {
+  width: 80dvw;
+  height: auto;
+  margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   /* Responsive column count */
-  grid-auto-rows: minmax(100px, auto);
-  /* Responsive row height */
   grid-gap: 1%;
-  /* Adjust the gap between grid items */
-  width: 90dvw;
-  height: auto;
-  margin-left: 100px;
-  margin-right: 100px;
-  margin-bottom: 100px;
 }
 
 .collage img {
-  width: 70%;
-  height: 100%;
+  width: 100%;
   border-radius: 5px;
   object-fit: cover;
   /* Ensure the image covers the entire container */
+}
+
+.collage_pics {
+  width: 100%;
 }
 
 
@@ -220,13 +224,11 @@ img {
 
 /*Featured Artist Section Style*/
 .artists-section {
-  background-color: #fff;
+  margin: 0 auto;
+  width: 80dvw;
   overflow-x: auto;
-  /* Enable horizontal scrolling */
   white-space: nowrap;
   padding: 10px;
-  margin-left: 100px;
-  margin-right: 100px;
   background-color: transparent;
 }
 
@@ -246,9 +248,8 @@ img {
 
 .artist-name {
   text-align: center;
-  /* Center the text horizontally */
-  font-family: Arial, sans-serif;
-  /* Change the font family */
-  font-size: 16px;
-  /* Optionally adjust the font size */
+  font-family: 'Montserrat', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 5px;
 }

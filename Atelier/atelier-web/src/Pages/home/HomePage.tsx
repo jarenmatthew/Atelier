@@ -13,7 +13,7 @@ const Home: React.FC = () => {
   const [popupImageSrc, setPopupImageSrc] = useState('');
   const [popupDisplay, setPopupDisplay] = useState('none');
   const [imageURLs, setImageURLs] = useState<string[]>([]);
-  const names = ['John Doe', 'Alice Wane', 'Bobby Brown', 'Emma Rock', 'Amane Yugi', 'Tsukasa Yugi', 'Yashiro Nene'];
+  const names = ['John Doe', 'Alice Wane', 'Bobby Brown', 'Emma Rock', 'Amane Yugi', 'Tsukasa Yugi', 'Yashiro Nene', 'Amane Yugi', 'Tsukasa Yugi', 'Yashiro Nene'];
 
   useEffect(() => {
     fetchIconURLs(); // Fetch icon URLs
@@ -28,6 +28,7 @@ const Home: React.FC = () => {
       // Fetch image URLs from Firebase Storage
       const imageRef = ref(storage, 'img');
       const urls: string[] = await Promise.all([
+        'hero1.jpg', 'hero2.jpg', 'hero3.jpg', 'hero4.jpg', 'hero5.png', 'hero6.jpg', 'hero7.jpg',
         'image18.png', 'image19.png', 'image20.png', 'image21.png', 'image22.png', 'image23.png',
         'image7.png', 'image8.png', 'image9.png', 'image10.png', 'image11.png', 'image12.png',
         'image1.png', 'image2.png', 'image3.png', 'image4.png', 'image5.png', 'image6.png',
@@ -106,42 +107,62 @@ const Home: React.FC = () => {
 
       <Box style={{ marginBottom: '100px' }}>
         <div className="slideshow-container">
+
           {imageURLs.slice(0, 7).map((url, index) => (
+
             <div key={index} className="mySlides fade">
               <img src={url} style={{ width: "100%" }} />
             </div>
+
           ))}
+
           <div className="dot-container">
             {imageURLs.slice(0, 7).map((_, index) => (
               <span key={index} className="dot" onClick={() => currentSlide(index + 1)}></span>
             ))}
           </div>
+
           <a className="prev" onClick={() => plusSlides(-1)}>&#10094;</a>
           <a className="next" onClick={() => plusSlides(1)}>&#10095;</a>
+
         </div>
       </Box>
 
       <Box style={{ marginBottom: '100px' }}>
+
         <p className='text-header'>Featured Artists</p>
+
         <div className="artists-section">
-          {imageURLs.slice(0, 7).map((url, index) => (
+
+          {imageURLs.slice(0, 10).map((url, index) => (
+
             <div key={index} className="artist-wrapper">
               <Link to="/Profile"><img className="featured-artist" src={url} alt={`Featured Artist ${index + 1}`} /></Link>
               <div className="artist-name">{names[index]}</div>
             </div>
+
           ))}
+
         </div>
+
       </Box>
 
-      <Box style={{ marginBottom: '100px' }}>
+      <Box style={{ marginBottom: '200px' }}>
+
         <p className='text-header'>Explore</p>
+
         <div className="collage">
+
           {imageURLs.slice(6).map((url, index) => (
+
             <div key={index} className="collage_pics" data-description="Whale House, John Doe">
               <img src={url} style={{ width: '100%' }} onClick={showDescription} />
             </div>
+            
           ))}
+
         </div>
+
       </Box>
 
       <div id="popup-container" className="popup-container" onClick={handleClosePopup} style={{ display: popupDisplay }}>
