@@ -15,14 +15,15 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../FirebaseConfig";
 import { getFirestore, addDoc, collection } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
+import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL } from "firebase/storage";
+import { useNavigate } from "react-router";
 
 function SignUpPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-  const [isSignedUp, setIsSignedUp] = useState(false);
   const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
   const [description, setDescription] = useState("");
@@ -31,20 +32,49 @@ function SignUpPage() {
   const [openDialog, setOpenDialog] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const navigate = useNavigate(); // Import useNavigate hook
 
-  const navigate = useNavigate();
   const db = getFirestore();
+  const storage = getStorage();
+
+  const uploadProfilePhoto = async (file: File) => {
+    const storageRef = ref(storage, `profile_photos/${file.name}`);
+    const uploadTask = uploadBytes(storageRef, file);
+  
+    // Wait for the upload to complete
+    await uploadTask;
+  
+    // Get the download URL
+    const downloadURL = await getDownloadURL(storageRef);
+  
+    return downloadURL;
+  };
+  
+  const uploadCoverPhoto = async (file: File) => {
+    const storageRef = ref(storage, `cover_photos/${file.name}`);
+    const uploadTask = uploadBytes(storageRef, file);
+  
+    // Wait for the upload to complete
+    await uploadTask;
+  
+    // Get the download URL
+    const downloadURL = await getDownloadURL(storageRef);
+  
+    return downloadURL;
+  };
 
   const saveDataToFirestore = async () => {
     try {
+      const profilePhotoURL = profilePhoto ? await uploadProfilePhoto(profilePhoto) : null;
+      const coverPhotoURL = coverPhoto ? await uploadCoverPhoto(coverPhoto) : null;
       const accountCollection = "accounts";
       const docRef = await addDoc(collection(db, accountCollection), {
         email: email,
         fullName: fullName,
         username: username,
         description: description,
-        profilePhoto: profilePhoto,
-        coverPhoto: coverPhoto,
+        profilePhoto: profilePhotoURL,
+        coverPhoto: coverPhotoURL,
       });
       console.log("Document written with ID: ", docRef.id);
     } catch (err) {
@@ -65,7 +95,6 @@ function SignUpPage() {
 
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-      setIsSignedUp(true);
       setOpenDialog(true);
     } catch (err) {
       console.log(err);
@@ -75,7 +104,7 @@ function SignUpPage() {
   const handleDialogClose = () => {
     setOpenDialog(false);
     saveDataToFirestore();
-    navigate("/user"); // Redirect to user profile page after launching profile
+    navigate("/user");
   };
 
   return (
