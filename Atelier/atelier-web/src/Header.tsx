@@ -26,7 +26,7 @@ const Header: React.FC = () => {
       // Fetch icon URLs from Firebase Storage
       const iconsRef = ref(storage, 'icons');
       const logoURL = await getDownloadURL(ref(iconsRef, 'atelier-logo.png'));
-      const profileURL = await getDownloadURL(ref(iconsRef, 'hanako.jpg'));
+      const profileURL = await getDownloadURL(ref(iconsRef, 'avatar1.png'));
       const cartURL = await getDownloadURL(ref(iconsRef, 'cart-icon.png'));
       const messageURL = await getDownloadURL(ref(iconsRef, 'message-icon.png'));
       const notifURL = await getDownloadURL(ref(iconsRef, 'notif-icon.png'));
