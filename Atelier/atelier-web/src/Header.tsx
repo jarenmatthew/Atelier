@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { storage } from '../FirebaseConfig';
 import './HeaderStyle.css';
-import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { auth } from "../FirebaseConfig";
 
 const Header: React.FC = () => {
@@ -13,7 +12,6 @@ const Header: React.FC = () => {
   const [messageURL, setMessageIconURL] = useState('');
   const [cartURL, setCartIconURL] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userRole, setUserRole] = useState('');
   const navigate = useNavigate(); // Import useNavigate hook
 
   useEffect(() => {
@@ -45,46 +43,14 @@ const Header: React.FC = () => {
     auth.onAuthStateChanged(user => {
       if (user) {
         setIsLoggedIn(true);
-        fetchUserRole(user.uid);
       } else {
         setIsLoggedIn(false);
-        setUserRole('');
       }
     });
   };
 
-  const fetchUserRole = async (uid: string) => {
-    try {
-      const db = getFirestore();
-      const userDocRef = doc(db, "accounts", uid);
-      console.log("User Document Reference:", userDocRef);
-      const userDocSnapshot = await getDoc(userDocRef);
-      console.log("User Document Snapshot:", userDocSnapshot);
-  
-      if (userDocSnapshot.exists()) {
-        const userData = userDocSnapshot.data();
-        const role = userData.role;
-        console.log("User Role:", role);
-        setUserRole(role);
-      } else {
-        console.log("User data not found");
-      }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
-
   const handleProfileClick = () => {
-    if (isLoggedIn) {
-      if (userRole === "artist") {
-        navigate("/Profile");
-      } else {
-        navigate("/user");
-      }
-    } else {
-      // Redirect to login page or show login modal
-      navigate("/login");
-    }
+    navigate("/user");
   };
 
   return (
@@ -109,16 +75,22 @@ const Header: React.FC = () => {
         <div id='header-icons'>
 
           <div id='icons-main-container'>
-            <div className='icons-box'>
-              <Link to="/cart"><img src={cartURL} className="icons" alt="cart" /></Link>
-              <div className="cart-count">0</div>
-            </div>
+            {isLoggedIn && (
+              <div className='icons-box'>
+                <Link to="/cart"><img src={cartURL} className="icons" alt="cart" /></Link>
+                <div className="cart-count">0</div>
+              </div>
+            )}
             <div><Link to="/"><img src={messageURL} className="icons" alt="message" /></Link></div>
             <div><Link to="/"><img src={notifURL} className="icons" alt="notif" /></Link></div>
           </div>
          
           <div id='profile-box'>
-              <img src={profileIconURL} className="profile" alt="Profile Circle" onClick={handleProfileClick} />
+              {isLoggedIn ? (
+                <img src={profileIconURL} className="profile" alt="Profile Circle" onClick={handleProfileClick} />
+              ) : (
+                <Link to="/signup">Sign Up</Link>
+              )}
           </div>
 
         </div>

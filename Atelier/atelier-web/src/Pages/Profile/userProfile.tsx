@@ -42,7 +42,7 @@ const User: React.FC = () => {
         <div id="profile-banner">
           <div id="profile-cover">
             <img
-              src={userData?.coverURL}
+              src={userData?.coverPhoto}
               className="cover-photo"
               alt="User cover photo"
             />
@@ -52,16 +52,15 @@ const User: React.FC = () => {
             <div id="profile-cont">
               <div id="profile-picture">
                 <img
-                  src={userData?.profileURL}
+                  src={userData?.profilePhoto}
                   className="profile-photo"
                   alt="User profile photo"
                 />
               </div>
 
               <div id="profile-deets">
-                <p id="user-name">{userData?.displayName}</p>
+                <p id="user-name">{userData?.fullName}</p>
                 <p id="user-username">@{userData?.username}</p>
-                <p id="user-followers">{userData?.followers} Followers</p>
               </div>
             </div>
 
@@ -75,26 +74,14 @@ const User: React.FC = () => {
 
         <div className="user-bio">
           {/* Display user's bio */}
-          <p>{userData?.bio}</p>
+          <p>{userData?.description}</p>
         </div>
-        <div className="user-social-media">
-          {/* Display user's social media links */}
-          <a href={userData?.socialMedia?.facebook}>
-            <img src="facebook-icon.png" alt="Facebook" />
-          </a>
-          <a href={userData?.socialMedia?.twitter}>
-            <img src="twitter-icon.png" alt="Twitter" />
-          </a>
-          <a href={userData?.socialMedia?.instagram}>
-            <img src="instagram-icon.png" alt="Instagram" />
-          </a>
-        </div>
+
         <Typography>hi {currentUser?.email}</Typography>
+
         <div className="user-contact-info">
           {/* Display user's contact information */}
           <p>Email: {userData?.email}</p>
-          <p>Phone: {userData?.number}</p>
-          <p>Website: {userData?.website}</p>
         </div>
       </div>
       <Footer />
