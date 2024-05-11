@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { CssBaseline } from "@mui/material";
 import LogInPage from "./Pages/Login/LogIn.tsx";
 import Home from "./Pages/home/HomePage.tsx";
-import SignUpPage from "./Pages/Signup/SignUp.tsx";
+import SignUpPage from "./Pages/SignUp/SignUp.tsx";
 import FirebaseTest from "./Pages/test pages/FirebaseTest.tsx";
 import Product from "./Pages/Product/ProductPage.tsx";
 import Shop from "./Pages/shop/shopPage.tsx";

@@ -1,4 +1,12 @@
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { getFirestore, addDoc, collection } from "firebase/firestore";
+import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL } from "firebase/storage";
+import { auth } from "../../../FirebaseConfig";
+import { useNavigate } from "react-router";
 import { useState } from "react";
+//import './signupStyle.css';
 import {
   Box,
   Typography,
@@ -11,13 +19,6 @@ import {
   IconButton,
   InputAdornment,
 } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../../FirebaseConfig";
-import { getFirestore, addDoc, collection } from "firebase/firestore";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
-import { getDownloadURL } from "firebase/storage";
-import { useNavigate } from "react-router";
 
 function SignUpPage() {
   const [email, setEmail] = useState("");
