@@ -69,7 +69,7 @@ const Shop: React.FC = () => {
             </div>
 
         <Link to="/product">
-        <div className="artworks-container">
+        <div style={{ marginBottom: '200px' }} className="artworks-container">
           {filteredArtworks.map((artwork, index) => (
             <div key={index} className="artwork">
                 <div className="artwork-container">

@@ -5,7 +5,7 @@ import { Link, Route } from 'react-router-dom';
 import { Height } from '@mui/icons-material';
 import LogInPage from '../Login/LogIn';
 import { Link as RouterLink } from 'react-router-dom';
-import SignUpPage from '../Signup/SignUp';
+import SignUpPage from '../SignUp/SignUp';
 
 
 const GetStarted: React.FC = () => {

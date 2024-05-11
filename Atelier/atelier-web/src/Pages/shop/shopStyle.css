@@ -79,6 +79,7 @@ input[type="text"] {
 
 .artworks-container {
   display: flex;
+  height: auto;
   flex-wrap: wrap;
   padding: 10px;
   justify-content: center;
