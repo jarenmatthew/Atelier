@@ -3,10 +3,10 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, addDoc, collection } from "firebase/firestore";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { getDownloadURL } from "firebase/storage";
+import { Link as RouterLink } from "react-router-dom";
 import { auth } from "../../../FirebaseConfig";
 import { useNavigate } from "react-router";
 import { useState } from "react";
-//import './signupStyle.css';
 import {
   Box,
   Typography,
@@ -18,6 +18,7 @@ import {
   DialogActions,
   IconButton,
   InputAdornment,
+  Link,
 } from "@mui/material";
 
 function SignUpPage() {
@@ -247,7 +248,14 @@ function SignUpPage() {
               marginTop: "10px"
             }}
           >
-            Already have an account? Login
+            Already have an account?
+            <Link
+              component={RouterLink}
+              to="/LogIn"
+              sx={{ textDecoration: "underline", fontWeight: "700", color: "#232335" }}
+            >
+              Login
+            </Link>
           </Typography>
 
         </Box>

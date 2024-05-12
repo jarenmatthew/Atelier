@@ -79,7 +79,7 @@ const Explore: React.FC = () => {
           ))}
         </div> */}
 
-        <Box m="0 auto"  width={"80dvw"} height={"auto"} overflow-x={"none"}>
+        <Box m="0 auto"  sx={{ width: "80vw", height: "auto", overflowX: "none" }}>
           <ImageList variant="masonry" cols={4} gap={15}>
             {filteredArtworks.map((artwork, index) => (
               <ImageListItem key={artwork.img}>

@@ -51,16 +51,11 @@ function LogInPage() {
     >
       {/* m = "0 auto" is used to center all the content, this serves as the container */}
       <Box m="0 auto" maxWidth="500px">
-        <Box pt={"40px"}>
-          <Typography
-            fontWeight={"bold"}
-            letterSpacing={"10px"}
-            textAlign={"center"}
-            fontSize={"40px"}
-          >
-            ATELIER
-          </Typography>
+
+        <Box m="0 auto" pt={"80px"} width={"280px"}>
+          <img src="/src/assets/atelier-logo2.png" alt="Atelier" width={"100%"}/>
         </Box>
+        
         <Box mt={"70px"}>
           <Typography
             fontFamily={"Poppins"}
