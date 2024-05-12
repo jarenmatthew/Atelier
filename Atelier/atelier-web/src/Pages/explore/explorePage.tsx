@@ -4,6 +4,12 @@ import { storage } from '../../../FirebaseConfig';
 import './exploreStyle.css';
 import Header from '../../Header';
 import Footer from '../../Footer';
+import {
+  Box,
+  ImageList,
+  ImageListItem,
+  ImageListItemBar,
+} from "@mui/material";
 
 const Explore: React.FC = () => {
     const [selectedTag, setSelectedTag] = useState<string | null>(null);
@@ -67,11 +73,27 @@ const Explore: React.FC = () => {
           <button onClick={() => setSelectedTag('oil canvas')}>Oil Canvas</button>
         </div>
 
-        <div style={{ marginBottom: '200px' }} className="artworks-container">
+        {/* <div style={{ marginBottom: '200px' }} className="artworks-container">
           {filteredArtworks.map((artwork, index) => (
             <img key={index} src={artwork.imageUrl} alt={artwork.type} className="artwork" />
           ))}
-        </div>
+        </div> */}
+
+        <Box m="0 auto"  width={"80dvw"} height={"auto"} overflow-x={"none"}>
+          <ImageList variant="masonry" cols={4} gap={15}>
+            {filteredArtworks.map((artwork, index) => (
+              <ImageListItem key={artwork.img}>
+                <img 
+                  key={index} 
+                  src={artwork.imageUrl} 
+                  alt={artwork.type} 
+                  className="artwork" 
+                />
+                <ImageListItemBar position="below" title={artwork.author} />
+              </ImageListItem>
+            ))}
+          </ImageList>
+        </Box>
 
         <Footer />
       </div>

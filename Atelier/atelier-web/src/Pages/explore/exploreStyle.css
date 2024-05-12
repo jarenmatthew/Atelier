@@ -113,3 +113,9 @@ input[type="text"] {
   border-radius: 5px;
   object-fit: cover;
 }
+
+.artwork {
+  border-radius: 5px;
+  width: auto;
+  max-height: fit-content;
+}
