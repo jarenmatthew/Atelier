@@ -9,7 +9,7 @@ import FirebaseTest from "./Pages/test pages/FirebaseTest.tsx";
 import Product from "./Pages/Product/ProductPage.tsx";
 import Shop from "./Pages/shop/shopPage.tsx";
 import MyCart from "./Pages/MyCart/Cart.tsx";
-import Explore from "./Pages/explore/explorePage.tsx";
+import Explore from "./Pages/explore/ExplorePage.tsx";
 import About from "./Pages/aboutUs/aboutPage.tsx";
 import GetStarted from "./Pages/landingPage/getStarted.tsx";
 import User from "./Pages/Profile/userProfile.tsx";

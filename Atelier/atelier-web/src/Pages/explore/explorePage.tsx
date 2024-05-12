@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { getDownloadURL, ref, listAll } from 'firebase/storage';
 import { storage } from '../../../FirebaseConfig';
-import './exploreStyle.css';
+import './ExploreStyles.css';
 import Header from '../../Header';
 import Footer from '../../Footer';
 import {
