@@ -110,30 +110,30 @@ function SignUpPage() {
 
   return (
     <Box minHeight={"100vh"} sx={{ backgroundColor: "#E2C1BE" }}>
-      <Box m="0 auto" maxWidth="500px" fontFamily={"Poppins"}>
-        <Box pt={"40px"}>
-          <Typography
-            fontWeight={"bold"}
-            letterSpacing={"10px"}
-            textAlign={"center"}
-            fontSize={"40px"}
-          >
-            ATELIER
-          </Typography>
+
+      <Box m="0 auto" maxWidth="500px">
+
+        <Box m="0 auto" pt={"80px"} width={"280px"}>
+          <img src="/src/assets/atelier-logo2.png" alt="Atelier" width={"100%"}/>
         </Box>
-        <Box mt={"70px"}>
+
+        <Box mt={"15%"}>
           <Typography
-            fontFamily={"Poppins"}
+            fontFamily={"Inknut Antiqua"}
             textAlign={"center"}
-            color={"#413F3F"}
-            fontSize={"30px"}
+            color={"#232335"}
+            fontSize={"175%"}
+            fontWeight={"700"}
           >
             Sign Up
           </Typography>
         </Box>
-        <Box mt={"30px"}>
+
+        <Box mt={"10%"}>
+
           <TextField
             fullWidth
+            required={true}
             label="Email"
             variant="filled"
             value={email}
@@ -141,13 +141,17 @@ function SignUpPage() {
             InputProps={{
               disableUnderline: true,
               style: {
-                backgroundColor: "rgba(255, 255, 255, 0.4)",
-                borderRadius: "12px",
+                backgroundColor: "#FFFFFF",
+                borderRadius: "5px",
+                marginBottom: "15px",
+                fontFamily: "Montserrat",
               },
             }}
           />
+
           <TextField
             fullWidth
+            required={true}
             type={showPassword ? "text" : "password"}
             label="Password"
             variant="filled"
@@ -156,8 +160,10 @@ function SignUpPage() {
             InputProps={{
               disableUnderline: true,
               style: {
-                backgroundColor: "rgba(255, 255, 255, 0.4)",
-                borderRadius: "12px",
+                backgroundColor: "#FFFFFF",
+                borderRadius: "5px",
+                marginBottom: "15px",
+                fontFamily: "Montserrat",
               },
               endAdornment: (
                 <InputAdornment position="end">
@@ -171,8 +177,10 @@ function SignUpPage() {
               ),
             }}
           />
+
           <TextField
             fullWidth
+            required={true}
             type={showConfirmPassword ? "text" : "password"}
             label="Confirm Password"
             variant="filled"
@@ -181,8 +189,10 @@ function SignUpPage() {
             InputProps={{
               disableUnderline: true,
               style: {
-                backgroundColor: "rgba(255, 255, 255, 0.4)",
-                borderRadius: "12px",
+                backgroundColor: "#FFFFFF",
+                borderRadius: "5px",
+                marginBottom: "15px",
+                fontFamily: "Montserrat",
               },
               endAdornment: (
                 <InputAdornment position="end">
@@ -196,34 +206,56 @@ function SignUpPage() {
               ),
             }}
           />
+
           {error && (
             <Typography variant="body2" color="error">
               {error}
             </Typography>
           )}
-          <Box mt="12px" display={"flex"} justifyContent={"center"}>
+
+          <Box mt="15%" display={"flex"} justifyContent={"center"}>
             <Button
               fullWidth
               size="medium"
               variant="contained"
               sx={{
-                backgroundColor: "rgba(91, 160, 187)",
-                borderRadius: "12px",
-                height: "45px",
+                textTransform: "none",
+                backgroundColor: "#91488A",
+                borderRadius: "5px",
+                height: "50px",
                 fontFamily: "Montserrat",
+                fontSize: "20px",
+                fontWeight: "500",
                 "&:hover": {
-                  backgroundColor: "#CF9893",
+                  backgroundColor: "#3B3B58",
+                  fontWeight: "600",
                 },
               }}
               onClick={signUp}
             >
-              Create account
+             Sign Up
             </Button>
           </Box>
+
+          <Typography
+            fontFamily={"Montserrat"}
+            textAlign={"center"}
+            color={"#232335"}
+            fontSize={"18px"}
+            fontWeight={"400"}
+            sx={{
+              marginTop: "10px"
+            }}
+          >
+            Already have an account? Login
+          </Typography>
+
         </Box>
       </Box>
+
       <Dialog open={openDialog} onClose={handleDialogClose}>
         <DialogTitle>Complete Your Profile</DialogTitle>
+
         <DialogContent>
           <TextField
             fullWidth
@@ -233,6 +265,7 @@ function SignUpPage() {
             onChange={(e) => setFullName(e.target.value)}
             sx={{ mb: 2 }}
           />
+
           <TextField
             fullWidth
             label="Username"
@@ -241,6 +274,7 @@ function SignUpPage() {
             onChange={(e) => setUsername(e.target.value)}
             sx={{ mb: 2 }}
           />
+
           <TextField
             fullWidth
             label="Description"
@@ -251,6 +285,7 @@ function SignUpPage() {
             rows={3}
             sx={{ mb: 2 }}
           />
+
           <TextField
             fullWidth
             type="file"
@@ -264,6 +299,7 @@ function SignUpPage() {
             InputLabelProps={{ shrink: true }}
             sx={{ mb: 2 }}
           />
+
           <TextField
             fullWidth
             type="file"
@@ -276,11 +312,15 @@ function SignUpPage() {
             }}
             InputLabelProps={{ shrink: true }}
           />
+
         </DialogContent>
+
         <DialogActions>
           <Button onClick={handleDialogClose}>Launch Profile</Button>
         </DialogActions>
+
       </Dialog>
+
     </Box>
   );
 }
