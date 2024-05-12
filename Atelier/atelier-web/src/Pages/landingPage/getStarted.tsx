@@ -9,14 +9,14 @@ import SignUpPage from '../SignUp/SignUp';
 
 
 const GetStarted: React.FC = () => {
-    
+
     return(
         <div>
             <Box>
                 <div className='hero-section'>
                     <div className='atelier-brand'>
                         <div className='atelier-logo'>
-                        <img src='./src/assets/atelier-logo.png' alt='Atelier Logo' id='logo'/>
+                        <img src='./src/assets/atelier-logo2.png' alt='Atelier Logo' id='logo'/>
                         
                     </div>
                     <div style={{height: '150px'}}></div>
@@ -29,9 +29,12 @@ const GetStarted: React.FC = () => {
                     </p>
                     <div style={{height: '50px'}}></div>
                     
-                    <button id='get-started-button'>
-                    <Link id='start-link' to="/signup">Get Started</Link>
-                    </button>
+                    <Link id='start-link' to="/signup">
+                        <button id='get-started-button'>
+                        Get Started
+                        </button>
+                    </Link>
+                    
                     </div>
 
                     <div className='hero-image'>
