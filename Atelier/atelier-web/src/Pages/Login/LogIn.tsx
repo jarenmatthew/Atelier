@@ -155,7 +155,7 @@ function LogInPage() {
             Don't have an account?{" "}
             <Link
               component={RouterLink}
-              to="/Signup"
+              to="/SignUp"
               sx={{ textDecoration: "none", color: "primary" }}
             >
               Sign Up

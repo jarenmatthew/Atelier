@@ -18,7 +18,7 @@ import Explore from "./Pages/explore/ExplorePage.tsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <GetStarted /> },
-  { path: "/Signup", element: <SignUpPage /> },
+  { path: "/SignUp", element: <SignUpPage /> },
   { path: "/LogIn", element: <LogInPage /> },
   { path: "/home", element: <Home /> },
   { path: "/Product", element: <Product /> },

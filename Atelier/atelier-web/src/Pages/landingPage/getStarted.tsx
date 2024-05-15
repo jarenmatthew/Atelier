@@ -25,7 +25,7 @@ const GetStarted: React.FC = () => {
                     </p>
                     <div style={{height: '50px'}}></div>
                     
-                    <Link id='start-link' to="/Signup">
+                    <Link id='start-link' to="/SignUp">
                         <button id='get-started-button'>
                         Get Started
                         </button>
