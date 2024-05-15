@@ -110,7 +110,10 @@ function SignUpPage() {
   };
 
   return (
-    <Box minHeight={"100vh"} sx={{ backgroundColor: "#E2C1BE" }}>
+    <Box 
+      minHeight={"100vh"} 
+      sx={{ backgroundColor: "#E2C1BE" }}
+    >
 
       <Box m="0 auto" maxWidth="500px">
 
@@ -214,7 +217,11 @@ function SignUpPage() {
             </Typography>
           )}
 
-          <Box mt="15%" display={"flex"} justifyContent={"center"}>
+          <Box 
+            mt="15%" 
+            display={"flex"} 
+            justifyContent={"center"}
+          >
             <Button
               fullWidth
               size="medium"
@@ -248,11 +255,15 @@ function SignUpPage() {
               marginTop: "10px"
             }}
           >
-            Already have an account?
+            Already have an account?{" "}
             <Link
               component={RouterLink}
               to="/LogIn"
-              sx={{ textDecoration: "underline", fontWeight: "700", color: "#232335" }}
+              sx={{ 
+                textDecoration: "underline", 
+                fontWeight: "700", 
+                color: "#232335" 
+              }}
             >
               Login
             </Link>

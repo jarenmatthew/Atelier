@@ -43,11 +43,7 @@ function LogInPage() {
   return (
     <Box
       minHeight={"100vh"}
-      fontFamily={"Poppins"}
-      sx={{
-        backgroundImage: 'url("bg2.jpg")',
-        backgroundSize: "cover",
-      }}
+      sx={{ backgroundColor: "#E2C1BE" }}
     >
       {/* m = "0 auto" is used to center all the content, this serves as the container */}
       <Box m="0 auto" maxWidth="500px">
@@ -56,18 +52,20 @@ function LogInPage() {
           <img src="/src/assets/atelier-logo2.png" alt="Atelier" width={"100%"}/>
         </Box>
         
-        <Box mt={"70px"}>
+        <Box mt={"15%"}>
           <Typography
-            fontFamily={"Poppins"}
+            fontFamily={"Inknut Antiqua"}
             textAlign={"center"}
-            color={"#413F3F"}
-            fontSize={"30px"}
+            color={"#232335"}
+            fontSize={"175%"}
+            fontWeight={"700"}
           >
             Login
           </Typography>
         </Box>
-        <Box mt={"30px"}>
-          <Stack spacing={3}>
+
+        <Box mt={"10%"}>
+          
             <TextField
               fullWidth
               label="Email"
@@ -76,11 +74,14 @@ function LogInPage() {
               InputProps={{
                 disableUnderline: true,
                 style: {
-                  backgroundColor: "rgba(255, 255, 255, 0.4)",
-                  borderRadius: "12px",
+                  backgroundColor: "#FFFFFF",
+                  borderRadius: "5px",
+                  marginBottom: "15px",
+                  fontFamily: "Montserrat",
                 },
               }}
             />
+
             <TextField
               type={showPassword ? "text" : "password"}
               fullWidth
@@ -88,6 +89,13 @@ function LogInPage() {
               variant="filled"
               onChange={(e) => setPassword(e.target.value)}
               InputProps={{
+                disableUnderline: true,
+                style: {
+                  backgroundColor: "#FFFFFF",
+                  borderRadius: "5px",
+                  marginBottom: "15px",
+                  fontFamily: "Montserrat",
+                },
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton
@@ -99,69 +107,106 @@ function LogInPage() {
                     </IconButton>
                   </InputAdornment>
                 ),
-                disableUnderline: true,
-                style: {
-                  backgroundColor: "rgba(255, 255, 255, 0.4)",
-                  borderRadius: "12px",
-                },
               }}
             />
-            <Box mt="12px" display={"flex"} justifyContent={"center"}>
+
+            <Box 
+              mt="15%" 
+              display={"flex"} 
+              justifyContent={"center"}
+            >
               <Button
                 fullWidth
                 size="medium"
                 variant="contained"
                 sx={{
-                  backgroundColor: "rgba(91, 160, 187)",
-                  borderRadius: "12px",
-                  height: "45px",
-                  fontFamily: "Poppins",
+                  textTransform: "none",
+                  backgroundColor: "#91488A",
+                  borderRadius: "5px",
+                  height: "50px",
+                  fontFamily: "Montserrat",
+                  fontSize: "20px",
+                  fontWeight: "500",
+                  "&:hover": {
+                    backgroundColor: "#3B3B58",
+                    fontWeight: "600",
+                  },
                 }}
                 onClick={logIn}
               >
                 Log in
               </Button>
             </Box>
-          </Stack>
+        
         </Box>
 
-        <Box mt="12px" display={"flex"} justifyContent={"space-between"}>
+        <Box 
+          mt={"3%"}
+          display={"flex"} 
+          justifyContent={"space-between"}
+        >
           <FormGroup>
             <FormControlLabel
-              control={<Checkbox color="default" sx={{ color: "white" }} />}
-              label={
-                <Typography fontFamily={"Poppins"}>Remember Me</Typography>
+              control={
+                <Checkbox color="default" sx={{ color: "#232335" }} />
               }
-              sx={{
-                color: "white",
-                "& .MuiSvgIcon-root": { fontSize: 21 },
-              }}
+              label={
+                <Typography 
+                  fontFamily={"Montserrat"}
+                  textAlign={"center"}
+                  color={"#232335"}
+                  fontSize={"18px"}
+                  fontWeight={"400"}
+                >
+                Remember Me
+                </Typography>
+              }
+              sx={{ color: "#232335", "& .MuiSvgIcon-root": { fontSize: 18 } }}
             />
           </FormGroup>
-          <Box pt={"6px"}>
-            <Link href="#" sx={{ textDecoration: "none", color: "secondary" }}>
+
+          <Box>
+            <Link 
+              href="#" 
+              sx={{ 
+                textDecoration: "underline",
+                fontFamily: "Montserrat",
+                color: "#232335" 
+                }}
+            >
               {/* backgroundColor: "#7A5980", */}
               Forgot Password?
             </Link>
           </Box>
+
         </Box>
+
         <Box mt={"5px"}>
           <Typography
-            fontFamily={"Poppins"}
+            fontFamily={"Montserrat"}
             textAlign={"center"}
-            variant="body1"
-            color={"white"}
+            color={"#232335"}
+            fontSize={"18px"}
+            fontWeight={"400"}
+            sx={{
+              marginTop: "10px"
+            }}
           >
             Don't have an account?{" "}
             <Link
               component={RouterLink}
               to="/SignUp"
-              sx={{ textDecoration: "none", color: "primary" }}
+              sx={{ 
+                textDecoration: "underline", 
+                fontWeight: "700", 
+                color: "#232335" 
+              }}
             >
               Sign Up
             </Link>
           </Typography>
         </Box>
+
       </Box>
     </Box>
   );
