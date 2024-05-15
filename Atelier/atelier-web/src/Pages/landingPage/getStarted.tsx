@@ -1,11 +1,7 @@
 import Footer from '../../Footer';
 import { Box } from '@mui/material';
 import './getStarted.css';
-import { Link, Route } from 'react-router-dom';
-import { Height } from '@mui/icons-material';
-import LogInPage from '../Login/LogIn';
-import { Link as RouterLink } from 'react-router-dom';
-import SignUpPage from '../SignUp/SignUp';
+import { Link } from 'react-router-dom';
 
 
 const GetStarted: React.FC = () => {
@@ -29,7 +25,7 @@ const GetStarted: React.FC = () => {
                     </p>
                     <div style={{height: '50px'}}></div>
                     
-                    <Link id='start-link' to="/signup">
+                    <Link id='start-link' to="/Signup">
                         <button id='get-started-button'>
                         Get Started
                         </button>
