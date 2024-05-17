@@ -22,6 +22,9 @@ function LogInPage() {
   const [password, setPassword] = React.useState("");
   const [IsLoggedIn, setIsLoggedIn] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
+  const [emailError, setEmailError] = React.useState("");
+  const [passwordError, setPasswordError] = React.useState("");
+  const [error, setError] = React.useState(null);
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -31,27 +34,33 @@ function LogInPage() {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       setIsLoggedIn(true);
+      setError(null);
     } catch (err) {
-      console.log(err);
+      if (err.message.includes("auth/email-already-in-use")) {
+        setError("Account already exists");
+      } else if (err.message.includes("auth/invalid-credential")) {
+        setError("Your password is incorrect. Please try again.");
+      } else {
+        setError(err.message);
+      }
     }
   };
-  
   if (IsLoggedIn) {
     return <Navigate to="/home" replace={false} />;
   }
 
   return (
-    <Box
-      minHeight={"100vh"}
-      sx={{ backgroundColor: "#E2C1BE" }}
-    >
+    <Box minHeight={"100vh"} sx={{ backgroundColor: "#E2C1BE" }}>
       {/* m = "0 auto" is used to center all the content, this serves as the container */}
       <Box m="0 auto" maxWidth="500px">
-
         <Box m="0 auto" pt={"80px"} width={"280px"}>
-          <img src="/src/assets/atelier-logo2.png" alt="Atelier" width={"100%"}/>
+          <img
+            src="/src/assets/atelier-logo2.png"
+            alt="Atelier"
+            width={"100%"}
+          />
         </Box>
-        
+
         <Box mt={"15%"}>
           <Typography
             fontFamily={"Inknut Antiqua"}
@@ -65,100 +74,93 @@ function LogInPage() {
         </Box>
 
         <Box mt={"10%"}>
-          
-            <TextField
+          <TextField
+            fullWidth
+            label="Email"
+            variant="filled"
+            onChange={(e) => setEmail(e.target.value)}
+            InputProps={{
+              disableUnderline: true,
+              style: {
+                backgroundColor: "#FFFFFF",
+                borderRadius: "5px",
+                marginBottom: "15px",
+                fontFamily: "Montserrat",
+              },
+            }}
+          />
+
+          <TextField
+            type={showPassword ? "text" : "password"}
+            fullWidth
+            label="Password"
+            variant="filled"
+            onChange={(e) => setPassword(e.target.value)}
+            InputProps={{
+              disableUnderline: true,
+              style: {
+                backgroundColor: "#FFFFFF",
+                borderRadius: "5px",
+                marginBottom: "15px",
+                fontFamily: "Montserrat",
+              },
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+          {error && (
+            <Typography variant="body2" color="error" gutterBottom>
+              {error}
+            </Typography>
+          )}
+
+          <Box mt="15%" display={"flex"} justifyContent={"center"}>
+            <Button
               fullWidth
-              label="Email"
-              variant="filled"
-              onChange={(e) => setEmail(e.target.value)}
-              InputProps={{
-                disableUnderline: true,
-                style: {
-                  backgroundColor: "#FFFFFF",
-                  borderRadius: "5px",
-                  marginBottom: "15px",
-                  fontFamily: "Montserrat",
+              size="medium"
+              variant="contained"
+              sx={{
+                textTransform: "none",
+                backgroundColor: "#91488A",
+                borderRadius: "5px",
+                height: "50px",
+                fontFamily: "Montserrat",
+                fontSize: "20px",
+                fontWeight: "500",
+                "&:hover": {
+                  backgroundColor: "#3B3B58",
+                  fontWeight: "600",
                 },
               }}
-            />
-
-            <TextField
-              type={showPassword ? "text" : "password"}
-              fullWidth
-              label="Password"
-              variant="filled"
-              onChange={(e) => setPassword(e.target.value)}
-              InputProps={{
-                disableUnderline: true,
-                style: {
-                  backgroundColor: "#FFFFFF",
-                  borderRadius: "5px",
-                  marginBottom: "15px",
-                  fontFamily: "Montserrat",
-                },
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-
-            <Box 
-              mt="15%" 
-              display={"flex"} 
-              justifyContent={"center"}
+              onClick={logIn}
             >
-              <Button
-                fullWidth
-                size="medium"
-                variant="contained"
-                sx={{
-                  textTransform: "none",
-                  backgroundColor: "#91488A",
-                  borderRadius: "5px",
-                  height: "50px",
-                  fontFamily: "Montserrat",
-                  fontSize: "20px",
-                  fontWeight: "500",
-                  "&:hover": {
-                    backgroundColor: "#3B3B58",
-                    fontWeight: "600",
-                  },
-                }}
-                onClick={logIn}
-              >
-                Log in
-              </Button>
-            </Box>
-        
+              Log in
+            </Button>
+          </Box>
         </Box>
 
-        <Box 
-          mt={"3%"}
-          display={"flex"} 
-          justifyContent={"space-between"}
-        >
+        <Box mt={"3%"} display={"flex"} justifyContent={"space-between"}>
           <FormGroup>
             <FormControlLabel
-              control={
-                <Checkbox color="default" sx={{ color: "#232335" }} />
-              }
+              control={<Checkbox color="default" sx={{ color: "#232335" }} />}
               label={
-                <Typography 
+                <Typography
                   fontFamily={"Montserrat"}
                   textAlign={"center"}
                   color={"#232335"}
                   fontSize={"18px"}
                   fontWeight={"400"}
                 >
-                Remember Me
+                  Remember Me
                 </Typography>
               }
               sx={{ color: "#232335", "& .MuiSvgIcon-root": { fontSize: 18 } }}
@@ -166,19 +168,18 @@ function LogInPage() {
           </FormGroup>
 
           <Box>
-            <Link 
-              href="#" 
-              sx={{ 
+            <Link
+              href="#"
+              sx={{
                 textDecoration: "underline",
                 fontFamily: "Montserrat",
-                color: "#232335" 
-                }}
+                color: "#232335",
+              }}
             >
               {/* backgroundColor: "#7A5980", */}
               Forgot Password?
             </Link>
           </Box>
-
         </Box>
 
         <Box mt={"5px"}>
@@ -189,24 +190,23 @@ function LogInPage() {
             fontSize={"18px"}
             fontWeight={"400"}
             sx={{
-              marginTop: "10px"
+              marginTop: "10px",
             }}
           >
             Don't have an account?{" "}
             <Link
               component={RouterLink}
               to="/SignUp"
-              sx={{ 
-                textDecoration: "underline", 
-                fontWeight: "700", 
-                color: "#232335" 
+              sx={{
+                textDecoration: "underline",
+                fontWeight: "700",
+                color: "#232335",
               }}
             >
               Sign Up
             </Link>
           </Typography>
         </Box>
-
       </Box>
     </Box>
   );

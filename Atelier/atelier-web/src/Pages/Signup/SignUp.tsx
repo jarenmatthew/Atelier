@@ -42,33 +42,37 @@ function SignUpPage() {
   const uploadProfilePhoto = async (file: File) => {
     const storageRef = ref(storage, `profile_photos/${file.name}`);
     const uploadTask = uploadBytes(storageRef, file);
-  
+
     // Wait for the upload to complete
     await uploadTask;
-  
+
     // Get the download URL
     const downloadURL = await getDownloadURL(storageRef);
-  
+
     return downloadURL;
   };
-  
+
   const uploadCoverPhoto = async (file: File) => {
     const storageRef = ref(storage, `cover_photos/${file.name}`);
     const uploadTask = uploadBytes(storageRef, file);
-  
+
     // Wait for the upload to complete
     await uploadTask;
-  
+
     // Get the download URL
     const downloadURL = await getDownloadURL(storageRef);
-  
+
     return downloadURL;
   };
 
   const saveDataToFirestore = async () => {
     try {
-      const profilePhotoURL = profilePhoto ? await uploadProfilePhoto(profilePhoto) : null;
-      const coverPhotoURL = coverPhoto ? await uploadCoverPhoto(coverPhoto) : null;
+      const profilePhotoURL = profilePhoto
+        ? await uploadProfilePhoto(profilePhoto)
+        : null;
+      const coverPhotoURL = coverPhoto
+        ? await uploadCoverPhoto(coverPhoto)
+        : null;
       const accountCollection = "accounts";
       const docRef = await addDoc(collection(db, accountCollection), {
         email: email,
@@ -99,7 +103,13 @@ function SignUpPage() {
       await createUserWithEmailAndPassword(auth, email, password);
       setOpenDialog(true);
     } catch (err) {
-      console.log(err);
+      if (err.message.includes("auth/invalid-email")) {
+        setError("Sorry, we don't recognize this email.");
+      } else if (err.message.includes("auth/invalid-credential")) {
+        setError("Your password is incorrect. Please try again.");
+      } else {
+        setError(err.message);
+      }
     }
   };
 
@@ -110,15 +120,14 @@ function SignUpPage() {
   };
 
   return (
-    <Box 
-      minHeight={"100vh"} 
-      sx={{ backgroundColor: "#E2C1BE" }}
-    >
-
+    <Box minHeight={"100vh"} sx={{ backgroundColor: "#E2C1BE" }}>
       <Box m="0 auto" maxWidth="500px">
-
         <Box m="0 auto" pt={"80px"} width={"280px"}>
-          <img src="/src/assets/atelier-logo2.png" alt="Atelier" width={"100%"}/>
+          <img
+            src="/src/assets/atelier-logo2.png"
+            alt="Atelier"
+            width={"100%"}
+          />
         </Box>
 
         <Box mt={"15%"}>
@@ -134,7 +143,6 @@ function SignUpPage() {
         </Box>
 
         <Box mt={"10%"}>
-
           <TextField
             fullWidth
             required={true}
@@ -217,11 +225,7 @@ function SignUpPage() {
             </Typography>
           )}
 
-          <Box 
-            mt="15%" 
-            display={"flex"} 
-            justifyContent={"center"}
-          >
+          <Box mt="15%" display={"flex"} justifyContent={"center"}>
             <Button
               fullWidth
               size="medium"
@@ -241,7 +245,7 @@ function SignUpPage() {
               }}
               onClick={signUp}
             >
-             Sign Up
+              Sign Up
             </Button>
           </Box>
 
@@ -252,23 +256,22 @@ function SignUpPage() {
             fontSize={"18px"}
             fontWeight={"400"}
             sx={{
-              marginTop: "10px"
+              marginTop: "10px",
             }}
           >
             Already have an account?{" "}
             <Link
               component={RouterLink}
               to="/LogIn"
-              sx={{ 
-                textDecoration: "underline", 
-                fontWeight: "700", 
-                color: "#232335" 
+              sx={{
+                textDecoration: "underline",
+                fontWeight: "700",
+                color: "#232335",
               }}
             >
               Login
             </Link>
           </Typography>
-
         </Box>
       </Box>
 
@@ -331,15 +334,12 @@ function SignUpPage() {
             }}
             InputLabelProps={{ shrink: true }}
           />
-
         </DialogContent>
 
         <DialogActions>
           <Button onClick={handleDialogClose}>Launch Profile</Button>
         </DialogActions>
-
       </Dialog>
-
     </Box>
   );
 }
