@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { CssBaseline } from "@mui/material";
 import LogInPage from "./Pages/Login/LogIn.tsx";
 import Home from "./Pages/home/HomePage.tsx";
-import SignUpPage from "./Pages/Signup/SignUp.tsx";
+import SignUpPage from "./Pages/SignUp/SignUp.tsx";
 import FirebaseTest from "./Pages/test pages/FirebaseTest.tsx";
 import Product from "./Pages/Product/ProductPage.tsx";
 import Shop from "./Pages/shop/shopPage.tsx";
@@ -13,7 +13,7 @@ import About from "./Pages/aboutUs/aboutPage.tsx";
 import GetStarted from "./Pages/landingPage/getStarted.tsx";
 import User from "./Pages/Profile/userProfile.tsx";
 import Artist from "./Pages/Profile/artistProfile.tsx";
-import Explore from "./Pages/explore/explorePage.tsx";
+import Explore from "./Pages/explore/ExplorePage.tsx";
 
 
 const router = createBrowserRouter([
