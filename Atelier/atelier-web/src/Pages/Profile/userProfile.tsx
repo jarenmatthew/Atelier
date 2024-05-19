@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { getFirestore, getDoc, doc } from "firebase/firestore";
-import { User as FirebaseUser } from "firebase/auth";
 import { useAuth } from "../../auth/AuthContext";
 import { Typography } from "@mui/material";
 import Header from "../../Header";
 import Footer from "../../Footer";
 import "./userProfileStyle.css";
+import { getFirestore, getDoc, doc } from "firebase/firestore";
+import { User as FirebaseUser } from "firebase/auth";
 
 const User: React.FC = () => {
   const currentUser = useAuth().currentUser as FirebaseUser | null;
@@ -17,7 +17,6 @@ const User: React.FC = () => {
         const db = getFirestore();
         const userRef = doc(db, "accounts", uid);
         const userDoc = await getDoc(userRef);
-
         if (userDoc.exists()) {
           const userData = userDoc.data();
           setUserData(userData);
@@ -25,7 +24,6 @@ const User: React.FC = () => {
         } else {
           console.log("No such document!");
         }
-        
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
