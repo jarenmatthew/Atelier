@@ -1,92 +1,63 @@
-import React, { useEffect, useState } from "react";
-import { useAuth } from "../../auth/AuthContext";
-import { Typography } from "@mui/material";
-import Header from "../../Header";
-import Footer from "../../Footer";
-import "./userProfileStyle.css";
-import { getFirestore, getDoc, doc } from "firebase/firestore";
-import { User as FirebaseUser } from "firebase/auth";
-import { redirect } from "react-router-dom";
+// UserProfile.jsx
 
-const User: React.FC = () => {
-  const currentUser = useAuth().currentUser as FirebaseUser | null;
-  const [userData, setUserData] = useState<any>(null);
+import React, { useEffect, useState } from 'react';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { Box, Typography, Avatar } from '@mui/material';
+import { useParams } from 'react-router-dom';
+import './userProfileStyle.css';
+import Header from '../../Header';
+import Footer from '../../Footer';
+import { auth } from "../../../FirebaseConfig"; // Import Firebase authentication
+
+const UserProfile = () => {
+  const { docId } = useParams(); // Change userId to docId
+  const [userData, setUserData] = useState(null);
+  const db = getFirestore();
 
   useEffect(() => {
-    const fetchUserData = async (uid: string) => {
+    const fetchData = async () => {
       try {
-        const db = getFirestore();
-        const userRef = doc(db, "accounts", uid);
-        const userDoc = await getDoc(userRef);
-        if (userDoc.exists()) {
-          const userData = userDoc.data();
-          setUserData(userData);
+        // Get the current user's authentication state
+        const currentUser = auth.currentUser;
+        if (currentUser) {
+          // If user is logged in, fetch their profile data based on the document ID
+          const docRef = doc(db, 'accounts', docId); // Use docId instead of currentUser.uid
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            setUserData(docSnap.data());
+          } else {
+            console.log('No such document!');
+          }
         } else {
-          console.log("No such document!");
+          // Handle if user is not logged in
+          console.log('User not logged in');
         }
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        console.error('Error fetching document:', error);
       }
     };
 
-    if (currentUser && currentUser.uid) {
-      fetchUserData(currentUser.uid);
-    }
-  }, [currentUser]);
+    fetchData();
+  }, [docId, db]); // Add docId to the dependency array
+
+  if (!userData) {
+    return <Typography>Loading...</Typography>;
+  }
 
   return (
     <div>
       <Header />
-      <div className="container">
-        {/* Display user profile information */}
-        <div id="profile-banner">
-          <div id="profile-cover">
-            <img
-              src={userData?.coverPhoto}
-              className="cover-photo"
-              alt="User cover photo"
-            />
-          </div>
+      <Box display="flex" flexDirection="column" alignItems="center" p={2}>
+        <Avatar src={userData.profilePhoto} alt={userData.fullName} sx={{ width: 100, height: 100 }} />
+        <Typography variant="h5">{userData.fullName}</Typography>
+        <Typography variant="body1">@{userData.username}</Typography>
+        <Typography variant="body2">{userData.description}</Typography>
+        {userData.coverPhoto && <img src={userData.coverPhoto} alt="Cover" style={{ width: '100%', maxHeight: '200px', objectFit: 'cover' }} />}
+      </Box>
 
-          <div id="profile-elements">
-            <div id="profile-cont">
-              <div id="profile-picture">
-                <img
-                  src={userData?.profilePhoto}
-                  className="profile-photo"
-                  alt="User profile photo"
-                />
-              </div>
-
-              <div id="profile-deets">
-                <p id="user-name">{userData?.fullName}</p>
-                <p id="user-username">@{userData?.username}</p>
-              </div>
-            </div>
-
-            <div id="profile-buttons">
-              <button className="user-profile-btns" id="edit-button">
-                Edit Profile
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div className="user-bio">
-          {/* Display user's bio */}
-          <p>{userData?.description}</p>
-        </div>
-
-        <Typography>hi {currentUser?.email}</Typography>
-
-        <div className="user-contact-info">
-          {/* Display user's contact information */}
-          <p>Email: {userData?.email}</p>
-        </div>
-      </div>
       <Footer />
     </div>
   );
 };
 
-export default User;
+export default UserProfile;

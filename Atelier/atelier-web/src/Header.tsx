@@ -11,12 +11,12 @@ const Header: React.FC = () => {
   const [notifURL, setNotifIconURL] = useState('');
   const [messageURL, setMessageIconURL] = useState('');
   const [cartURL, setCartIconURL] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate(); // Import useNavigate hook
+  const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
     fetchIconURLs(); // Fetch icon URLs
-    checkUserAuth(); // Check user authentication status
+    getCurrentUser(); // Get current user upon component mount
   }, []);
 
   const fetchIconURLs = async () => {
@@ -39,19 +39,41 @@ const Header: React.FC = () => {
     }
   };
 
-  const checkUserAuth = () => {
-    auth.onAuthStateChanged(user => {
+  const getCurrentUser = () => {
+    // Listen for changes to the authentication state
+    auth.onAuthStateChanged((user) => {
       if (user) {
-        setIsLoggedIn(true);
+        // User is signed in
+        setCurrentUser(user);
       } else {
-        setIsLoggedIn(false);
+        // User is signed out
+        setCurrentUser(null);
       }
     });
   };
+  
 
   const handleProfileClick = () => {
-    //fetchUserData();
-    navigate("/user");
+        const currentUserDocId = localStorage.getItem('currentUserDocId');
+    if (currentUser) {
+      // If user is logged in, navigate to their profile
+      navigate(`/profile/${currentUserDocId}`);
+    } else {
+      // If user is not logged in, navigate to login page
+      navigate("/login");
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await auth.signOut();
+      // Clear current user state upon logout
+      setCurrentUser(null);
+      // Redirect to login page
+      navigate("/login");
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
   };
 
   return (
@@ -76,22 +98,16 @@ const Header: React.FC = () => {
         <div id='header-icons'>
 
           <div id='icons-main-container'>
-            {isLoggedIn && (
-              <div className='icons-box'>
-                <Link to="/cart"><img src={cartURL} className="icons" alt="cart" /></Link>
-                <div className="cart-count">0</div>
-              </div>
-            )}
+            <div className='icons-box'>
+              <Link to="/cart"><img src={cartURL} className="icons" alt="cart" /></Link>
+              <div className="cart-count">0</div>
+            </div>
             <div><Link to="/"><img src={messageURL} className="icons" alt="message" /></Link></div>
             <div><Link to="/Notification"><img src={notifURL} className="icons" alt="notif" /></Link></div>
           </div>
          
           <div id='profile-box'>
-              {isLoggedIn ? (
-                <img src={profileIconURL} className="profile" alt="Profile Circle" onClick={handleProfileClick} />
-              ) : (
-                <Link to="/signup">Sign Up</Link>
-              )}
+            <img src={profileIconURL} className="profile" alt="Profile Circle" onClick={handleProfileClick} />
           </div>
 
         </div>

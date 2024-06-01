@@ -78,13 +78,16 @@ function SignUpPage() {
         email: email,
         fullName: fullName,
         username: username,
+        password: password,
         description: description,
         profilePhoto: profilePhotoURL,
         coverPhoto: coverPhotoURL,
       });
       console.log("Document written with ID: ", docRef.id);
+      return docRef.id; // Return the document ID
     } catch (err) {
       console.error("Error adding document: ", err);
+      return null;
     }
   };
 
@@ -93,32 +96,43 @@ function SignUpPage() {
       setError("Password should be at least 6 characters long.");
       return;
     }
-
+  
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
       return;
     }
-
+  
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      // Create user with email and password
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+  
+      // Save user data to local storage
+      localStorage.setItem('currentUser', JSON.stringify(user));
       setOpenDialog(true);
     } catch (err) {
-      if (err.message.includes("auth/invalid-email")) {
-        setError("Sorry, we don't recognize this email.");
-      } else if (err.message.includes("auth/invalid-credential")) {
-        setError("Your password is incorrect. Please try again.");
+      // Handle errors
+      if (err.code === "auth/invalid-email") {
+        setError("Invalid email address.");
+      } else if (err.code === "auth/email-already-in-use") {
+        setError("Email is already in use.");
       } else {
-        setError(err.message);
+        setError("Failed to sign up. Please try again later.");
       }
     }
   };
-
- const handleDialogClose = () => {
+  
+  const handleDialogClose = async () => {
     setOpenDialog(false);
-    saveDataToFirestore();
-    navigate("/home");
-    fetchUserData(); // Fetch user data after navigating to homepage
+    const docId = await saveDataToFirestore();
+    if (docId) {
+      localStorage.setItem('currentUserDocId', docId);
+      setOpenDialog(true);
+    } else {
+      setError("Failed to save data to Firestore.");
+    }
   };
+  
 
   return (
     <Box minHeight={"100vh"} sx={{ backgroundColor: "#E2C1BE" }}>

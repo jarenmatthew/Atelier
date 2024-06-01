@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Box, Typography, TextField, Button, Link, Checkbox, FormGroup, FormControlLabel, InputAdornment, IconButton } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { Navigate, Link as RouterLink } from 'react-router-dom';
+import { Navigate, useNavigate, Link as RouterLink } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../../FirebaseConfig';
-import { User } from '../userProfile';
+import { auth, db } from '../../../FirebaseConfig';
+import { getFirestore, doc, getDoc, query, where, collection, getDocs } from 'firebase/firestore';
 
 function LogInPage() {
   const [email, setEmail] = useState('');
@@ -12,23 +12,36 @@ function LogInPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  const firestore = getFirestore();
 
   const handleClickShowPassword = () => setShowPassword(!showPassword);
 
   const logIn = async () => {
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      setIsLoggedIn(true);
-      setError(null);
-    } catch (err) {
-      setError(err.message);
+      // Sign in with email and password
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+  
+      // Query Firestore to find the user document with the corresponding email
+      const querySnapshot = await getDocs(query(collection(firestore, 'accounts'), where('email', '==', user.email)));
+  
+      if (!querySnapshot.empty) {
+        // Assuming there's only one document matching the email
+        const docId = querySnapshot.docs[0].id;
+        // Store the document ID in local storage
+        localStorage.setItem('currentUserDocId', docId);
+      }
+  
+      // Store the user data in local storage
+      localStorage.setItem('currentUser', JSON.stringify(user));
+      // Redirect to the user's profile page
+      navigate(`/profile/${docId}`);
+    } catch (error) {
+      setError("Failed to log in. Please check your credentials.");
     }
   };
-
-  if (isLoggedIn) {
-    return <Navigate to="/home" replace={true} />;
-    
-  }
+  
 
   return (
     <Box minHeight="100vh" sx={{ backgroundColor: "#E2C1BE" }}>
@@ -38,39 +51,30 @@ function LogInPage() {
         </Box>
         <Box mt="15%">
           <Typography fontFamily="Inknut Antiqua" textAlign="center" color="#232335" fontSize="175%" fontWeight="700">
-            Login
+            Log In
           </Typography>
         </Box>
         <Box mt="10%">
           <TextField
             fullWidth
+            required
             label="Email"
             variant="filled"
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
-            InputProps={{
-              disableUnderline: true,
-              style: {
-                backgroundColor: "#FFFFFF",
-                borderRadius: "5px",
-                marginBottom: "15px",
-                fontFamily: "Montserrat",
-              },
-            }}
+            InputProps={{ disableUnderline: true, style: { backgroundColor: "#FFFFFF", borderRadius: "5px", marginBottom: "15px", fontFamily: "Montserrat" } }}
           />
           <TextField
-            type={showPassword ? "text" : "password"}
             fullWidth
+            required
+            type={showPassword ? 'text' : 'password'}
             label="Password"
             variant="filled"
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
             InputProps={{
               disableUnderline: true,
-              style: {
-                backgroundColor: "#FFFFFF",
-                borderRadius: "5px",
-                marginBottom: "15px",
-                fontFamily: "Montserrat",
-              },
+              style: { backgroundColor: "#FFFFFF", borderRadius: "5px", marginBottom: "15px", fontFamily: "Montserrat" },
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton onClick={handleClickShowPassword} edge="end">
@@ -80,7 +84,21 @@ function LogInPage() {
               ),
             }}
           />
-          {error && <Typography variant="body2" color="error">{error}</Typography>}
+          {error && (
+            <Typography variant="body2" color="error">
+              {error}
+            </Typography>
+          )}
+          <Box display="flex" justifyContent="space-between">
+            <FormGroup>
+              <FormControlLabel control={<Checkbox />} label="Remember me" sx={{ fontFamily: "Montserrat" }} />
+            </FormGroup>
+            <Typography fontFamily="Montserrat" fontWeight="500">
+              <Link component={RouterLink} to="/forgot-password" sx={{ textDecoration: "none", color: "#232335" }}>
+                Forgot Password?
+              </Link>
+            </Typography>
+          </Box>
           <Box mt="15%" display="flex" justifyContent="center">
             <Button
               fullWidth
@@ -98,31 +116,11 @@ function LogInPage() {
               }}
               onClick={logIn}
             >
-              Log in
+              Log In
             </Button>
           </Box>
-        </Box>
-        <Box mt="3%" display="flex" justifyContent="space-between">
-          <FormGroup>
-            <FormControlLabel
-              control={<Checkbox color="default" sx={{ color: "#232335" }} />}
-              label={
-                <Typography fontFamily="Montserrat" textAlign="center" color="#232335" fontSize="18px" fontWeight="400">
-                  Remember Me
-                </Typography>
-              }
-              sx={{ color: "#232335", "& .MuiSvgIcon-root": { fontSize: 18 } }}
-            />
-          </FormGroup>
-          <Box>
-            <Link href="#" sx={{ textDecoration: "underline", fontFamily: "Montserrat", color: "#232335" }}>
-              Forgot Password?
-            </Link>
-          </Box>
-        </Box>
-        <Box mt="5px">
-          <Typography fontFamily="Montserrat" textAlign="center" color="#232335" fontSize="18px" fontWeight="400">
-            Don't have an account?{" "}
+          <Typography fontFamily="Montserrat" textAlign="center" color="#232335" fontSize="18px" fontWeight="400" sx={{ marginTop: "10px" }}>
+            Don't have an account?{' '}
             <Link component={RouterLink} to="/SignUp" sx={{ textDecoration: "underline", fontWeight: "700", color: "#232335" }}>
               Sign Up
             </Link>
