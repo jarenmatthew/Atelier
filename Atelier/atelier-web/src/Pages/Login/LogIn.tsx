@@ -169,7 +169,9 @@ function LogInPage() {
 
           <Box>
             <Link
-              href="#"
+              // href="#"
+              component={RouterLink}
+              to="/forgot-password" 
               sx={{
                 textDecoration: "underline",
                 fontFamily: "Montserrat",
