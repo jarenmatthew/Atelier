@@ -19,24 +19,28 @@ function LogInPage() {
 
   const logIn = async () => {
     try {
-      // Sign in with email and password
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
+      const userEmail = userCredential.user.email;
   
       // Query Firestore to find the user document with the corresponding email
-      const querySnapshot = await getDocs(query(collection(firestore, 'accounts'), where('email', '==', user.email)));
+      const querySnapshot = await getDocs(query(collection(firestore, 'accounts'), where('email', '==', userEmail)));
   
       if (!querySnapshot.empty) {
         // Assuming there's only one document matching the email
         const docId = querySnapshot.docs[0].id;
-        // Store the document ID in local storage
-        localStorage.setItem('currentUserDocId', docId);
-      }
+        const userData = querySnapshot.docs[0].data();
+        const userRole = userData.role; // Assuming you have a 'role' field in the user document
   
-      // Store the user data in local storage
-      localStorage.setItem('currentUser', JSON.stringify(user));
-      // Redirect to the user's profile page
-      navigate(`/profile/${docId}`);
+        // Store the document ID and role in local storage
+        localStorage.setItem('currentUserDocId', docId);
+        localStorage.setItem('currentUserRole', userRole);
+  
+        // Determine the route based on the user's role
+        const route = userRole === 'user' ? '/user' : '/artist';
+        navigate(`${route}/${docId}`);
+      } else {
+        setError("User data not found.");
+      }
     } catch (error) {
       setError("Failed to log in. Please check your credentials.");
     }

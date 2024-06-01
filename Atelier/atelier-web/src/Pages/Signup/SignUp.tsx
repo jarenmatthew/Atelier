@@ -7,6 +7,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { auth } from "../../../FirebaseConfig";
 import { useNavigate } from "react-router";
 import { useState } from "react";
+import { RadioGroup, Radio, FormControlLabel } from "@mui/material";
 import {
   Box,
   Typography,
@@ -31,6 +32,7 @@ function SignUpPage() {
   const [description, setDescription] = useState("");
   const [profilePhoto, setProfilePhoto] = useState<File | null>(null);
   const [coverPhoto, setCoverPhoto] = useState<File | null>(null);
+  const [selectedRole, setSelectedRole] = useState<'user' | 'artist'>('user');
   const [openDialog, setOpenDialog] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -38,6 +40,10 @@ function SignUpPage() {
 
   const db = getFirestore();
   const storage = getStorage();
+
+  const handleRoleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedRole((event.target as HTMLInputElement).value as 'user' | 'artist');
+  };
 
   const uploadProfilePhoto = async (file: File) => {
     const storageRef = ref(storage, `profile_photos/${file.name}`);
@@ -67,21 +73,18 @@ function SignUpPage() {
 
   const saveDataToFirestore = async () => {
     try {
-      const profilePhotoURL = profilePhoto
-        ? await uploadProfilePhoto(profilePhoto)
-        : null;
-      const coverPhotoURL = coverPhoto
-        ? await uploadCoverPhoto(coverPhoto)
-        : null;
+      const profilePhotoURL = profilePhoto ? await uploadProfilePhoto(profilePhoto) : null;
+      const coverPhotoURL = coverPhoto ? await uploadCoverPhoto(coverPhoto) : null;
       const accountCollection = "accounts";
       const docRef = await addDoc(collection(db, accountCollection), {
         email: email,
         fullName: fullName,
         username: username,
-        password: password,
         description: description,
         profilePhoto: profilePhotoURL,
         coverPhoto: coverPhotoURL,
+        role: selectedRole, // Save selected role
+        followers: selectedRole === 'artist' ? 0 : null, // Add followers field if artist
       });
       console.log("Document written with ID: ", docRef.id);
       return docRef.id; // Return the document ID
@@ -96,43 +99,43 @@ function SignUpPage() {
       setError("Password should be at least 6 characters long.");
       return;
     }
-  
+
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
       return;
     }
-  
+
     try {
-      // Create user with email and password
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-  
-      // Save user data to local storage
-      localStorage.setItem('currentUser', JSON.stringify(user));
+      await createUserWithEmailAndPassword(auth, email, password);
       setOpenDialog(true);
     } catch (err) {
-      // Handle errors
-      if (err.code === "auth/invalid-email") {
-        setError("Invalid email address.");
-      } else if (err.code === "auth/email-already-in-use") {
-        setError("Email is already in use.");
+      if (err.message.includes("auth/invalid-email")) {
+        setError("Sorry, we don't recognize this email.");
+      } else if (err.message.includes("auth/invalid-credential")) {
+        setError("Your password is incorrect. Please try again.");
       } else {
-        setError("Failed to sign up. Please try again later.");
+        setError(err.message);
       }
     }
   };
-  
+
   const handleDialogClose = async () => {
     setOpenDialog(false);
-    const docId = await saveDataToFirestore();
+    const docId = await saveDataToFirestore(); // Get the document ID
+
     if (docId) {
+      // Save the document ID and role to local storage
       localStorage.setItem('currentUserDocId', docId);
-      setOpenDialog(true);
+      localStorage.setItem('currentUserRole', selectedRole);
+
+      // Determine the route based on the selected role
+      const route = selectedRole === 'user' ? '/user' : '/artist';
+      navigate(`${route}/${docId}`); // Navigate to the profile page with the document ID and role
     } else {
-      setError("Failed to save data to Firestore.");
+      // Handle error
+      console.error("Failed to save data to Firestore.");
     }
   };
-  
 
   return (
     <Box minHeight={"100vh"} sx={{ backgroundColor: "#E2C1BE" }}>
@@ -349,6 +352,17 @@ function SignUpPage() {
             }}
             InputLabelProps={{ shrink: true }}
           />
+          <RadioGroup
+            row
+            aria-label="role"
+            name="role"
+            value={selectedRole}
+            onChange={handleRoleChange}
+            sx={{ mb: 2 }}
+          >
+            <FormControlLabel value="user" control={<Radio />} label="User" />
+            <FormControlLabel value="artist" control={<Radio />} label="Artist" />
+          </RadioGroup>
         </DialogContent>
 
         <DialogActions>
@@ -360,4 +374,3 @@ function SignUpPage() {
 }
 
 export default SignUpPage;
-

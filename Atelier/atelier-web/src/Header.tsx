@@ -12,11 +12,9 @@ const Header: React.FC = () => {
   const [messageURL, setMessageIconURL] = useState('');
   const [cartURL, setCartIconURL] = useState('');
   const navigate = useNavigate(); // Import useNavigate hook
-  const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
     fetchIconURLs(); // Fetch icon URLs
-    getCurrentUser(); // Get current user upon component mount
   }, []);
 
   const fetchIconURLs = async () => {
@@ -39,47 +37,25 @@ const Header: React.FC = () => {
     }
   };
 
-  const getCurrentUser = () => {
-    // Listen for changes to the authentication state
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        // User is signed in
-        setCurrentUser(user);
-      } else {
-        // User is signed out
-        setCurrentUser(null);
-      }
-    });
-  };
-  
-
   const handleProfileClick = () => {
-        const currentUserDocId = localStorage.getItem('currentUserDocId');
-    if (currentUser) {
-      // If user is logged in, navigate to their profile
-      navigate(`/profile/${currentUserDocId}`);
-    } else {
-      // If user is not logged in, navigate to login page
-      navigate("/login");
-    }
-  };
+    // Retrieve the document ID and role of the current user from local storage
+    const docId = localStorage.getItem('currentUserDocId');
+    const role = localStorage.getItem('currentUserRole');
 
-  const handleLogout = async () => {
-    try {
-      await auth.signOut();
-      // Clear current user state upon logout
-      setCurrentUser(null);
-      // Redirect to login page
-      navigate("/login");
-    } catch (error) {
-      console.error('Error logging out:', error);
+    // If the document ID and role exist
+    if (docId && role) {
+      // Determine the route based on the user's role
+      const route = role === 'user' ? '/user' : '/artist';
+      // Navigate to the profile page with the document ID in the URL
+      navigate(`${route}/${docId}`);
+    } else {
+      console.error('Document ID or role not found in local storage.');
     }
   };
 
   return (
     <header>
       <section id="header">
-
         <div id='atelier-brand'>
           <div>
             <Link to="/home"><img src={logoIconURL} className="logo" alt="Atelier Logo" /></Link>
@@ -96,7 +72,6 @@ const Header: React.FC = () => {
         </div>
 
         <div id='header-icons'>
-
           <div id='icons-main-container'>
             <div className='icons-box'>
               <Link to="/cart"><img src={cartURL} className="icons" alt="cart" /></Link>
@@ -109,9 +84,7 @@ const Header: React.FC = () => {
           <div id='profile-box'>
             <img src={profileIconURL} className="profile" alt="Profile Circle" onClick={handleProfileClick} />
           </div>
-
         </div>
-
       </section>
     </header>
   );
