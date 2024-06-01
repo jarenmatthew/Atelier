@@ -4,6 +4,7 @@ import { storage } from "../../../FirebaseConfig";
 import "./ExploreStyles.css";
 import Header from "../../Header";
 import Footer from "../../Footer";
+import CloseIcon from "@mui/icons-material/Close";
 import {
   Box,
   ImageList,
@@ -18,6 +19,7 @@ import {
   FormControl,
   InputLabel,
   Button,
+  IconButton,
 } from "@mui/material";
 
 const Explore: React.FC = () => {
@@ -118,7 +120,11 @@ const Explore: React.FC = () => {
   const [selectedTitle, setSelectedTitle] = useState("");
   const [selectedSubtitle, setSelectedSubtitle] = useState("");
 
-  const handleClickOpen = (artwork) => {
+  const handleClickOpen = (artwork: {
+    imageUrl: React.SetStateAction<null>;
+    title: React.SetStateAction<string>;
+    artist: any;
+  }) => {
     setSelectedImage(artwork.imageUrl);
     setSelectedTitle(artwork.title);
     setSelectedSubtitle(`by ${artwork.artist}`);
@@ -178,7 +184,7 @@ const Explore: React.FC = () => {
             id="sort-label"
             sx={{ fontFamily: "Montserrat", fontWeight: "400" }}
           >
-            Sort By
+            {/* Sort By */}
           </InputLabel>
           <Select
             labelId="sort-label"
@@ -239,20 +245,40 @@ const Explore: React.FC = () => {
         </ImageList>
 
         <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
-          <DialogTitle>{selectedTitle}</DialogTitle>
-          <DialogContent>
-            <img
-              src={selectedImage}
-              alt={selectedTitle}
-              style={{ width: "100%", height: "auto" }}
-            />
+          <DialogTitle
+            display="center"
+            sx={{
+              fontFamily: "Inknut Antiqua",
+              fontWeight: "500",
+              fontSize: "100%",
+            }}
+          >
+            {selectedTitle}
+          </DialogTitle>
+          <IconButton
+            aria-label="close"
+            onClick={handleClose}
+            sx={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+          <DialogContent sx={{ display: "flex" }}>
+            <Box sx={{ width: "50%", eight: "100%" }}>
+              <img
+                src={selectedImage}
+                alt={selectedTitle}
+                style={{ width: "100%", height: "100%" }}
+              />
+            </Box>
+            <Box>desc</Box>
             <p>{selectedSubtitle}</p>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              Close
-            </Button>
-          </DialogActions>
+          <DialogActions></DialogActions>
         </Dialog>
       </Box>
 
