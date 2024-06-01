@@ -8,8 +8,15 @@ p.atelier-desc {
     font-weight: 400;
 }
 
+p.join-us {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 110%;
+    font-weight: 400;
+}
+
 h1.catch-phrase {
     font-family: 'Inknut Antiqua', serif;
+    font-size: 120%;
 }
 
 /* Style for sections, containers, and boxes */
