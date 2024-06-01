@@ -14,6 +14,7 @@ import GetStarted from "./Pages/landingPage/getStarted.tsx";
 import User from "./Pages/Profile/userProfile.tsx";
 import Artist from "./Pages/Profile/artistProfile.tsx";
 import Explore from "./Pages/explore/explorePage.tsx";
+import ForgotPassword from "./Pages/forgot-pass/ForgotPassword.tsx";
 
 
 const router = createBrowserRouter([
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
   { path: "/user", element: <User />},
   { path: "/Profile", element: <Artist />},
   { path: "/Cart", element: <MyCart />},
+  { path: "/forgot-password", element: <ForgotPassword /> },
 
 ]);
 
