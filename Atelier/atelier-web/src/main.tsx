@@ -17,6 +17,7 @@ import Explore from "./Pages/explore/explorePage";
 import Notification from "./Pages/Notification";
 import UserProfile from "./Pages/Profile/userProfile"; // Import UserProfile
 import ArtistProfile from "./Pages/Profile/artistProfile";
+import ForgotPassword from "./Pages/forgot-pass/ForgotPassword.tsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <GetStarted /> },
@@ -33,6 +34,8 @@ const router = createBrowserRouter([
   { path: "/user/:userId", element: <UserProfile /> }, // Corrected syntax
   { path: "/Cart", element: <MyCart /> },
   { path: "/Notification", element: <Notification /> },
+  { path: "/forgot-password", element: <ForgotPassword /> },
+
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

@@ -126,6 +126,65 @@ function LogInPage() {
           <Typography fontFamily="Montserrat" textAlign="center" color="#232335" fontSize="18px" fontWeight="400" sx={{ marginTop: "10px" }}>
             Don't have an account?{' '}
             <Link component={RouterLink} to="/SignUp" sx={{ textDecoration: "underline", fontWeight: "700", color: "#232335" }}>
+        </Box>
+
+        <Box mt={"3%"} display={"flex"} justifyContent={"space-between"}>
+          <FormGroup>
+            <FormControlLabel
+              control={<Checkbox color="default" sx={{ color: "#232335" }} />}
+              label={
+                <Typography
+                  fontFamily={"Montserrat"}
+                  textAlign={"center"}
+                  color={"#232335"}
+                  fontSize={"18px"}
+                  fontWeight={"400"}
+                >
+                  Remember Me
+                </Typography>
+              }
+              sx={{ color: "#232335", "& .MuiSvgIcon-root": { fontSize: 18 } }}
+            />
+          </FormGroup>
+
+          <Box>
+            <Link
+              // href="#"
+              component={RouterLink}
+              to="/forgot-password" 
+              sx={{
+                textDecoration: "underline",
+                fontFamily: "Montserrat",
+                color: "#232335",
+              }}
+            >
+              {/* backgroundColor: "#7A5980", */}
+              Forgot Password?
+            </Link>
+          </Box>
+        </Box>
+
+        <Box mt={"5px"}>
+          <Typography
+            fontFamily={"Montserrat"}
+            textAlign={"center"}
+            color={"#232335"}
+            fontSize={"18px"}
+            fontWeight={"400"}
+            sx={{
+              marginTop: "10px",
+            }}
+          >
+            Don't have an account?{" "}
+            <Link
+              component={RouterLink}
+              to="/SignUp"
+              sx={{
+                textDecoration: "underline",
+                fontWeight: "700",
+                color: "#232335",
+              }}
+            >
               Sign Up
             </Link>
           </Typography>
