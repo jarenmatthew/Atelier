@@ -9,13 +9,16 @@ import {
   ImageList,
   ImageListItem,
   ImageListItemBar,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
   MenuItem,
   Select,
   FormControl,
   InputLabel,
   Button,
 } from "@mui/material";
-import { BorderAllRounded } from "@mui/icons-material";
 
 const Explore: React.FC = () => {
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
@@ -110,6 +113,22 @@ const Explore: React.FC = () => {
     }
   });
 
+  const [open, setOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedTitle, setSelectedTitle] = useState("");
+  const [selectedSubtitle, setSelectedSubtitle] = useState("");
+
+  const handleClickOpen = (artwork) => {
+    setSelectedImage(artwork.imageUrl);
+    setSelectedTitle(artwork.title);
+    setSelectedSubtitle(`by ${artwork.artist}`);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <div>
       <Header />
@@ -159,7 +178,7 @@ const Explore: React.FC = () => {
             id="sort-label"
             sx={{ fontFamily: "Montserrat", fontWeight: "400" }}
           >
-            {/* //Sort By */}
+            Sort By
           </InputLabel>
           <Select
             labelId="sort-label"
@@ -195,32 +214,46 @@ const Explore: React.FC = () => {
         </FormControl>
       </Box>
 
-      <Box m="0 auto" sx={{ width: "80vw", height: "auto", overflowX: "none" }}>
+      <Box m="0 auto" sx={{ width: "80vw", height: "auto" }}>
         <ImageList variant="masonry" cols={4} gap={25}>
           {sortedArtworks.map((artwork, index) => (
-            <ImageListItem key={index}>
+            <ImageListItem key={index} onClick={() => handleClickOpen(artwork)}>
               <img
-                // sx={{BorderAllRounded}}
                 src={artwork.imageUrl}
                 alt={artwork.type}
+                style={{ cursor: "pointer" }} // Make the image cursor pointer
               />
               <ImageListItemBar
                 sx={{
                   fontFamily: "Montserrat",
                   fontWeight: "500",
-                  paddingRight: "25px",
-                  width: "80vw",
                   height: "auto",
                   overflowX: "none",
                 }}
                 position="below"
                 title={artwork.title}
                 subtitle={`by ${artwork.artist}`}
-                //subtitle={`by ${artwork.artist} - $${artwork.price}`}
               />
             </ImageListItem>
           ))}
         </ImageList>
+
+        <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
+          <DialogTitle>{selectedTitle}</DialogTitle>
+          <DialogContent>
+            <img
+              src={selectedImage}
+              alt={selectedTitle}
+              style={{ width: "100%", height: "auto" }}
+            />
+            <p>{selectedSubtitle}</p>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              Close
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Box>
 
       <Footer />
