@@ -50,6 +50,7 @@ const Header: React.FC = () => {
   };
 
   const handleProfileClick = () => {
+    //fetchUserData();
     navigate("/user");
   };
 
@@ -82,7 +83,7 @@ const Header: React.FC = () => {
               </div>
             )}
             <div><Link to="/"><img src={messageURL} className="icons" alt="message" /></Link></div>
-            <div><Link to="/"><img src={notifURL} className="icons" alt="notif" /></Link></div>
+            <div><Link to="/Notification"><img src={notifURL} className="icons" alt="notif" /></Link></div>
           </div>
          
           <div id='profile-box'>

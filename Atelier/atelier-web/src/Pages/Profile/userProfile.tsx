@@ -6,6 +6,7 @@ import Footer from "../../Footer";
 import "./userProfileStyle.css";
 import { getFirestore, getDoc, doc } from "firebase/firestore";
 import { User as FirebaseUser } from "firebase/auth";
+import { redirect } from "react-router-dom";
 
 const User: React.FC = () => {
   const currentUser = useAuth().currentUser as FirebaseUser | null;
@@ -20,7 +21,6 @@ const User: React.FC = () => {
         if (userDoc.exists()) {
           const userData = userDoc.data();
           setUserData(userData);
-          console.log(userData);
         } else {
           console.log("No such document!");
         }

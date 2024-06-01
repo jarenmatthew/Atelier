@@ -9,12 +9,16 @@ import {
   ImageList,
   ImageListItem,
   ImageListItemBar,
+  Pagination,
+  Stack,
 } from "@mui/material";
 
 const Explore: React.FC = () => {
     const [selectedTag, setSelectedTag] = useState<string | null>(null);
     const [searchInput, setSearchInput] = useState<string>(''); // State for search input
     const [artworks, setArtworks] = useState<any[]>([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [artworksPerPage] = useState(30); // Set the number of artworks per page
   
     useEffect(() => {
       fetchArtworks();
@@ -47,7 +51,15 @@ const Explore: React.FC = () => {
       if (searchInput && !artwork.type.toLowerCase().includes(searchInput.toLowerCase())) return false;
       return true;
     });
-  
+
+    // Get current artworks
+    const indexOfLastArtwork = currentPage * artworksPerPage;
+    const indexOfFirstArtwork = indexOfLastArtwork - artworksPerPage;
+    const currentArtworks = filteredArtworks.slice(indexOfFirstArtwork, indexOfLastArtwork);
+
+    // Change page
+    const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
     return (
       <div>
         <Header />
@@ -73,27 +85,24 @@ const Explore: React.FC = () => {
           <button onClick={() => setSelectedTag('oil canvas')}>Oil Canvas</button>
         </div>
 
-        {/* <div style={{ marginBottom: '200px' }} className="artworks-container">
-          {filteredArtworks.map((artwork, index) => (
-            <img key={index} src={artwork.imageUrl} alt={artwork.type} className="artwork" />
-          ))}
-        </div> */}
-
         <Box m="0 auto"  sx={{ width: "80vw", height: "auto", overflowX: "none" }}>
           <ImageList variant="masonry" cols={4} gap={15}>
-            {filteredArtworks.map((artwork, index) => (
-              <ImageListItem key={artwork.img}>
+            {currentArtworks.map((artwork, index) => (
+              <ImageListItem key={index}>
                 <img 
-                  key={index} 
                   src={artwork.imageUrl} 
                   alt={artwork.type} 
                   className="artwork" 
                 />
-                <ImageListItemBar position="below" title={artwork.author} />
+                <ImageListItemBar position="below" title={artwork.artist} />
               </ImageListItem>
             ))}
           </ImageList>
         </Box>
+
+        <Stack spacing={2} sx={{ marginLeft: 'auto', marginRight: 'auto', marginTop: '20px' }}>
+          <Pagination count={Math.ceil(filteredArtworks.length / artworksPerPage)} variant="outlined" shape="rounded" onChange={(event, page) => paginate(page)} />
+        </Stack>
 
         <Footer />
       </div>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getDownloadURL, ref } from 'firebase/storage';
 import { storage } from '../../../FirebaseConfig';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import './HomePage.css';
 import Header from '../../Header';
 import Footer from '../../Footer';
@@ -153,7 +153,7 @@ const Home: React.FC = () => {
 
         <div className="collage">
 
-          {imageURLs.slice(6).map((url, index) => (
+          {imageURLs.slice(6, 36).map((url, index) => (
 
             <div key={index} className="collage_pics" data-description="Whale House, John Doe">
               <img src={url} style={{ width: '100%' }} onClick={showDescription} />
@@ -162,6 +162,12 @@ const Home: React.FC = () => {
           ))}
 
         </div>
+
+        <Box textAlign="center" mt={4}>
+          <Button variant="contained" component={Link} to="/explore">
+            Explore More
+          </Button>
+        </Box>
 
       </Box>
 

@@ -14,6 +14,7 @@ import GetStarted from "./Pages/landingPage/getStarted.tsx";
 import User from "./Pages/Profile/userProfile.tsx";
 import Artist from "./Pages/Profile/artistProfile.tsx";
 import Explore from "./Pages/explore/explorePage.tsx";
+import Notification from "./Pages/Notification.tsx";
 
 
 const router = createBrowserRouter([
@@ -30,7 +31,7 @@ const router = createBrowserRouter([
   { path: "/user", element: <User />},
   { path: "/Profile", element: <Artist />},
   { path: "/Cart", element: <MyCart />},
-
+  { path: "/Notification", element: <Notification />},
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

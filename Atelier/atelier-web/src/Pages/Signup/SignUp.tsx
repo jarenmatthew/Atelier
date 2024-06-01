@@ -113,10 +113,11 @@ function SignUpPage() {
     }
   };
 
-  const handleDialogClose = () => {
+ const handleDialogClose = () => {
     setOpenDialog(false);
     saveDataToFirestore();
-    navigate("/user");
+    navigate("/home");
+    fetchUserData(); // Fetch user data after navigating to homepage
   };
 
   return (
@@ -345,3 +346,4 @@ function SignUpPage() {
 }
 
 export default SignUpPage;
+
