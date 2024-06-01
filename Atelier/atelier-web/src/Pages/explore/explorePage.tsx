@@ -84,24 +84,24 @@ const Explore: React.FC = () => {
   FormControl,
   InputLabel,
   Button,
-} from "@mui/material";
+{"}"} from "@mui/material";
 
-const Explore: React.FC = () => {
-  const [selectedTag, setSelectedTag] = useState<string | null>(null);
+const Explore: React.FC = () ={">"} {
+  const [selectedTag, setSelectedTag] = useState<string | null{">"}(null);
   const [searchInput, setSearchInput] = useState<string>(""); // State for search input
-  const [artworks, setArtworks] = useState<any[]>([]);
+  const [artworks, setArtworks] = useState<any[]{">"}([]);
   const [sortOption, setSortOption] = useState<string>("date-desc"); // State for sorting option, default to newest
 
-  useEffect(() => {
+  useEffect(() ={">"} {
     fetchArtworks();
-  }, []);
+  {"}"}, []);
 
-  const fetchArtworks = async () => {
+  const fetchArtworks = async () ={">"} {
     try {
       const imageRef = ref(storage, "img");
       const images = await listAll(imageRef);
       const urls = await Promise.all(
-        images.items.map(async (item) => {
+        images.items.map(async (item) ={">"} {
           const url = await getDownloadURL(item);
           const types = [
             "painting",
@@ -131,16 +131,16 @@ const Explore: React.FC = () => {
             artist: randomArtist,
             price,
             dateAdded,
-          };
-        })
+          {"}"};
+        {"}"})
       );
       setArtworks(urls);
-    } catch (error) {
+    {"}"} catch (error) {
       console.error("Error fetching artworks:", error);
-    }
-  };
+    {"}"}
+  {"}"};
 
-  const filteredArtworks = artworks.filter((artwork) => {
+  const filteredArtworks = artworks.filter((artwork) ={">"} {
     // Filter by selected tag
     if (selectedTag && artwork.type !== selectedTag) return false;
     // Filter by search input
@@ -150,9 +150,9 @@ const Explore: React.FC = () => {
     )
       return false;
     return true;
-  });
+  {"}"});
 
-  const sortedArtworks = [...filteredArtworks].sort((a, b) => {
+  const sortedArtworks = [...filteredArtworks].sort((a, b) ={">"} {
     switch (sortOption) {
       case "name":
         return a.title.localeCompare(b.title);
@@ -176,24 +176,24 @@ const Explore: React.FC = () => {
         return b.price - a.price;
       default:
         return 0;
-    }
-  });
+    {"}"}
+  {"}"});
 
   const [open, setOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedTitle, setSelectedTitle] = useState("");
   const [selectedSubtitle, setSelectedSubtitle] = useState("");
 
-  const handleClickOpen = (artwork) => {
+  const handleClickOpen = (artwork) ={">"} {
     setSelectedImage(artwork.imageUrl);
     setSelectedTitle(artwork.title);
     setSelectedSubtitle(`by ${artwork.artist}`);
     setOpen(true);
-  };
+  {"}"};
 
-  const handleClose = () => {
+  const handleClose = () ={">"} {
     setOpen(false);
-  };
+  {"}"};
 
   return (
     <div>
@@ -252,7 +252,7 @@ const Explore: React.FC = () => {
         <Footer />
       </div>
     );
-  };
+  {"}"};
  
         <FormControl
           sx={{
