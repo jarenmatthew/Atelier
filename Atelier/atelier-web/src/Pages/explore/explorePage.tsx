@@ -149,7 +149,7 @@ const Explore: React.FC = () => {
         <FormControl
           sx={{
             m: 1,
-            minWidth: 200,
+            minWidth: 250,
             minHeight: "auto",
             fontFamily: "Montserrat",
             fontWeight: "400",
@@ -164,29 +164,45 @@ const Explore: React.FC = () => {
           <Select
             labelId="sort-label"
             value={sortOption}
+            sx={{ fontFamily: "Montserrat", fontWeight: "500" }}
             onChange={(e) => setSortOption(e.target.value as string)}
           >
-            <MenuItem value="name">Name (A-Z)</MenuItem>
-            <MenuItem value="name-desc">Name (Z-A)</MenuItem>
-            <MenuItem value="artist">Artist (A-Z)</MenuItem>
-            <MenuItem value="artist-desc">Artist (Z-A)</MenuItem>
-            <MenuItem value="date">Oldest Date</MenuItem>
-            <MenuItem value="date-desc">Newest Date</MenuItem>
-            <MenuItem value="price">Price (Low to High)</MenuItem>
-            <MenuItem value="price-desc">Price (High to Low)</MenuItem>
+            <MenuItem value="name" className="menu-item">
+              Name (A-Z)
+            </MenuItem>
+            <MenuItem value="name-desc" className="menu-item">
+              Name (Z-A)
+            </MenuItem>
+            <MenuItem value="artist" className="menu-item">
+              Artist (A-Z)
+            </MenuItem>
+            <MenuItem value="artist-desc" className="menu-item">
+              Artist (Z-A)
+            </MenuItem>
+            <MenuItem value="date" className="menu-item">
+              Oldest Date
+            </MenuItem>
+            <MenuItem value="date-desc" className="menu-item">
+              Newest Date
+            </MenuItem>
+            <MenuItem value="price" className="menu-item">
+              Price (Low to High)
+            </MenuItem>
+            <MenuItem value="price-desc" className="menu-item">
+              Price (High to Low)
+            </MenuItem>
           </Select>
         </FormControl>
       </Box>
 
       <Box m="0 auto" sx={{ width: "80vw", height: "auto", overflowX: "none" }}>
-        <ImageList variant="masonry" cols={4} gap={15}>
+        <ImageList variant="masonry" cols={4} gap={25}>
           {sortedArtworks.map((artwork, index) => (
             <ImageListItem key={index}>
               <img
                 // sx={{BorderAllRounded}}
                 src={artwork.imageUrl}
                 alt={artwork.type}
-                className="artwork"
               />
               <ImageListItemBar
                 sx={{
