@@ -1,54 +1,92 @@
-// UserProfile.jsx
-import React, { useEffect, useState } from 'react';
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
-import { Box, Typography, Avatar } from '@mui/material';
-import { useParams } from 'react-router-dom';
-import './userProfileStyle.css';
-import Header from '../../Header';
-import Footer from '../../Footer';
+import React, { useEffect, useState } from "react";
+import { useAuth } from "../../auth/AuthContext";
+import { Typography } from "@mui/material";
+import Header from "../../Header";
+import Footer from "../../Footer";
+import "./userProfileStyle.css";
+import { getFirestore, getDoc, doc } from "firebase/firestore";
+import { User as FirebaseUser } from "firebase/auth";
 
-const UserProfile = () => {
-  const { userId } = useParams();
-  const [userData, setUserData] = useState(null);
-  const db = getFirestore();
+const User: React.FC = () => {
+  const currentUser = useAuth().currentUser as FirebaseUser | null;
+  const [userData, setUserData] = useState<any>(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchUserData = async (uid: string) => {
       try {
-        const docRef = doc(db, 'accounts', userId);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          setUserData(docSnap.data());
+        const db = getFirestore();
+        const userRef = doc(db, "accounts", uid);
+        const userDoc = await getDoc(userRef);
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          setUserData(userData);
+          console.log(userData);
         } else {
-          console.log('No such document!');
+          console.log("No such document!");
         }
       } catch (error) {
-        console.error('Error fetching document:', error);
+        console.error("Error fetching user data:", error);
       }
     };
 
-    fetchData();
-  }, [userId, db]);
-
-  if (!userData) {
-    return <Typography>Loading...</Typography>;
-  }
+    if (currentUser && currentUser.uid) {
+      fetchUserData(currentUser.uid);
+    }
+  }, [currentUser]);
 
   return (
     <div>
       <Header />
-    <Box display="flex" flexDirection="column" alignItems="center" p={2}>
-      {userData.coverPhoto && <img src={userData.coverPhoto} alt="Cover" style={{ width: '100%', maxHeight: '200px', objectFit: 'cover' }} />}
-      <Avatar src={userData.profilePhoto} alt={userData.fullName} sx={{ width: 100, height: 100 }} />
-      <Typography variant="h5">{userData.fullName}</Typography>
-      <Typography variant="body1">@{userData.username}</Typography>
-      <Typography variant="body2">{userData.role}</Typography>
-      <Typography variant="body2">{userData.description}</Typography>
-    </Box>
+      <div className="container">
+        {/* Display user profile information */}
+        <div id="profile-banner">
+          <div id="profile-cover">
+            <img
+              src={userData?.coverPhoto}
+              className="cover-photo"
+              alt="User cover photo"
+            />
+          </div>
 
-    <Footer />
+          <div id="profile-elements">
+            <div id="profile-cont">
+              <div id="profile-picture">
+                <img
+                  src={userData?.profilePhoto}
+                  className="profile-photo"
+                  alt="User profile photo"
+                />
+              </div>
+
+              <div id="profile-deets">
+                <p id="user-name">{userData?.fullName}</p>
+                <p id="user-username">@{userData?.username}</p>
+              </div>
+            </div>
+
+            <div id="profile-buttons">
+              <button className="user-profile-btns" id="edit-button">
+                Edit Profile
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="user-bio">
+          {/* Display user's bio */}
+          <p>{userData?.description}</p>
+        </div>
+
+        <Typography>hi {currentUser?.email}</Typography>
+
+        <div className="user-contact-info">
+          {/* Display user's contact information */}
+          <p>Email: {userData?.email}</p>
+        </div>
+      </div>
+      <Footer />
     </div>
   );
 };
 
-export default UserProfile;
+export default User;

@@ -1,87 +1,116 @@
-import React, { useState } from 'react';
-import { Box, Typography, TextField, Button, Link, Checkbox, FormGroup, FormControlLabel, InputAdornment, IconButton } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { Navigate, useNavigate, Link as RouterLink } from 'react-router-dom';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth, db } from '../../../FirebaseConfig';
-import { getFirestore, doc, getDoc, query, where, collection, getDocs } from 'firebase/firestore';
+import {
+  Box,
+  Typography,
+  TextField,
+  Stack,
+  Link,
+  Checkbox,
+  FormGroup,
+  FormControlLabel,
+  Button,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
+import React from "react";
+import { Navigate, Link as RouterLink } from "react-router-dom";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { auth } from "../../../FirebaseConfig";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 function LogInPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
-  const firestore = getFirestore();
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [IsLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [showPassword, setShowPassword] = React.useState(false);
+  const [emailError, setEmailError] = React.useState("");
+  const [passwordError, setPasswordError] = React.useState("");
+  const [error, setError] = React.useState(null);
 
-  const handleClickShowPassword = () => setShowPassword(!showPassword);
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   const logIn = async () => {
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const userEmail = userCredential.user.email;
-  
-      // Query Firestore to find the user document with the corresponding email
-      const querySnapshot = await getDocs(query(collection(firestore, 'accounts'), where('email', '==', userEmail)));
-  
-      if (!querySnapshot.empty) {
-        // Assuming there's only one document matching the email
-        const docId = querySnapshot.docs[0].id;
-        const userData = querySnapshot.docs[0].data();
-        const userRole = userData.role; // Assuming you have a 'role' field in the user document
-  
-        // Store the document ID and role in local storage
-        localStorage.setItem('currentUserDocId', docId);
-        localStorage.setItem('currentUserRole', userRole);
-  
-        // Determine the route based on the user's role
-        const route = userRole === 'user' ? '/user' : '/artist';
-        navigate(`${route}/${docId}`);
+      await signInWithEmailAndPassword(auth, email, password);
+      setIsLoggedIn(true);
+      setError(null);
+    } catch (err) {
+      if (err.message.includes("auth/email-already-in-use")) {
+        setError("Account already exists");
+      } else if (err.message.includes("auth/invalid-credential")) {
+        setError("Your password is incorrect. Please try again.");
       } else {
-        setError("User data not found.");
+        setError(err.message);
       }
-    } catch (error) {
-      setError("Failed to log in. Please check your credentials.");
     }
   };
-  
+  if (IsLoggedIn) {
+    return <Navigate to="/home" replace={false} />;
+  }
 
   return (
-    <Box minHeight="100vh" sx={{ backgroundColor: "#E2C1BE" }}>
+    <Box minHeight={"100vh"} sx={{ backgroundColor: "#E2C1BE" }}>
+      {/* m = "0 auto" is used to center all the content, this serves as the container */}
       <Box m="0 auto" maxWidth="500px">
-        <Box m="0 auto" pt="80px" width="280px">
-          <img src="/src/assets/atelier-logo2.png" alt="Atelier" width="100%" />
+        <Box m="0 auto" pt={"80px"} width={"280px"}>
+          <img
+            src="/src/assets/atelier-logo2.png"
+            alt="Atelier"
+            width={"100%"}
+          />
         </Box>
-        <Box mt="15%">
-          <Typography fontFamily="Inknut Antiqua" textAlign="center" color="#232335" fontSize="175%" fontWeight="700">
-            Log In
+
+        <Box mt={"15%"}>
+          <Typography
+            fontFamily={"Inknut Antiqua"}
+            textAlign={"center"}
+            color={"#232335"}
+            fontSize={"175%"}
+            fontWeight={"700"}
+          >
+            Login
           </Typography>
         </Box>
-        <Box mt="10%">
+
+        <Box mt={"10%"}>
           <TextField
             fullWidth
-            required
             label="Email"
             variant="filled"
-            value={email}
             onChange={(e) => setEmail(e.target.value)}
-            InputProps={{ disableUnderline: true, style: { backgroundColor: "#FFFFFF", borderRadius: "5px", marginBottom: "15px", fontFamily: "Montserrat" } }}
+            InputProps={{
+              disableUnderline: true,
+              style: {
+                backgroundColor: "#FFFFFF",
+                borderRadius: "5px",
+                marginBottom: "15px",
+                fontFamily: "Montserrat",
+              },
+            }}
           />
+
           <TextField
+            type={showPassword ? "text" : "password"}
             fullWidth
-            required
-            type={showPassword ? 'text' : 'password'}
             label="Password"
             variant="filled"
-            value={password}
             onChange={(e) => setPassword(e.target.value)}
             InputProps={{
               disableUnderline: true,
-              style: { backgroundColor: "#FFFFFF", borderRadius: "5px", marginBottom: "15px", fontFamily: "Montserrat" },
+              style: {
+                backgroundColor: "#FFFFFF",
+                borderRadius: "5px",
+                marginBottom: "15px",
+                fontFamily: "Montserrat",
+              },
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton onClick={handleClickShowPassword} edge="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    edge="end"
+                  >
                     {showPassword ? <Visibility /> : <VisibilityOff />}
                   </IconButton>
                 </InputAdornment>
@@ -89,21 +118,12 @@ function LogInPage() {
             }}
           />
           {error && (
-            <Typography variant="body2" color="error">
+            <Typography variant="body2" color="error" gutterBottom>
               {error}
             </Typography>
           )}
-          <Box display="flex" justifyContent="space-between">
-            <FormGroup>
-              <FormControlLabel control={<Checkbox />} label="Remember me" sx={{ fontFamily: "Montserrat" }} />
-            </FormGroup>
-            <Typography fontFamily="Montserrat" fontWeight="500">
-              <Link component={RouterLink} to="/forgot-password" sx={{ textDecoration: "none", color: "#232335" }}>
-                Forgot Password?
-              </Link>
-            </Typography>
-          </Box>
-          <Box mt="15%" display="flex" justifyContent="center">
+
+          <Box mt="15%" display={"flex"} justifyContent={"center"}>
             <Button
               fullWidth
               size="medium"
@@ -116,16 +136,16 @@ function LogInPage() {
                 fontFamily: "Montserrat",
                 fontSize: "20px",
                 fontWeight: "500",
-                "&:hover": { backgroundColor: "#3B3B58", fontWeight: "600" },
+                "&:hover": {
+                  backgroundColor: "#3B3B58",
+                  fontWeight: "600",
+                },
               }}
               onClick={logIn}
             >
-              Log In
+              Log in
             </Button>
           </Box>
-          <Typography fontFamily="Montserrat" textAlign="center" color="#232335" fontSize="18px" fontWeight="400" sx={{ marginTop: "10px" }}>
-            Don't have an account?{' '}
-            <Link component={RouterLink} to="/SignUp" sx={{ textDecoration: "underline", fontWeight: "700", color: "#232335" }}>
         </Box>
 
         <Box mt={"3%"} display={"flex"} justifyContent={"space-between"}>
