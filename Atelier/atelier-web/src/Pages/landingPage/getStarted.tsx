@@ -60,11 +60,12 @@ const GetStarted: React.FC = () => {
                     
                     <div className='main-feature-box'>
                         <div className='main-feature-desc2'>
-                        <h2>Follow fellow artists</h2>
+                        <h2>Follow Fellow Artists</h2>
                         <p className='atelier-desc'>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore 
-                        et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip 
-                        ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
+                        Atelier provides a place for artists to showcase their rich diversity and creativity. 
+                        You can easily upload your artworks, complete with detailed descriptions, pricing information, 
+                        and other online portfolio accounts in a visually appealing manner. 
+                        This feature provides you with tools to effectively share and promote your work.
                         </p>
                         </div>
                         <div className='main-feature-img2'>
@@ -77,11 +78,11 @@ const GetStarted: React.FC = () => {
                         <img src='./src/assets/post.png' alt='About Img' id='mfimg'/>
                         </div>
                         <div className='main-feature-desc'>
-                        <h2>Promote your art</h2>
+                        <h2>Promote Your Art</h2>
                         <p className='atelier-desc'>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore 
-                        et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip 
-                        ex ea commodo consequat. Duis aute irure dolor in reprehenderit.
+                        Atelier is designed to nurture an interconnected art community. 
+                        You can easily follow your favorite artists, stay updated on their latest works, exhibitions, and collections. 
+                        With this feature, you not only show your support but can also gain inspiration and insight into different artistic styles and techniques.
                         </p>
                         </div>
                     </div>
