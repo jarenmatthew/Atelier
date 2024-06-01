@@ -5,11 +5,18 @@ import { storage } from '../../../FirebaseConfig';
 import './shopStyle.css';
 import Header from '../../Header';
 import Footer from '../../Footer';
+import {
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel
+} from "@mui/material";
 
 const Shop: React.FC = () => {
     const [selectedTag, setSelectedTag] = useState<string | null>(null);
     const [searchInput, setSearchInput] = useState<string>(''); // State for search input
     const [artworks, setArtworks] = useState<any[]>([]);
+    const [sortOption, setSortOption] = useState<string>('date-desc'); // State for sorting option, default to newest
   
     useEffect(() => {
       fetchArtworks();
@@ -27,7 +34,8 @@ const Shop: React.FC = () => {
             const artistNames = ['John Doe', 'Jane Doe', 'Alice Smith', 'Bob Johnson']; // Sample artist names
             const randomArtist = artistNames[Math.floor(Math.random() * artistNames.length)];
             const price = Math.floor(Math.random() * 100) + 50; // Generate a random price
-            return { imageUrl: url, type: randomType, title, artist: randomArtist, price };
+            const dateAdded = new Date().toISOString(); // Use current date as added date
+            return { imageUrl: url, type: randomType, title, artist: randomArtist, price, dateAdded };
           }));
           setArtworks(urls);
         } catch (error) {
@@ -41,6 +49,29 @@ const Shop: React.FC = () => {
       // Filter by search input
       if (searchInput && !artwork.type.toLowerCase().includes(searchInput.toLowerCase())) return false;
       return true;
+    });
+
+    const sortedArtworks = [...filteredArtworks].sort((a, b) => {
+      switch (sortOption) {
+        case 'name':
+          return a.title.localeCompare(b.title);
+        case 'name-desc':
+          return b.title.localeCompare(a.title);
+        case 'artist':
+          return a.artist.localeCompare(b.artist);
+        case 'artist-desc':
+          return b.artist.localeCompare(a.artist);
+        case 'date':
+          return new Date(a.dateAdded).getTime() - new Date(b.dateAdded).getTime();
+        case 'date-desc':
+          return new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime();
+        case 'price':
+          return a.price - b.price;
+        case 'price-desc':
+          return b.price - a.price;
+        default:
+          return 0;
+      }
     });
   
     return (
@@ -59,35 +90,53 @@ const Shop: React.FC = () => {
           <button className="search-button">Search</button>
         </div>
 
-            <div className="filter-tags">
-            <button onClick={() => setSelectedTag(null)}>All</button>
-            <button onClick={() => setSelectedTag('painting')}>Painting</button>
-            <button onClick={() => setSelectedTag('photograph')}>Photograph</button>
-            <button onClick={() => setSelectedTag('crafts')}>Crafts</button>
-            <button onClick={() => setSelectedTag('scripture')}>Scripture</button>
-            <button onClick={() => setSelectedTag('oil canvas')}>Oil Canvas</button>
-            </div>
+        <div className="filter-tags">
+          <button onClick={() => setSelectedTag(null)}>All</button>
+          <button onClick={() => setSelectedTag('painting')}>Painting</button>
+          <button onClick={() => setSelectedTag('photograph')}>Photograph</button>
+          <button onClick={() => setSelectedTag('crafts')}>Crafts</button>
+          <button onClick={() => setSelectedTag('scripture')}>Scripture</button>
+          <button onClick={() => setSelectedTag('oil canvas')}>Oil Canvas</button>
+        </div>
+
+        <FormControl sx={{ m: 1, minWidth: 120 }}>
+          <InputLabel id="sort-label">Sort By</InputLabel>
+          <Select
+            labelId="sort-label"
+            value={sortOption}
+            onChange={(e) => setSortOption(e.target.value as string)}
+          >
+            <MenuItem value="name">Name (A-Z)</MenuItem>
+            <MenuItem value="name-desc">Name (Z-A)</MenuItem>
+            <MenuItem value="artist">Artist (A-Z)</MenuItem>
+            <MenuItem value="artist-desc">Artist (Z-A)</MenuItem>
+            <MenuItem value="date">Oldest Date</MenuItem>
+            <MenuItem value="date-desc">Newest Date</MenuItem>
+            <MenuItem value="price">Price (Low to High)</MenuItem>
+            <MenuItem value="price-desc">Price (High to Low)</MenuItem>
+          </Select>
+        </FormControl>
 
         <Link to="/product">
-        <div style={{ marginBottom: '200px' }} className="artworks-container">
-          {filteredArtworks.map((artwork, index) => (
-            <div key={index} className="artwork">
+          <div style={{ marginBottom: '200px' }} className="artworks-container">
+            {sortedArtworks.map((artwork, index) => (
+              <div key={index} className="artwork">
                 <div className="artwork-container">
-                    <img src={artwork.imageUrl} alt={artwork.type} />
-                    <div className="artwork-details">
+                  <img src={artwork.imageUrl} alt={artwork.type} />
+                  <div className="artwork-details">
                     <p className="title">{artwork.title}, {artwork.artist}</p>
-                    <p className="price">{artwork.price}</p>
+                    <p className="price">${artwork.price}</p>
                     <p className="category">{artwork.type}</p>
-                    </div>
+                  </div>
                 </div>
-                </div>
-          ))}
-        </div>
+              </div>
+            ))}
+          </div>
         </Link>
+        
         <Footer />
       </div>
     );
-  };
-  
+};
 
 export default Shop;

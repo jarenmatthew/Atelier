@@ -9,12 +9,17 @@ import {
   ImageList,
   ImageListItem,
   ImageListItemBar,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel
 } from "@mui/material";
 
 const Explore: React.FC = () => {
     const [selectedTag, setSelectedTag] = useState<string | null>(null);
     const [searchInput, setSearchInput] = useState<string>(''); // State for search input
     const [artworks, setArtworks] = useState<any[]>([]);
+    const [sortOption, setSortOption] = useState<string>('date-desc'); // State for sorting option, default to newest
   
     useEffect(() => {
       fetchArtworks();
@@ -32,7 +37,8 @@ const Explore: React.FC = () => {
             const artistNames = ['John Doe', 'Jane Doe', 'Alice Smith', 'Bob Johnson']; // Sample artist names
             const randomArtist = artistNames[Math.floor(Math.random() * artistNames.length)];
             const price = Math.floor(Math.random() * 100) + 50; // Generate a random price
-            return { imageUrl: url, type: randomType, title, artist: randomArtist, price };
+            const dateAdded = new Date().toISOString(); // Use current date as added date
+            return { imageUrl: url, type: randomType, title, artist: randomArtist, price, dateAdded };
           }));
           setArtworks(urls);
         } catch (error) {
@@ -46,6 +52,29 @@ const Explore: React.FC = () => {
       // Filter by search input
       if (searchInput && !artwork.type.toLowerCase().includes(searchInput.toLowerCase())) return false;
       return true;
+    });
+
+    const sortedArtworks = [...filteredArtworks].sort((a, b) => {
+      switch (sortOption) {
+        case 'name':
+          return a.title.localeCompare(b.title);
+        case 'name-desc':
+          return b.title.localeCompare(a.title);
+        case 'artist':
+          return a.artist.localeCompare(b.artist);
+        case 'artist-desc':
+          return b.artist.localeCompare(a.artist);
+        case 'date':
+          return new Date(a.dateAdded).getTime() - new Date(b.dateAdded).getTime();
+        case 'date-desc':
+          return new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime();
+        case 'price':
+          return a.price - b.price;
+        case 'price-desc':
+          return b.price - a.price;
+        default:
+          return 0;
+      }
     });
   
     return (
@@ -73,23 +102,38 @@ const Explore: React.FC = () => {
           <button onClick={() => setSelectedTag('oil canvas')}>Oil Canvas</button>
         </div>
 
-        {/* <div style={{ marginBottom: '200px' }} className="artworks-container">
-          {filteredArtworks.map((artwork, index) => (
-            <img key={index} src={artwork.imageUrl} alt={artwork.type} className="artwork" />
-          ))}
-        </div> */}
+        <FormControl sx={{ m: 1, minWidth: 120 }}>
+          <InputLabel id="sort-label">Sort By</InputLabel>
+          <Select
+            labelId="sort-label"
+            value={sortOption}
+            onChange={(e) => setSortOption(e.target.value as string)}
+          >
+            <MenuItem value="name">Name (A-Z)</MenuItem>
+            <MenuItem value="name-desc">Name (Z-A)</MenuItem>
+            <MenuItem value="artist">Artist (A-Z)</MenuItem>
+            <MenuItem value="artist-desc">Artist (Z-A)</MenuItem>
+            <MenuItem value="date">Oldest Date</MenuItem>
+            <MenuItem value="date-desc">Newest Date</MenuItem>
+            <MenuItem value="price">Price (Low to High)</MenuItem>
+            <MenuItem value="price-desc">Price (High to Low)</MenuItem>
+          </Select>
+        </FormControl>
 
-        <Box m="0 auto"  sx={{ width: "80vw", height: "auto", overflowX: "none" }}>
+        <Box m="0 auto" sx={{ width: "80vw", height: "auto", overflowX: "none" }}>
           <ImageList variant="masonry" cols={4} gap={15}>
-            {filteredArtworks.map((artwork, index) => (
-              <ImageListItem key={artwork.img}>
+            {sortedArtworks.map((artwork, index) => (
+              <ImageListItem key={index}>
                 <img 
-                  key={index} 
                   src={artwork.imageUrl} 
                   alt={artwork.type} 
                   className="artwork" 
                 />
-                <ImageListItemBar position="below" title={artwork.author} />
+                <ImageListItemBar 
+                  position="below" 
+                  title={artwork.title} 
+                  subtitle={`by ${artwork.artist} - $${artwork.price}`} 
+                />
               </ImageListItem>
             ))}
           </ImageList>
@@ -98,7 +142,6 @@ const Explore: React.FC = () => {
         <Footer />
       </div>
     );
-  };
-  
+};
 
 export default Explore;
