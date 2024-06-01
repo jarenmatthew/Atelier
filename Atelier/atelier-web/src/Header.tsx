@@ -11,10 +11,12 @@ const Header: React.FC = () => {
   const [notifURL, setNotifIconURL] = useState('');
   const [messageURL, setMessageIconURL] = useState('');
   const [cartURL, setCartIconURL] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate(); // Import useNavigate hook
 
   useEffect(() => {
     fetchIconURLs(); // Fetch icon URLs
+    checkUserAuth(); // Check user authentication status
   }, []);
 
   const fetchIconURLs = async () => {
@@ -37,25 +39,24 @@ const Header: React.FC = () => {
     }
   };
 
-  const handleProfileClick = () => {
-    // Retrieve the document ID and role of the current user from local storage
-    const docId = localStorage.getItem('currentUserDocId');
-    const role = localStorage.getItem('currentUserRole');
+  const checkUserAuth = () => {
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+    });
+  };
 
-    // If the document ID and role exist
-    if (docId && role) {
-      // Determine the route based on the user's role
-      const route = role === 'user' ? '/user' : '/artist';
-      // Navigate to the profile page with the document ID in the URL
-      navigate(`${route}/${docId}`);
-    } else {
-      console.error('Document ID or role not found in local storage.');
-    }
+  const handleProfileClick = () => {
+    navigate("/user");
   };
 
   return (
     <header>
       <section id="header">
+
         <div id='atelier-brand'>
           <div>
             <Link to="/home"><img src={logoIconURL} className="logo" alt="Atelier Logo" /></Link>
@@ -72,19 +73,28 @@ const Header: React.FC = () => {
         </div>
 
         <div id='header-icons'>
+
           <div id='icons-main-container'>
-            <div className='icons-box'>
-              <Link to="/cart"><img src={cartURL} className="icons" alt="cart" /></Link>
-              <div className="cart-count">0</div>
-            </div>
+            {isLoggedIn && (
+              <div className='icons-box'>
+                <Link to="/cart"><img src={cartURL} className="icons" alt="cart" /></Link>
+                <div className="cart-count">0</div>
+              </div>
+            )}
             <div><Link to="/"><img src={messageURL} className="icons" alt="message" /></Link></div>
-            <div><Link to="/Notification"><img src={notifURL} className="icons" alt="notif" /></Link></div>
+            <div><Link to="/"><img src={notifURL} className="icons" alt="notif" /></Link></div>
           </div>
          
           <div id='profile-box'>
-            <img src={profileIconURL} className="profile" alt="Profile Circle" onClick={handleProfileClick} />
+              {isLoggedIn ? (
+                <img src={profileIconURL} className="profile" alt="Profile Circle" onClick={handleProfileClick} />
+              ) : (
+                <Link to="/signup">Sign Up</Link>
+              )}
           </div>
+
         </div>
+
       </section>
     </header>
   );

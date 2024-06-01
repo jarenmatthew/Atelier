@@ -14,8 +14,7 @@
       "default",
       {
         "ignore": [
-          "user-select",
-          "max-height: fit-content"
+          "user-select"
         ]
       }
     ],

@@ -4,77 +4,12 @@ import { storage } from "../../../FirebaseConfig";
 import "./ExploreStyles.css";
 import Header from "../../Header";
 import Footer from "../../Footer";
+import CloseIcon from "@mui/icons-material/Close";
 import {
   Box,
   ImageList,
   ImageListItem,
   ImageListItemBar,
-  Pagination,
-  Stack,
-} from "@mui/material";
-
-const Explore: React.FC = () => {
-    const [selectedTag, setSelectedTag] = useState<string | null>(null);
-    const [searchInput, setSearchInput] = useState<string>(''); // State for search input
-    const [artworks, setArtworks] = useState<any[]>([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [artworksPerPage] = useState(30); // Set the number of artworks per page
-  
-    useEffect(() => {
-      fetchArtworks();
-    }, []);
-  
-    const fetchArtworks = async () => {
-        try {
-          const imageRef = ref(storage, 'img');
-          const images = await listAll(imageRef);
-          const urls = await Promise.all(images.items.map(async (item) => {
-            const url = await getDownloadURL(item);
-            const types = ['painting', 'photograph', 'crafts', 'scripture', 'oil canvas'];
-            const randomType = types[Math.floor(Math.random() * types.length)];
-            const title = `${randomType.charAt(0).toUpperCase()}${randomType.slice(1)}`; // Capitalize the type for title
-            const artistNames = ['John Doe', 'Jane Doe', 'Alice Smith', 'Bob Johnson']; // Sample artist names
-            const randomArtist = artistNames[Math.floor(Math.random() * artistNames.length)];
-            const price = Math.floor(Math.random() * 100) + 50; // Generate a random price
-            return { imageUrl: url, type: randomType, title, artist: randomArtist, price };
-          }));
-          setArtworks(urls);
-        } catch (error) {
-          console.error('Error fetching artworks:', error);
-        }
-      };
-  
-    const filteredArtworks = artworks.filter((artwork) => {
-      // Filter by selected tag
-      if (selectedTag && artwork.type !== selectedTag) return false;
-      // Filter by search input
-      if (searchInput && !artwork.type.toLowerCase().includes(searchInput.toLowerCase())) return false;
-      return true;
-    });
-
-    // Get current artworks
-    const indexOfLastArtwork = currentPage * artworksPerPage;
-    const indexOfFirstArtwork = indexOfLastArtwork - artworksPerPage;
-    const currentArtworks = filteredArtworks.slice(indexOfFirstArtwork, indexOfLastArtwork);
-
-    // Change page
-    const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-
-    return (
-      <div>
-        <Header />
-
-        <h2 className='text-header'>Explore and discover amazing artworks and artists!</h2>
-
-        <div className="search-bar">
-          <input
-            type="text"
-            placeholder="Search artworks"
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-          />
-          <button className="search-button">Search</button>
-        </div>
   Dialog,
   DialogTitle,
   DialogContent,
@@ -84,24 +19,25 @@ const Explore: React.FC = () => {
   FormControl,
   InputLabel,
   Button,
-{"}"} from "@mui/material";
+  IconButton,
+} from "@mui/material";
 
-const Explore: React.FC = () ={">"} {
-  const [selectedTag, setSelectedTag] = useState<string | null{">"}(null);
+const Explore: React.FC = () => {
+  const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [searchInput, setSearchInput] = useState<string>(""); // State for search input
-  const [artworks, setArtworks] = useState<any[]{">"}([]);
+  const [artworks, setArtworks] = useState<any[]>([]);
   const [sortOption, setSortOption] = useState<string>("date-desc"); // State for sorting option, default to newest
 
-  useEffect(() ={">"} {
+  useEffect(() => {
     fetchArtworks();
-  {"}"}, []);
+  }, []);
 
-  const fetchArtworks = async () ={">"} {
+  const fetchArtworks = async () => {
     try {
       const imageRef = ref(storage, "img");
       const images = await listAll(imageRef);
       const urls = await Promise.all(
-        images.items.map(async (item) ={">"} {
+        images.items.map(async (item) => {
           const url = await getDownloadURL(item);
           const types = [
             "painting",
@@ -131,16 +67,16 @@ const Explore: React.FC = () ={">"} {
             artist: randomArtist,
             price,
             dateAdded,
-          {"}"};
-        {"}"})
+          };
+        })
       );
       setArtworks(urls);
-    {"}"} catch (error) {
+    } catch (error) {
       console.error("Error fetching artworks:", error);
-    {"}"}
-  {"}"};
+    }
+  };
 
-  const filteredArtworks = artworks.filter((artwork) ={">"} {
+  const filteredArtworks = artworks.filter((artwork) => {
     // Filter by selected tag
     if (selectedTag && artwork.type !== selectedTag) return false;
     // Filter by search input
@@ -150,9 +86,9 @@ const Explore: React.FC = () ={">"} {
     )
       return false;
     return true;
-  {"}"});
+  });
 
-  const sortedArtworks = [...filteredArtworks].sort((a, b) ={">"} {
+  const sortedArtworks = [...filteredArtworks].sort((a, b) => {
     switch (sortOption) {
       case "name":
         return a.title.localeCompare(b.title);
@@ -176,24 +112,28 @@ const Explore: React.FC = () ={">"} {
         return b.price - a.price;
       default:
         return 0;
-    {"}"}
-  {"}"});
+    }
+  });
 
   const [open, setOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectedTitle, setSelectedTitle] = useState("");
   const [selectedSubtitle, setSelectedSubtitle] = useState("");
 
-  const handleClickOpen = (artwork) ={">"} {
+  const handleClickOpen = (artwork: {
+    imageUrl: React.SetStateAction<null>;
+    title: React.SetStateAction<string>;
+    artist: any;
+  }) => {
     setSelectedImage(artwork.imageUrl);
     setSelectedTitle(artwork.title);
     setSelectedSubtitle(`by ${artwork.artist}`);
     setOpen(true);
-  {"}"};
+  };
 
-  const handleClose = () ={">"} {
+  const handleClose = () => {
     setOpen(false);
-  {"}"};
+  };
 
   return (
     <div>
@@ -230,30 +170,7 @@ const Explore: React.FC = () ={">"} {
             Oil Canvas
           </button>
         </div>
-        <Box m="0 auto"  sx={{ width: "80vw", height: "auto", overflowX: "none" }}>
-          <ImageList variant="masonry" cols={4} gap={15}>
-            {currentArtworks.map((artwork, index) => (
-              <ImageListItem key={index}>
-                <img 
-                  src={artwork.imageUrl} 
-                  alt={artwork.type} 
-                  className="artwork" 
-                />
-                <ImageListItemBar position="below" title={artwork.artist} />
-              </ImageListItem>
-            ))}
-          </ImageList>
-        </Box>
 
-        <Stack spacing={2} sx={{ marginLeft: 'auto', marginRight: 'auto', marginTop: '20px' }}>
-          <Pagination count={Math.ceil(filteredArtworks.length / artworksPerPage)} variant="outlined" shape="rounded" onChange={(event, page) => paginate(page)} />
-        </Stack>
-
-        <Footer />
-      </div>
-    );
-  {"}"};
- 
         <FormControl
           sx={{
             m: 1,
@@ -267,7 +184,7 @@ const Explore: React.FC = () ={">"} {
             id="sort-label"
             sx={{ fontFamily: "Montserrat", fontWeight: "400" }}
           >
-            Sort By
+            {/* Sort By */}
           </InputLabel>
           <Select
             labelId="sort-label"
@@ -328,20 +245,40 @@ const Explore: React.FC = () ={">"} {
         </ImageList>
 
         <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
-          <DialogTitle>{selectedTitle}</DialogTitle>
-          <DialogContent>
-            <img
-              src={selectedImage}
-              alt={selectedTitle}
-              style={{ width: "100%", height: "auto" }}
-            />
+          <DialogTitle
+            display="center"
+            sx={{
+              fontFamily: "Inknut Antiqua",
+              fontWeight: "500",
+              fontSize: "100%",
+            }}
+          >
+            {selectedTitle}
+          </DialogTitle>
+          <IconButton
+            aria-label="close"
+            onClick={handleClose}
+            sx={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+          <DialogContent sx={{ display: "flex" }}>
+            <Box sx={{ width: "50%", eight: "100%" }}>
+              <img
+                src={selectedImage}
+                alt={selectedTitle}
+                style={{ width: "100%", height: "100%" }}
+              />
+            </Box>
+            <Box>desc</Box>
             <p>{selectedSubtitle}</p>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              Close
-            </Button>
-          </DialogActions>
+          <DialogActions></DialogActions>
         </Dialog>
       </Box>
 
