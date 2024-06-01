@@ -4,18 +4,23 @@ import { storage } from "../../../FirebaseConfig";
 import "./ExploreStyles.css";
 import Header from "../../Header";
 import Footer from "../../Footer";
+import CloseIcon from "@mui/icons-material/Close";
 import {
   Box,
   ImageList,
   ImageListItem,
   ImageListItemBar,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
   MenuItem,
   Select,
   FormControl,
   InputLabel,
   Button,
+  IconButton,
 } from "@mui/material";
-import { BorderAllRounded } from "@mui/icons-material";
 
 const Explore: React.FC = () => {
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
@@ -110,6 +115,26 @@ const Explore: React.FC = () => {
     }
   });
 
+  const [open, setOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedTitle, setSelectedTitle] = useState("");
+  const [selectedSubtitle, setSelectedSubtitle] = useState("");
+
+  const handleClickOpen = (artwork: {
+    imageUrl: React.SetStateAction<null>;
+    title: React.SetStateAction<string>;
+    artist: any;
+  }) => {
+    setSelectedImage(artwork.imageUrl);
+    setSelectedTitle(artwork.title);
+    setSelectedSubtitle(`by ${artwork.artist}`);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <div>
       <Header />
@@ -159,7 +184,7 @@ const Explore: React.FC = () => {
             id="sort-label"
             sx={{ fontFamily: "Montserrat", fontWeight: "400" }}
           >
-            {/* //Sort By */}
+            {/* Sort By */}
           </InputLabel>
           <Select
             labelId="sort-label"
@@ -195,32 +220,66 @@ const Explore: React.FC = () => {
         </FormControl>
       </Box>
 
-      <Box m="0 auto" sx={{ width: "80vw", height: "auto", overflowX: "none" }}>
+      <Box m="0 auto" sx={{ width: "80vw", height: "auto" }}>
         <ImageList variant="masonry" cols={4} gap={25}>
           {sortedArtworks.map((artwork, index) => (
-            <ImageListItem key={index}>
+            <ImageListItem key={index} onClick={() => handleClickOpen(artwork)}>
               <img
-                // sx={{BorderAllRounded}}
                 src={artwork.imageUrl}
                 alt={artwork.type}
+                style={{ cursor: "pointer" }} // Make the image cursor pointer
               />
               <ImageListItemBar
                 sx={{
                   fontFamily: "Montserrat",
                   fontWeight: "500",
-                  paddingRight: "25px",
-                  width: "80vw",
                   height: "auto",
                   overflowX: "none",
                 }}
                 position="below"
                 title={artwork.title}
                 subtitle={`by ${artwork.artist}`}
-                //subtitle={`by ${artwork.artist} - $${artwork.price}`}
               />
             </ImageListItem>
           ))}
         </ImageList>
+
+        <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
+          <DialogTitle
+            display="center"
+            sx={{
+              fontFamily: "Inknut Antiqua",
+              fontWeight: "500",
+              fontSize: "100%",
+            }}
+          >
+            {selectedTitle}
+          </DialogTitle>
+          <IconButton
+            aria-label="close"
+            onClick={handleClose}
+            sx={{
+              position: "absolute",
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+          <DialogContent sx={{ display: "flex" }}>
+            <Box sx={{ width: "50%", eight: "100%" }}>
+              <img
+                src={selectedImage}
+                alt={selectedTitle}
+                style={{ width: "100%", height: "100%" }}
+              />
+            </Box>
+            <Box>desc</Box>
+            <p>{selectedSubtitle}</p>
+          </DialogContent>
+          <DialogActions></DialogActions>
+        </Dialog>
       </Box>
 
       <Footer />
