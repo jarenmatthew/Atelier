@@ -208,7 +208,7 @@ function SignUpPage() {
             }}
           />
           <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
-            Password must be at least 9 characters long and contain at least one number, one special character, and one uppercase letter.
+            Password must be at least 9 characters, contain at least one number, one special character, and one uppercase letter.
           </Typography>
 
           <TextField
