@@ -1,8 +1,7 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, addDoc, collection } from "firebase/firestore";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
-import { getDownloadURL } from "firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { Link as RouterLink } from "react-router-dom";
 import { auth } from "../../../FirebaseConfig";
 import { useNavigate } from "react-router";
@@ -81,6 +80,7 @@ function SignUpPage() {
         description: description,
         profilePhoto: profilePhotoURL,
         coverPhoto: coverPhotoURL,
+        followers: 0, // Initialize followers field to 0
       });
       console.log("Document written with ID: ", docRef.id);
       return docRef.id; // Return the document ID
@@ -171,8 +171,8 @@ function SignUpPage() {
               disableUnderline: true,
               style: {
                 backgroundColor: "#FFFFFF",
-                border: "none",
-                outline: "none",
+                border: 'none',
+                outline: 'none',
                 borderRadius: "5px",
                 marginBottom: "15px",
                 fontFamily: "Montserrat",
@@ -297,7 +297,6 @@ function SignUpPage() {
           </Typography>
         </Box>
       </Box>
-
       <Dialog
         open={openDialog}
         onClose={handleDialogClose}
@@ -348,6 +347,11 @@ function SignUpPage() {
             onChange={(e) => setUsername(e.target.value)}
             sx={textFieldStyle.root}
           />
+          <Typography variant="body2" color="textSecondary"
+            sx={{
+              mb: 0,
+              paddingLeft: 0,
+            }}>Description</Typography>
           <Typography
             variant="body2"
             color="textSecondary"
