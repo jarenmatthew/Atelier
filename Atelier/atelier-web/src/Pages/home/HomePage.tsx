@@ -252,7 +252,6 @@ const Home: React.FC = () => {
         </Box>
 
         <Box
-          id="popup-container"
           className="popup-container"
           onClick={handleClosePopup}
           style={{ display: popupDisplay }}
