@@ -249,6 +249,31 @@ const Home: React.FC = () => {
               </ImageListItem>
             ))}
           </ImageList>
+
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end", // Align children to the start (left)
+              alignItems: "center", // Center align items vertically
+              height: "100%", // Optional: ensure the Box takes up full height of its container
+              paddingBottom: "5%",
+              paddingTop: "3%",
+            }}
+          >
+            <Link to={"/explore"} style={{ textDecoration: "none" }}>
+              <Typography
+                sx={{
+                  margin: "0 auto",
+                  fontFamily: "Montserrat",
+                  fontSize: "120%",
+                  fontWeight: "500",
+                  textDecoration: "underline",
+                }}
+              >
+                Explore more...
+              </Typography>
+            </Link>
+          </Box>
         </Box>
 
         <Box
