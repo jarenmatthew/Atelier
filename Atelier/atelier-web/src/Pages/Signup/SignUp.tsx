@@ -1,8 +1,7 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, addDoc, collection } from "firebase/firestore";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
-import { getDownloadURL } from "firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { Link as RouterLink } from "react-router-dom";
 import { auth } from "../../../FirebaseConfig";
 import { useNavigate } from "react-router";
@@ -81,6 +80,7 @@ function SignUpPage() {
         description: description,
         profilePhoto: profilePhotoURL,
         coverPhoto: coverPhotoURL,
+        followers: 0, // Initialize followers field to 0
       });
       console.log("Document written with ID: ", docRef.id);
       return docRef.id; // Return the document ID
@@ -170,8 +170,8 @@ function SignUpPage() {
               disableUnderline: true,
               style: {
                 backgroundColor: "#FFFFFF",
-                border:'none',
-                outline:'none',
+                border: 'none',
+                outline: 'none',
                 borderRadius: "5px",
                 marginBottom: "15px",
                 fontFamily: "Montserrat",
@@ -296,23 +296,24 @@ function SignUpPage() {
         </Box>
       </Box>
 
-      <Dialog open={openDialog} onClose={handleDialogClose}  maxWidth="sm"
-      sx={{
-        "& .MuiDialog-paper": {
-          backgroundColor: "#E2C1BE", 
-          color: "#0000",
-          fontFamily: "Montserrat",
-          borderRadius: "10px",
-        },
-      }}>
-        <DialogTitle sx={{ fontFamily: "Montserrat", color: "#232335", paddingBottom:3 }}>
+      <Dialog open={openDialog} onClose={handleDialogClose} maxWidth="sm"
+        sx={{
+          "& .MuiDialog-paper": {
+            backgroundColor: "#E2C1BE",
+            color: "#0000",
+            fontFamily: "Montserrat",
+            borderRadius: "10px",
+          },
+        }}>
+        <DialogTitle sx={{ fontFamily: "Montserrat", color: "#232335", paddingBottom: 3 }}>
           Setup Your Profile</DialogTitle>
 
         <DialogContent>
-        <Typography variant="body2" color="textSecondary" 
-        sx={{ mb: 0,
-          paddingLeft:0,
-         }}>
+          <Typography variant="body2" color="textSecondary"
+            sx={{
+              mb: 0,
+              paddingLeft: 0,
+            }}>
             Full Name
           </Typography>
           <TextField
@@ -323,10 +324,11 @@ function SignUpPage() {
             onChange={(e) => setFullName(e.target.value)}
             sx={textFieldStyle.root}
           />
-          <Typography variant="body2" color="textSecondary" 
-        sx={{ mb: 0,
-          paddingLeft:0,
-         }}>
+          <Typography variant="body2" color="textSecondary"
+            sx={{
+              mb: 0,
+              paddingLeft: 0,
+            }}>
             Username
           </Typography>
           <TextField
@@ -337,10 +339,11 @@ function SignUpPage() {
             onChange={(e) => setUsername(e.target.value)}
             sx={textFieldStyle.root}
           />
-          <Typography variant="body2" color="textSecondary" 
-        sx={{ mb: 0,
-          paddingLeft:0,
-         }}>Description</Typography>
+          <Typography variant="body2" color="textSecondary"
+            sx={{
+              mb: 0,
+              paddingLeft: 0,
+            }}>Description</Typography>
           <TextField
             fullWidth
             // label="Description"
@@ -351,10 +354,11 @@ function SignUpPage() {
             rows={2}
             sx={textFieldStyle.root}
           />
-          <Typography variant="body2" color="textSecondary" 
-        sx={{ mb: 0,
-          paddingLeft:0,
-         }}>Profile Photo</Typography>
+          <Typography variant="body2" color="textSecondary"
+            sx={{
+              mb: 0,
+              paddingLeft: 0,
+            }}>Profile Photo</Typography>
           <TextField
             fullWidth
             type="file"
@@ -367,10 +371,11 @@ function SignUpPage() {
             }}
             sx={textFieldStyle.root}
           />
-          <Typography variant="body2" color="textSecondary" 
-        sx={{ mb: 0,
-          paddingLeft:0,
-         }}>Cover Photo</Typography>
+          <Typography variant="body2" color="textSecondary"
+            sx={{
+              mb: 0,
+              paddingLeft: 0,
+            }}>Cover Photo</Typography>
           <TextField
             fullWidth
             type="file"
@@ -388,15 +393,15 @@ function SignUpPage() {
 
         <DialogActions>
           <Button onClick={handleDialogClose}
-          sx={{
-            backgroundColor: "#91488A",
-            color: "#ffffff",
-            fontFamily: "Montserrat",
-            "&:hover": {
-              backgroundColor: "#3B3B58",
-              fontWeight: "600",
-            },
-          }}
+            sx={{
+              backgroundColor: "#91488A",
+              color: "#ffffff",
+              fontFamily: "Montserrat",
+              "&:hover": {
+                backgroundColor: "#3B3B58",
+                fontWeight: "600",
+              },
+            }}
           >Launch Profile</Button>
         </DialogActions>
       </Dialog>
@@ -407,18 +412,18 @@ function SignUpPage() {
 const textFieldStyle = {
   root: {
     mb: 2,
-              backgroundColor: "#ffffff",
-              border:'none',
-              borderRadius: "0px",
-              "& .MuiFilledInput-root": {
-                borderColor: "#91488A",
-                "&:before, &:after": {
-                  borderBottomColor: "#91488A",
-                },
-                "&:hover": {
-                  borderBottomColor: "#91488A",
-                },
-              },
+    backgroundColor: "#ffffff",
+    border: 'none',
+    borderRadius: "0px",
+    "& .MuiFilledInput-root": {
+      borderColor: "#91488A",
+      "&:before, &:after": {
+        borderBottomColor: "#91488A",
+      },
+      "&:hover": {
+        borderBottomColor: "#91488A",
+      },
+    },
   },
 };
 
