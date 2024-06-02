@@ -70,10 +70,15 @@ function LogInPage() {
   return (
     <Box minHeight="100vh" sx={{ backgroundColor: "#E2C1BE" }}>
       <Box m="0 auto" maxWidth="500px">
-        <Box m="0 auto" pt="80px" width="280px">
-          <img src="/src/assets/atelier-logo2.png" alt="Atelier" width="100%" />
+        <Box m="0 auto" pt={"30px"} width={"280px"}>
+          <img
+            src="/src/assets/atelier-logo2.png"
+            alt="Atelier"
+            width={"100%"}
+          />
         </Box>
-        <Box mt="15%">
+
+        <Box mt={"8%"}>
           <Typography
             fontFamily="Inknut Antiqua"
             textAlign="center"
@@ -84,7 +89,7 @@ function LogInPage() {
             Log In
           </Typography>
         </Box>
-        <Box mt="10%">
+        <Box mt="5%">
           <TextField
             fullWidth
             required
@@ -132,7 +137,11 @@ function LogInPage() {
               {error}
             </Typography>
           )}
-          <Box display="flex" justifyContent="space-between">
+          <Box
+            display={"flex"}
+            justifyContent={"space-between"}
+            alignItems={"center"}
+          >
             <FormGroup>
               <FormControlLabel
                 control={<Checkbox />}
@@ -150,7 +159,7 @@ function LogInPage() {
               </Link>
             </Typography>
           </Box>
-          <Box mt="15%" display="flex" justifyContent="center">
+          <Box mt="10%" display="flex" justifyContent="center">
             <Button
               fullWidth
               size="medium"
