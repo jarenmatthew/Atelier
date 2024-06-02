@@ -91,12 +91,11 @@ function SignUpPage() {
   };
 
   const signUp = async () => {
-    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+[\]{};':"\\|,.<>/?]).{9,}$/;
+    const passwordRegex =
+      /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+[\]{};':"\\|,.<>/?]).{9,}$/;
 
     if (!passwordRegex.test(password)) {
-      setError(
-        "Password does not meet password requirements."
-      );
+      setError("Password does not meet password requirements.");
       return;
     }
 
@@ -113,7 +112,7 @@ function SignUpPage() {
         setError("Invalid email.");
       } else if (err.message.includes("auth/invalid-credential")) {
         setError("Your password is incorrect. Please try again.");
-      }else if (err.message.includes("auth/email-already-in-use")) {
+      } else if (err.message.includes("auth/email-already-in-use")) {
         setError("Email is already in use. Please try again.");
       } else {
         setError(err.message);
@@ -148,7 +147,7 @@ function SignUpPage() {
           />
         </Box>
 
-        <Box mt={"10%"}>
+        <Box mt={"8%"}>
           <Typography
             fontFamily={"Inknut Antiqua"}
             textAlign={"center"}
@@ -160,7 +159,7 @@ function SignUpPage() {
           </Typography>
         </Box>
 
-        <Box mt={"10%"}>
+        <Box mt={"5%"}>
           <TextField
             fullWidth
             required={true}
@@ -172,8 +171,8 @@ function SignUpPage() {
               disableUnderline: true,
               style: {
                 backgroundColor: "#FFFFFF",
-                border:'none',
-                outline:'none',
+                border: "none",
+                outline: "none",
                 borderRadius: "5px",
                 marginBottom: "15px",
                 fontFamily: "Montserrat",
@@ -210,7 +209,8 @@ function SignUpPage() {
             }}
           />
           <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
-            Password must be at least 9 characters, contain at least one number, one special character, and one uppercase letter.
+            Password must be at least 9 characters, contain at least one number,
+            one special character, and one uppercase letter.
           </Typography>
 
           <TextField
@@ -298,23 +298,31 @@ function SignUpPage() {
         </Box>
       </Box>
 
-      <Dialog open={openDialog} onClose={handleDialogClose}  maxWidth="sm"
-      sx={{
-        "& .MuiDialog-paper": {
-          backgroundColor: "#E2C1BE", 
-          color: "#0000",
-          fontFamily: "Montserrat",
-          borderRadius: "10px",
-        },
-      }}>
-        <DialogTitle sx={{ fontFamily: "Montserrat", color: "#232335", paddingBottom:3 }}>
-          Setup Your Profile</DialogTitle>
+      <Dialog
+        open={openDialog}
+        onClose={handleDialogClose}
+        maxWidth="sm"
+        sx={{
+          "& .MuiDialog-paper": {
+            backgroundColor: "#E2C1BE",
+            color: "#0000",
+            fontFamily: "Montserrat",
+            borderRadius: "10px",
+          },
+        }}
+      >
+        <DialogTitle
+          sx={{ fontFamily: "Montserrat", color: "#232335", paddingBottom: 3 }}
+        >
+          Setup Your Profile
+        </DialogTitle>
 
         <DialogContent>
-        <Typography variant="body2" color="textSecondary" 
-        sx={{ mb: 0,
-          paddingLeft:0,
-         }}>
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            sx={{ mb: 0, paddingLeft: 0 }}
+          >
             Full Name
           </Typography>
           <TextField
@@ -325,10 +333,11 @@ function SignUpPage() {
             onChange={(e) => setFullName(e.target.value)}
             sx={textFieldStyle.root}
           />
-          <Typography variant="body2" color="textSecondary" 
-        sx={{ mb: 0,
-          paddingLeft:0,
-         }}>
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            sx={{ mb: 0, paddingLeft: 0 }}
+          >
             Username
           </Typography>
           <TextField
@@ -339,10 +348,13 @@ function SignUpPage() {
             onChange={(e) => setUsername(e.target.value)}
             sx={textFieldStyle.root}
           />
-          <Typography variant="body2" color="textSecondary" 
-        sx={{ mb: 0,
-          paddingLeft:0,
-         }}>Description</Typography>
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            sx={{ mb: 0, paddingLeft: 0 }}
+          >
+            Description
+          </Typography>
           <TextField
             fullWidth
             // label="Description"
@@ -353,10 +365,13 @@ function SignUpPage() {
             rows={2}
             sx={textFieldStyle.root}
           />
-          <Typography variant="body2" color="textSecondary" 
-        sx={{ mb: 0,
-          paddingLeft:0,
-         }}>Profile Photo</Typography>
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            sx={{ mb: 0, paddingLeft: 0 }}
+          >
+            Profile Photo
+          </Typography>
           <TextField
             fullWidth
             type="file"
@@ -369,10 +384,13 @@ function SignUpPage() {
             }}
             sx={textFieldStyle.root}
           />
-          <Typography variant="body2" color="textSecondary" 
-        sx={{ mb: 0,
-          paddingLeft:0,
-         }}>Cover Photo</Typography>
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            sx={{ mb: 0, paddingLeft: 0 }}
+          >
+            Cover Photo
+          </Typography>
           <TextField
             fullWidth
             type="file"
@@ -389,17 +407,20 @@ function SignUpPage() {
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={handleDialogClose}
-          sx={{
-            backgroundColor: "#91488A",
-            color: "#ffffff",
-            fontFamily: "Montserrat",
-            "&:hover": {
-              backgroundColor: "#3B3B58",
-              fontWeight: "600",
-            },
-          }}
-          >Launch Profile</Button>
+          <Button
+            onClick={handleDialogClose}
+            sx={{
+              backgroundColor: "#91488A",
+              color: "#ffffff",
+              fontFamily: "Montserrat",
+              "&:hover": {
+                backgroundColor: "#3B3B58",
+                fontWeight: "600",
+              },
+            }}
+          >
+            Launch Profile
+          </Button>
         </DialogActions>
       </Dialog>
     </Box>
@@ -409,18 +430,18 @@ function SignUpPage() {
 const textFieldStyle = {
   root: {
     mb: 2,
-              backgroundColor: "#ffffff",
-              border:'none',
-              borderRadius: "0px",
-              "& .MuiFilledInput-root": {
-                borderColor: "#91488A",
-                "&:before, &:after": {
-                  borderBottomColor: "#91488A",
-                },
-                "&:hover": {
-                  borderBottomColor: "#91488A",
-                },
-              },
+    backgroundColor: "#ffffff",
+    border: "none",
+    borderRadius: "0px",
+    "& .MuiFilledInput-root": {
+      borderColor: "#91488A",
+      "&:before, &:after": {
+        borderBottomColor: "#91488A",
+      },
+      "&:hover": {
+        borderBottomColor: "#91488A",
+      },
+    },
   },
 };
 

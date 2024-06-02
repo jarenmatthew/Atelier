@@ -78,7 +78,7 @@ function LogInPage() {
           />
         </Box>
 
-        <Box mt={"10%"}>
+        <Box mt={"8%"}>
           <Typography
             fontFamily="Inknut Antiqua"
             textAlign="center"
@@ -89,7 +89,7 @@ function LogInPage() {
             Log In
           </Typography>
         </Box>
-        <Box mt="10%">
+        <Box mt="5%">
           <TextField
             fullWidth
             required
@@ -137,7 +137,11 @@ function LogInPage() {
               {error}
             </Typography>
           )}
-          <Box mt="3%" display={"flex"} justifyContent={"center"}>
+          <Box
+            display={"flex"}
+            justifyContent={"space-between"}
+            alignItems={"center"}
+          >
             <FormGroup>
               <FormControlLabel
                 control={<Checkbox />}
@@ -155,7 +159,7 @@ function LogInPage() {
               </Link>
             </Typography>
           </Box>
-          <Box mt="15%" display="flex" justifyContent="center">
+          <Box mt="10%" display="flex" justifyContent="center">
             <Button
               fullWidth
               size="medium"
