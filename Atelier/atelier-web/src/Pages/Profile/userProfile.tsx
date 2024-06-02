@@ -1,4 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import Header from "../../Header";
+import Footer from "../../Footer";
+import "./userProfileStyle.css";
 import {
   getFirestore,
   doc,
@@ -24,10 +28,6 @@ import {
   Checkbox,
   FormControlLabel,
 } from "@mui/material";
-import { useParams, useNavigate } from "react-router-dom";
-import "./userProfileStyle.css";
-import Header from "../../Header";
-import Footer from "../../Footer";
 
 const UserProfile = () => {
   const { userId } = useParams();
@@ -461,67 +461,193 @@ const UserProfile = () => {
   return (
     <div>
       <Header />
-      <Box display="flex" flexDirection="column" alignItems="center" p={2}>
-        {userData.coverPhoto && (
-          <img
-            src={userData.coverPhoto}
-            alt="Cover"
-            style={{ width: "100%", maxHeight: "200px", objectFit: "cover" }}
-          />
-        )}
-        <Avatar
-          src={userData.profilePhoto}
-          alt={userData.fullName}
-          sx={{ width: 100, height: 100 }}
-        />
-        <Typography variant="h5">{userData.fullName}</Typography>
-        <Typography variant="body1">@{userData.username}</Typography>
-        <Typography variant="body2">{userData.description}</Typography>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleEditProfile}
-          sx={{ marginTop: 2 }}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column", // Corrected property name
+          width: "80vw",
+          height: "auto",
+          margin: "0 auto",
+          //backgroundColor: "red",
+          overflow: "hidden", // Ensure inner boxes are contained
+        }}
+      >
+        <Box
+          sx={{
+            width: "100%",
+            height: "40vh",
+            padding: "1%",
+            margin: "0 auto",
+            //backgroundColor: "green",
+          }}
         >
-          Edit Profile
-        </Button>
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={handleLogout}
-          sx={{ marginTop: 2 }}
-        >
-          Logout
-        </Button>
-        <Button
-          variant="contained"
-          color="error"
-          onClick={handleDeleteAccount}
-          sx={{ marginTop: 2 }}
-        >
-          Delete Account
-        </Button>
-      </Box>
-      <Tabs value={tabIndex} onChange={handleTabChange} centered>
-        <Tab label="About" />
-        <Tab label="Collection" />
-        <Tab label="Exhibit" />
-      </Tabs>
-      {tabIndex === 0 && (
-        <Box p={2}>
-          <Typography variant="h6">About</Typography>
-          <Typography>{userData.description}</Typography>
+          {userData.coverPhoto && (
+            <img
+              src={userData.coverPhoto}
+              alt="Cover"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                borderRadius: "5px",
+              }}
+            />
+          )}
         </Box>
-      )}
-      {tabIndex === 1 && (
-        <Box p={2}>
-          <Typography variant="h6">Collection</Typography>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            width: "100%",
+            height: "20vh",
+            padding: "1%",
+            margin: "0 auto",
+            //backgroundColor: "pink",
+          }}
+        >
+          <Box
+            sx={{
+              width: "12%",
+              height: "100%",
+              //backgroundColor: "aqua",
+            }}
+          >
+            <Avatar
+              src={userData.profilePhoto}
+              alt={userData.fullName}
+              sx={{ width: "100%", height: "100%" }}
+            />
+          </Box>
+          <Box
+            sx={{
+              width: "73%",
+              height: "100%",
+              paddingLeft: "2%",
+              paddingTop: "3%",
+              direction: "column",
+              //backgroundColor: "yellow",
+            }}
+          >
+            <Typography
+              variant="h5"
+              sx={{
+                fontFamily: "Inknut Antiqua",
+                fontSize: "145%",
+                fontWeight: "600",
+              }}
+            >
+              {userData.fullName}
+            </Typography>
+            <Typography
+              variant="body1"
+              sx={{
+                fontFamily: "Montserrat",
+                fontSize: "115%",
+                fontWeight: "400",
+              }}
+            >
+              @{userData.username}
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{
+                fontFamily: "Montserrat",
+                fontSize: "100%",
+                fontWeight: "400",
+                padding: "1%",
+              }}
+            >
+              {userData.followers} Followers
+            </Typography>{" "}
+          </Box>
+          <Box
+            sx={{
+              width: "15%",
+              height: "100%",
+              //backgroundColor: "violet",
+            }}
+          >
+            <Button
+              onClick={handleEditProfile}
+              fullWidth
+              size="medium"
+              variant="contained"
+              sx={{
+                textTransform: "none",
+                backgroundColor: "#91488A",
+                borderRadius: "5px",
+                height: "50px",
+                fontFamily: "Montserrat",
+                fontSize: "20px",
+                fontWeight: "500",
+                "&:hover": {
+                  backgroundColor: "#3B3B58",
+                  fontWeight: "600",
+                },
+              }}
+            >
+              Edit Profile
+            </Button>
+          </Box>
+        </Box>
+
+        {/* <Box
+          sx={{
+            width: "80vw",
+            height: "40vh",
+            margin: "0 auto",
+            // backgroundColor: "pink",
+          }}
+        >
+          {userData.coverPhoto && (
+            <img
+              src={userData.coverPhoto}
+              alt="Cover"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                borderRadius: "5px",
+              }}
+            />
+          )}
+        </Box>
+        <Box>
+          <Box
+            sx={{
+              width: "80vw",
+              height: "25vh",
+              margin: "0 auto",
+              padding: "1%",
+              backgroundColor: "pink",
+            }}
+          >
+            <Avatar
+              src={userData.profilePhoto}
+              alt={userData.fullName}
+              sx={{ width: "20%", height: "auto" }}
+            />
+          </Box>
+          <Box
+            sx={{
+              width: "80vw",
+              height: "25vh",
+              margin: "0 auto",
+              padding: "1%",
+              backgroundColor: "lightBlue",
+            }}
+          >
+            <Typography variant="h5">{userData.fullName}</Typography>
+            <Typography variant="body1">@{userData.username}</Typography>
+            <Typography variant="body2">{userData.description}</Typography>
+          </Box>
           <Button
             variant="contained"
             color="primary"
-            onClick={() => setOpenCollectionDialog(true)}
+            onClick={handleEditProfile}
+            sx={{ marginTop: 2 }}
           >
-            Add Collection
+            Edit Profile
           </Button>
           <Box mt={2}>
           {collections.map((collection) => (
@@ -554,50 +680,175 @@ const UserProfile = () => {
                   variant="contained"
                   color="secondary"
                   onClick={() => openArtworkDialogForCollection(collection.id)}
+        </Box> */}
+      </Box>
+
+      <Box
+        sx={{
+          // display: "flex",
+          // flexDirection: "column", // Corrected property name
+          width: "80vw",
+          height: "auto",
+          margin: "0 auto",
+          paddingTop: "2%",
+          //backgroundColor: "pink",
+          //overflow: "hidden", // Ensure inner boxes are contained
+        }}
+      >
+        <Tabs
+          value={tabIndex}
+          onChange={handleTabChange}
+          start
+          sx={{
+            fontFamily: "Inknut Antiqua",
+            fontWeight: "600",
+          }}
+        >
+          <Tab
+            label="About"
+            sx={{
+              fontFamily: "Inknut Antiqua",
+              fontWeight: "600",
+              fontSize: "110%",
+              textTransform: "none",
+              color: "black",
+            }}
+          />
+          <Tab
+            label="Collection"
+            sx={{
+              fontFamily: "Inknut Antiqua",
+              fontWeight: "600",
+              fontSize: "110%",
+              textTransform: "none",
+              color: "black",
+            }}
+          />
+          <Tab
+            label="Exhibit"
+            sx={{
+              fontFamily: "Inknut Antiqua",
+              fontWeight: "600",
+              fontSize: "110%",
+              textTransform: "none",
+              color: "black",
+            }}
+          />
+        </Tabs>
+
+        {tabIndex === 0 && (
+          <Box p={2}>
+            <Typography variant="h6">About</Typography>
+            <Typography>{userData.description}</Typography>
+
+            <Box>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={handleLogout}
+                sx={{ marginTop: 2 }}
+              >
+                Logout
+              </Button>
+              <Button
+                variant="contained"
+                color="error"
+                onClick={handleDeleteAccount}
+                sx={{ marginTop: 2 }}
+              >
+                Delete Account
+              </Button>
+            </Box>
+          </Box>
+        )}
+
+        {tabIndex === 1 && (
+          <Box p={2}>
+            <Typography variant="h6">Collection</Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => setOpenCollectionDialog(true)}
+            >
+              Add Collection
+            </Button>
+            <Box mt={2}>
+              {collections.map((collection) => (
+                <Box
+                  key={collection.id}
+                  p={2}
+                  border={1}
+                  borderColor="grey.400"
+                  mb={2}
                 >
-                  Add Artwork
-                </Button>
-                {/* Render artworks for this collection */}
-                <Box mt={2}>
-                  {collection.artworks &&
-                    collection.artworks.map((artwork) => (
-                      <Box
-                        key={artwork.id}
-                        p={2}
-                        border={1}
-                        borderColor="grey.400"
-                        mb={2}
-                      >
-                        <img
-                          src={artwork.coverPhoto}
-                          alt={artwork.name}
-                          style={{
-                            width: "100%",
-                            maxHeight: "200px",
-                            objectFit: "cover",
-                          }}
-                        />
-                        <Typography variant="h6">{artwork.name}</Typography>
-                        <Typography>{artwork.description}</Typography>
-                        {/* Add more artwork details here */}
-                      </Box>
-                    ))}
-                </Box>
-                {/* Add event handler for collection click */}
-                <Box mt={2}>
+                  <img
+                    src={collection.coverPhoto}
+                    alt={collection.name}
+                    style={{
+                      width: "100%",
+                      maxHeight: "200px",
+                      objectFit: "cover",
+                    }}
+                  />
+                  <Typography variant="h6">{collection.name}</Typography>
+                  <Typography>{collection.description}</Typography>
                   <Button
                     variant="contained"
-                    color="primary"
-                    onClick={() => handleCollectionClick(collection.id)}
+                    color="secondary"
+                    onClick={() => handleDeleteCollection(collection.id)}
                   >
-                    View Artworks
+                    Delete Collection
                   </Button>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() =>
+                      openArtworkDialogForCollection(collection.id)
+                    }
+                  >
+                    Add Artwork
+                  </Button>
+                  {/* Render artworks for this collection */}
+                  <Box mt={2}>
+                    {collection.artworks &&
+                      collection.artworks.map((artwork) => (
+                        <Box
+                          key={artwork.id}
+                          p={2}
+                          border={1}
+                          borderColor="grey.400"
+                          mb={2}
+                        >
+                          <img
+                            src={artwork.coverPhoto}
+                            alt={artwork.name}
+                            style={{
+                              width: "100%",
+                              maxHeight: "200px",
+                              objectFit: "cover",
+                            }}
+                          />
+                          <Typography variant="h6">{artwork.name}</Typography>
+                          <Typography>{artwork.description}</Typography>
+                          {/* Add more artwork details here */}
+                        </Box>
+                      ))}
+                  </Box>
+                  {/* Add event handler for collection click */}
+                  <Box mt={2}>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => handleCollectionClick(collection.id)}
+                    >
+                      View Artworks
+                    </Button>
+                  </Box>
                 </Box>
-              </Box>
-            ))}
+              ))}
+            </Box>
           </Box>
-        </Box>
-      )}
+        )}
 
       {tabIndex === 2 && (
         <Box p={2}>
@@ -638,14 +889,54 @@ const UserProfile = () => {
                   onClick={() =>
                     handleDeleteExhibitArtwork(artwork.id)
                   }
+        {tabIndex === 2 && (
+          <Box p={2}>
+            <Typography variant="h6">Exhibit</Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => setOpenExhibitDialog(true)}
+            >
+              Add Artwork to Exhibit
+            </Button>
+            <Box mt={2}>
+              {exhibitArtworks.map((artwork) => (
+                <Box
+                  key={artwork.id}
+                  p={2}
+                  border={1}
+                  borderColor="grey.400"
+                  mb={2}
                 >
-                  Delete Artwork
-                </Button>
-              </Box>
-            ))}
+                  <img
+                    src={artwork.coverPhoto}
+                    alt={artwork.name}
+                    style={{
+                      width: "100%",
+                      maxHeight: "200px",
+                      objectFit: "cover",
+                    }}
+                  />
+                  <Typography variant="h6">{artwork.name}</Typography>
+                  <Typography>{artwork.description}</Typography>
+                  <Typography>Tags: {artwork.tags.join(", ")}</Typography>
+                  <Typography>Price: ${artwork.price}</Typography>
+                  <Typography>Stock: {artwork.stock}</Typography>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    onClick={() =>
+                      handleDeleteArtwork(selectedCollectionId, artwork.id)
+                    }
+                  >
+                    Delete Artwork
+                  </Button>
+                </Box>
+              ))}
+            </Box>
           </Box>
-        </Box>
-      )}
+        )}
+      </Box>
 
       <Dialog
         open={openCollectionDialog}
