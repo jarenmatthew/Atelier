@@ -107,6 +107,8 @@ function SignUpPage() {
         setError("Sorry, we don't recognize this email.");
       } else if (err.message.includes("auth/invalid-credential")) {
         setError("Your password is incorrect. Please try again.");
+      }else if (err.message.includes("auth/email-already-in-use")) {
+        setError("Email is already in use. Please try again.");
       } else {
         setError(err.message);
       }

@@ -36,10 +36,10 @@ function LogInPage() {
       setIsLoggedIn(true);
       setError(null);
     } catch (err) {
-      if (err.message.includes("auth/email-already-in-use")) {
-        setError("Account already exists");
+      if (err.message.includes("auth/invalid-email")) {
+        setError("Your email or password is incorrect. Please try again.");
       } else if (err.message.includes("auth/invalid-credential")) {
-        setError("Your password is incorrect. Please try again.");
+        setError("Your email or password is incorrect. Please try again.");
       } else {
         setError(err.message);
       }
