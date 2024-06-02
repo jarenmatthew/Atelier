@@ -12,6 +12,7 @@ const Header: React.FC = () => {
   const [messageURL, setMessageIconURL] = useState("");
   const [cartURL, setCartIconURL] = useState("");
   const navigate = useNavigate(); // Import useNavigate hook
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     fetchIconURLs(); // Fetch icon URLs
