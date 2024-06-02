@@ -91,8 +91,12 @@ function SignUpPage() {
   };
 
   const signUp = async () => {
-    if (password.length < 6) {
-      setError("Password should be at least 6 characters long.");
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+[\]{};':"\\|,.<>/?]).{9,}$/;
+
+    if (!passwordRegex.test(password)) {
+      setError(
+        "Password does not meet password requirements."
+      );
       return;
     }
 
@@ -106,7 +110,7 @@ function SignUpPage() {
       setOpenDialog(true);
     } catch (err) {
       if (err.message.includes("auth/invalid-email")) {
-        setError("Sorry, we don't recognize this email.");
+        setError("Invalid email.");
       } else if (err.message.includes("auth/invalid-credential")) {
         setError("Your password is incorrect. Please try again.");
       } else {
@@ -166,6 +170,8 @@ function SignUpPage() {
               disableUnderline: true,
               style: {
                 backgroundColor: "#FFFFFF",
+                border:'none',
+                outline:'none',
                 borderRadius: "5px",
                 marginBottom: "15px",
                 fontFamily: "Montserrat",
@@ -201,6 +207,9 @@ function SignUpPage() {
               ),
             }}
           />
+          <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
+            Password must be at least 9 characters long and contain at least one number, one special character, and one uppercase letter.
+          </Typography>
 
           <TextField
             fullWidth
@@ -287,73 +296,130 @@ function SignUpPage() {
         </Box>
       </Box>
 
-      <Dialog open={openDialog} onClose={handleDialogClose}>
-        <DialogTitle>Complete Your Profile</DialogTitle>
+      <Dialog open={openDialog} onClose={handleDialogClose}  maxWidth="sm"
+      sx={{
+        "& .MuiDialog-paper": {
+          backgroundColor: "#E2C1BE", 
+          color: "#0000",
+          fontFamily: "Montserrat",
+          borderRadius: "10px",
+        },
+      }}>
+        <DialogTitle sx={{ fontFamily: "Montserrat", color: "#232335", paddingBottom:3 }}>
+          Setup Your Profile</DialogTitle>
 
         <DialogContent>
+        <Typography variant="body2" color="textSecondary" 
+        sx={{ mb: 0,
+          paddingLeft:0,
+         }}>
+            Full Name
+          </Typography>
           <TextField
             fullWidth
-            label="Full Name"
+            // label="Full Name"
             variant="filled"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
-            sx={{ mb: 2 }}
+            sx={textFieldStyle.root}
           />
-
+          <Typography variant="body2" color="textSecondary" 
+        sx={{ mb: 0,
+          paddingLeft:0,
+         }}>
+            Username
+          </Typography>
           <TextField
             fullWidth
-            label="Username"
+            // label="Username"
             variant="filled"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            sx={{ mb: 2 }}
+            sx={textFieldStyle.root}
           />
-
+          <Typography variant="body2" color="textSecondary" 
+        sx={{ mb: 0,
+          paddingLeft:0,
+         }}>Description</Typography>
           <TextField
             fullWidth
-            label="Description"
+            // label="Description"
             variant="filled"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             multiline
-            rows={3}
-            sx={{ mb: 2 }}
+            rows={2}
+            sx={textFieldStyle.root}
           />
-
+          <Typography variant="body2" color="textSecondary" 
+        sx={{ mb: 0,
+          paddingLeft:0,
+         }}>Profile Photo</Typography>
           <TextField
             fullWidth
             type="file"
-            label="Profile Photo"
+            // label="Profile Photo"
             onChange={(e) => {
               const target = e.target as HTMLInputElement;
               if (target.files && target.files.length > 0) {
                 setProfilePhoto(target.files[0]);
               }
             }}
-            InputLabelProps={{ shrink: true }}
-            sx={{ mb: 2 }}
+            sx={textFieldStyle.root}
           />
-
+          <Typography variant="body2" color="textSecondary" 
+        sx={{ mb: 0,
+          paddingLeft:0,
+         }}>Cover Photo</Typography>
           <TextField
             fullWidth
             type="file"
-            label="Cover Photo"
+            // label="Cover Photo"
             onChange={(e) => {
               const target = e.target as HTMLInputElement;
               if (target.files && target.files.length > 0) {
                 setCoverPhoto(target.files[0]);
               }
             }}
-            InputLabelProps={{ shrink: true }}
+            // InputLabelProps={{ shrink: true }}
+            sx={textFieldStyle.root}
           />
         </DialogContent>
 
         <DialogActions>
-          <Button onClick={handleDialogClose}>Launch Profile</Button>
+          <Button onClick={handleDialogClose}
+          sx={{
+            backgroundColor: "#91488A",
+            color: "#ffffff",
+            fontFamily: "Montserrat",
+            "&:hover": {
+              backgroundColor: "#3B3B58",
+              fontWeight: "600",
+            },
+          }}
+          >Launch Profile</Button>
         </DialogActions>
       </Dialog>
     </Box>
   );
 }
+
+const textFieldStyle = {
+  root: {
+    mb: 2,
+              backgroundColor: "#ffffff",
+              border:'none',
+              borderRadius: "0px",
+              "& .MuiFilledInput-root": {
+                borderColor: "#91488A",
+                "&:before, &:after": {
+                  borderBottomColor: "#91488A",
+                },
+                "&:hover": {
+                  borderBottomColor: "#91488A",
+                },
+              },
+  },
+};
 
 export default SignUpPage;
