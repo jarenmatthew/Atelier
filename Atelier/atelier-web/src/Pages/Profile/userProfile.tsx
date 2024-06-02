@@ -31,6 +31,9 @@ import {
   ImageListItem,
   ImageListItemBar,
 } from "@mui/material";
+import { getAuth, deleteUser, signOut } from "firebase/auth";
+import { getStorage } from "firebase/storage";
+
 
 const UserProfile = () => {
   const { userId } = useParams();
@@ -62,11 +65,9 @@ const UserProfile = () => {
     stock: "",
   });
   const [editedUserData, setEditedUserData] = useState({});
-  const [selectedCollectionArtworks, setSelectedCollectionArtworks] = useState(
-    []
-  );
   const db = getFirestore();
   const navigate = useNavigate();
+  const auth = getAuth();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -119,92 +120,38 @@ const UserProfile = () => {
   };
 
   const handleDeleteAccount = async () => {
-    const docRef = doc(db, "accounts", userId);
-    await deleteDoc(docRef);
-    navigate("/");
-  };
+    try {
+      // Delete user document from Firestore
+      const docRef = doc(db, "accounts", userId);
+      await deleteDoc(docRef);
 
-  const handleLogout = () => {
-    // Implement logout functionality here, e.g., clearing session, redirecting to login page
-    navigate("/");
-  };
+      // Get the currently signed-in user
+      const user = auth.currentUser;
 
-  const handleEditCollection = async (collectionId, newData) => {
-    const collectionRef = doc(
-      db,
-      "accounts",
-      userId,
-      "collections",
-      collectionId
-    );
-    await updateDoc(collectionRef, newData);
-    // Fetch collections again after editing
-    const collectionsSnapshot = await getDocs(
-      collection(db, "accounts", userId, "collections")
-    );
-    const updatedCollectionsList = collectionsSnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    setCollections(updatedCollectionsList);
-  };
-
-  const handleDeleteArtworkFromCollection = async (collectionId, artworkId) => {
-    const artworkRef = doc(
-      db,
-      "accounts",
-      userId,
-      "collections",
-      collectionId,
-      "artworks",
-      artworkId
-    );
-    await deleteDoc(artworkRef);
-    // Fetch artworks again after deletion
-    const artworksSnapshot = await getDocs(
-      collection(
-        db,
-        "accounts",
-        userId,
-        "collections",
-        collectionId,
-        "artworks"
-      )
-    );
-    const updatedArtworksList = artworksSnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    // Update state to reflect the changes
-    const updatedCollections = collections.map((collectionItem) => {
-      if (collectionItem.id === collectionId) {
-        return { ...collectionItem, artworks: updatedArtworksList };
-      } else {
-        return collectionItem;
+      // Delete the user's authentication record
+      if (user) {
+        await deleteUser(user);
       }
-    });
-    setCollections(updatedCollections);
+
+      // Navigate to home or login page after deletion
+      navigate("/");
+    } catch (error) {
+      console.error("Error deleting account: ", error);
+      // Handle errors appropriately, e.g., show a message to the user
+    }
   };
 
-  const handleEditCollectionCoverPhoto = async (collectionId, coverPhoto) => {
-    const collectionRef = doc(
-      db,
-      "accounts",
-      userId,
-      "collections",
-      collectionId
-    );
-    await updateDoc(collectionRef, { coverPhoto });
-    // Fetch collections again after editing
-    const collectionsSnapshot = await getDocs(
-      collection(db, "accounts", userId, "collections")
-    );
-    const updatedCollectionsList = collectionsSnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    setCollections(updatedCollectionsList);
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      // Navigate to login page after logging out
+      navigate("/login");
+    } catch (error) {
+      console.error("Error logging out: ", error);
+      // Handle errors appropriately, e.g., show a message to the user
+    }
   };
+
 
   const handleCollectionClick = async (collectionId) => {
     // Fetch artworks for the selected collection
@@ -259,9 +206,9 @@ const UserProfile = () => {
     const file = event.target.files[0];
     if (file) {
       const fileSize = file.size / 2048 / 2048; // Size in MB
-      if (fileSize > 2) {
+      if (fileSize > 5) {
         // File size exceeds 2MB, show error message or prevent form submission
-        alert("Please upload an image with a maximum size of 2MB.");
+        alert("Please upload an image with a maximum size of 5MB.");
         // Reset the file input field
         event.target.value = "";
         return;
@@ -324,10 +271,18 @@ const UserProfile = () => {
       selectedCollectionId,
       "artworks"
     );
-
-    await addDoc(artworkRef, newArtworkData);
+  
+    // Add the current timestamp as the dateAdded field
+    const currentDate = new Date();
+    const newArtworkDataWithDate = {
+      ...newArtworkData,
+      dateAdded: currentDate.getTime(), // Use getTime() to get the timestamp in milliseconds
+    };
+  
+    await addDoc(artworkRef, newArtworkDataWithDate);
     setNewArtworkData({ name: "", description: "", coverPhoto: "" }); // Reset the form after adding
     setOpenArtworkDialog(false);
+    
     // Fetch artworks again after adding
     const artworksSnapshot = await getDocs(artworkRef);
     const updatedArtworksList = artworksSnapshot.docs.map((doc) => ({
@@ -336,6 +291,7 @@ const UserProfile = () => {
     }));
     saveArtworks(updatedArtworksList);
   };
+  
 
   const handleDeleteCollection = async (collectionId) => {
     const collectionRef = doc(
@@ -419,7 +375,15 @@ const UserProfile = () => {
 
   const handleAddExhibitArtwork = async () => {
     const exhibitRef = collection(db, "accounts", userId, "exhibit");
-    await addDoc(exhibitRef, newExhibitArtwork);
+  
+    // Add the current timestamp as the dateAdded field
+    const currentDate = new Date();
+    const newExhibitArtworkWithDate = {
+      ...newExhibitArtwork,
+      dateAdded: currentDate.getTime(), // Use getTime() to get the timestamp in milliseconds
+    };
+  
+    await addDoc(exhibitRef, newExhibitArtworkWithDate);
     setNewExhibitArtwork({
       name: "",
       photo: "",
@@ -429,7 +393,8 @@ const UserProfile = () => {
       stock: "",
     });
     setOpenExhibitDialog(false);
-    // Fetch exhibit artworks again
+    
+    // Fetch exhibit artworks again after adding
     const exhibitSnapshot = await getDocs(exhibitRef);
     const exhibitList = exhibitSnapshot.docs.map((doc) => ({
       id: doc.id,
@@ -437,7 +402,7 @@ const UserProfile = () => {
     }));
     setExhibitArtworks(exhibitList);
   };
-
+  
   const handleDeleteExhibitArtwork = async (artworkId) => {
     const artworkRef = doc(db, "accounts", userId, "exhibit", artworkId);
     await deleteDoc(artworkRef);
@@ -1015,7 +980,7 @@ const UserProfile = () => {
                     variant="contained"
                     color="secondary"
                     onClick={() =>
-                      handleDeleteArtwork(selectedCollectionId, artwork.id)
+                      handleDeleteExhibitArtwork(artwork.id)
                     }
                     sx={{
                       fontFamily: "Montserrat",
@@ -1100,7 +1065,7 @@ const UserProfile = () => {
             type="file"
             fullWidth
             inputProps={{ accept: "image/*" }}
-            onChange={handleCoverPhotoChange}
+            onChange={(e) => handleCoverPhotoChange(e, "collection")}
           />
         </DialogContent>
         <DialogActions>
@@ -1181,7 +1146,7 @@ const UserProfile = () => {
             type="file"
             fullWidth
             inputProps={{ accept: "image/*" }}
-            onChange={handleCoverPhotoChange}
+            onChange={(e) => handleCoverPhotoChange(e, "exhibit")}
           />
           <TextField
             margin="dense"
