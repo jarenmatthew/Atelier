@@ -53,7 +53,7 @@ function LogInPage() {
     <Box minHeight={"100vh"} sx={{ backgroundColor: "#E2C1BE" }}>
       {/* m = "0 auto" is used to center all the content, this serves as the container */}
       <Box m="0 auto" maxWidth="500px">
-        <Box m="0 auto" pt={"80px"} width={"280px"}>
+        <Box m="0 auto" pt={"30px"} width={"280px"}>
           <img
             src="/src/assets/atelier-logo2.png"
             alt="Atelier"
@@ -61,7 +61,7 @@ function LogInPage() {
           />
         </Box>
 
-        <Box mt={"15%"}>
+        <Box mt={"10%"}>
           <Typography
             fontFamily={"Inknut Antiqua"}
             textAlign={"center"}
@@ -123,7 +123,7 @@ function LogInPage() {
             </Typography>
           )}
 
-          <Box mt="15%" display={"flex"} justifyContent={"center"}>
+          <Box mt="3%" display={"flex"} justifyContent={"center"}>
             <Button
               fullWidth
               size="medium"

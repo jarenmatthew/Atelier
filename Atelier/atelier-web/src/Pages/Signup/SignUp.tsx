@@ -122,7 +122,7 @@ function SignUpPage() {
   return (
     <Box minHeight={"100vh"} sx={{ backgroundColor: "#E2C1BE" }}>
       <Box m="0 auto" maxWidth="500px">
-        <Box m="0 auto" pt={"80px"} width={"280px"}>
+        <Box m="0 auto" pt={"30px"} width={"280px"}>
           <img
             src="/src/assets/atelier-logo2.png"
             alt="Atelier"
@@ -130,7 +130,7 @@ function SignUpPage() {
           />
         </Box>
 
-        <Box mt={"15%"}>
+        <Box mt={"10%"}>
           <Typography
             fontFamily={"Inknut Antiqua"}
             textAlign={"center"}
@@ -225,7 +225,7 @@ function SignUpPage() {
             </Typography>
           )}
 
-          <Box mt="15%" display={"flex"} justifyContent={"center"}>
+          <Box mt="3%" display={"flex"} justifyContent={"center"}>
             <Button
               fullWidth
               size="medium"
