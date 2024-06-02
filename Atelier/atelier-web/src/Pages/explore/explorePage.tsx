@@ -59,22 +59,31 @@ const Explore: React.FC = () => {
   const fetchArtworks = async () => {
     try {
       setLoading(true);
-      const collectionsSnapshot = await getDocs(collection(db, "artworks"));
+    
+      const accountsSnapshot = await getDocs(collection(db, "accounts"));
       const allArtworks = [];
-  
-      collectionsSnapshot.forEach(async (collectionDoc) => {
-        const collectionId = collectionDoc.id;
-        const collectionRef = collection(db, "artworks", collectionId);
-        const artworksSnapshot = await getDocs(collectionRef);
-        
-        const artworksData = artworksSnapshot.docs.map((artworkDoc) => ({
-          id: artworkDoc.id,
-          ...artworkDoc.data()
-        }));
-  
-        allArtworks.push(...artworksData);
-      });
-  
+    
+      for (const accountDoc of accountsSnapshot.docs) {
+        const accountId = accountDoc.id;
+        const collectionsSnapshot = await getDocs(collection(db, `accounts/${accountId}/collections`));
+    
+        for (const collectionDoc of collectionsSnapshot.docs) {
+          const collectionId = collectionDoc.id;
+          const artworksSnapshot = await getDocs(collection(db, `accounts/${accountId}/collections/${collectionId}/artworks`));
+    
+          const artworksData = artworksSnapshot.docs.map((artworkDoc) => {
+            const artworkData = artworkDoc.data();
+            return {
+              id: artworkDoc.id,
+              ...artworkData,
+              owner: accountDoc.data().username // Assuming username is stored in the account document
+            };
+          });
+    
+          allArtworks.push(...artworksData);
+        }
+      }
+    
       setArtworks(allArtworks);
       setLoading(false);
     } catch (error) {
@@ -82,6 +91,7 @@ const Explore: React.FC = () => {
       console.error("Error fetching artworks:", error);
     }
   };
+  
   
   const filterBySearch = (artwork) => {
     if (!searchInput) return true;
@@ -145,12 +155,13 @@ const Explore: React.FC = () => {
                     <p className="title">
                       {artwork.name} by: {artwork.artist}
                     </p>
-
+                    <p className="owner">Owner: {artwork.owner}</p>
                   </div>
                 </div>
               </div>
             ))}
           </div>
+
 
           <div className="pagination-container">
             <Stack spacing={2}>
