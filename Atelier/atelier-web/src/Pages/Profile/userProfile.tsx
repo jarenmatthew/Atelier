@@ -126,6 +126,72 @@ const UserProfile = () => {
     navigate("/");
   };
 
+  const handleEditCollection = async (collectionId, newData) => {
+    const collectionRef = doc(db, "accounts", userId, "collections", collectionId);
+    await updateDoc(collectionRef, newData);
+    // Fetch collections again after editing
+    const collectionsSnapshot = await getDocs(
+      collection(db, "accounts", userId, "collections")
+    );
+    const updatedCollectionsList = collectionsSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    setCollections(updatedCollectionsList);
+  };
+  
+  const handleDeleteArtworkFromCollection = async (collectionId, artworkId) => {
+    const artworkRef = doc(
+      db,
+      "accounts",
+      userId,
+      "collections",
+      collectionId,
+      "artworks",
+      artworkId
+    );
+    await deleteDoc(artworkRef);
+    // Fetch artworks again after deletion
+    const artworksSnapshot = await getDocs(
+      collection(
+        db,
+        "accounts",
+        userId,
+        "collections",
+        collectionId,
+        "artworks"
+      )
+    );
+    const updatedArtworksList = artworksSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    // Update state to reflect the changes
+    const updatedCollections = collections.map((collectionItem) => {
+      if (collectionItem.id === collectionId) {
+        return { ...collectionItem, artworks: updatedArtworksList };
+      } else {
+        return collectionItem;
+      }
+    });
+    setCollections(updatedCollections);
+  };
+  
+  const handleEditCollectionCoverPhoto = async (collectionId, coverPhoto) => {
+    const collectionRef = doc(db, "accounts", userId, "collections", collectionId);
+    await updateDoc(collectionRef, { coverPhoto });
+    // Fetch collections again after editing
+    const collectionsSnapshot = await getDocs(
+      collection(db, "accounts", userId, "collections")
+    );
+    const updatedCollectionsList = collectionsSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    setCollections(updatedCollectionsList);
+  };
+  
+
   const handleCollectionClick = async (collectionId) => {
     // Fetch artworks for the selected collection
     const artworksSnapshot = await getDocs(
@@ -142,7 +208,7 @@ const UserProfile = () => {
       id: doc.id,
       ...doc.data(),
     }));
-
+  
     // Update state to store the artworks for the selected collection
     const updatedCollections = collections.map((collectionItem) => {
       if (collectionItem.id === collectionId) {
@@ -153,11 +219,12 @@ const UserProfile = () => {
     });
     setCollections(updatedCollections);
   };
+  
 
   const handleProfilePhotoChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      const fileSize = file.size / 1024 / 1024; // Size in MB
+      const fileSize = file.size / 1024 / 1024 /1024; // Size in MB
       if (fileSize > 2) {
         // File size exceeds 2MB, show error message or prevent form submission
         alert("Please upload an image with a maximum size of 2MB.");
@@ -175,10 +242,10 @@ const UserProfile = () => {
     }
   };
 
-  const handleCoverPhotoChange = (event) => {
+  const handleCoverPhotoChange = (event, type) => {
     const file = event.target.files[0];
     if (file) {
-      const fileSize = file.size / 1024 / 1024; // Size in MB
+      const fileSize = file.size / 2048 / 2048; // Size in MB
       if (fileSize > 2) {
         // File size exceeds 2MB, show error message or prevent form submission
         alert("Please upload an image with a maximum size of 2MB.");
@@ -190,15 +257,37 @@ const UserProfile = () => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onloadend = () => {
-        // Set the file data to state
-        setNewCollectionData({
-          ...newCollectionData,
-          coverPhoto: reader.result,
-        });
-        // or setNewArtworkData({ ...newArtworkData, coverPhoto: reader.result });
+        // Set the file data to the appropriate state object based on the type
+        if (type === "profile") {
+          setEditedUserData({
+            ...editedUserData,
+            profilePhoto: reader.result,
+          });
+        } else if (type === "cover") {
+          setEditedUserData({
+            ...editedUserData,
+            coverPhoto: reader.result,
+          });
+        } else if (type === "collection") {
+          setNewCollectionData({
+            ...newCollectionData,
+            coverPhoto: reader.result,
+          });
+        } else if (type === "artwork") {
+          setNewArtworkData({
+            ...newArtworkData,
+            coverPhoto: reader.result,
+          });
+        } else if (type === "exhibit") {
+          setNewExhibitArtwork({
+            ...newExhibitArtwork,
+            coverPhoto: reader.result,
+          });
+        }
       };
     }
   };
+  
 
   const handleAddCollection = async () => {
     const collectionRef = collection(db, "accounts", userId, "collections");
@@ -223,26 +312,19 @@ const UserProfile = () => {
       selectedCollectionId,
       "artworks"
     );
+  
     await addDoc(artworkRef, newArtworkData);
     setNewArtworkData({ name: "", description: "", coverPhoto: "" }); // Reset the form after adding
+    setOpenArtworkDialog(false);
     // Fetch artworks again after adding
-    const artworksSnapshot = await getDocs(
-      collection(
-        db,
-        "accounts",
-        userId,
-        "collections",
-        selectedCollectionId,
-        "artworks"
-      )
-    );
+    const artworksSnapshot = await getDocs(artworkRef);
     const updatedArtworksList = artworksSnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
     }));
     saveArtworks(updatedArtworksList);
   };
-
+  
   const handleDeleteCollection = async (collectionId) => {
     const collectionRef = doc(
       db,
@@ -293,20 +375,30 @@ const UserProfile = () => {
   };
 
   const saveArtworks = async (artworks) => {
-    for (const artwork of artworks) {
-      const artworkRef = collection(
-        db,
-        "accounts",
-        userId,
-        "collections",
-        selectedCollectionId,
-        "artworks"
-      );
-      await addDoc(artworkRef, artwork);
-    }
+    const artworkRef = collection(
+      db,
+      "accounts",
+      userId,
+      "collections",
+      selectedCollectionId,
+      "artworks"
+    );
+  
+    // Prepare an array to hold the artwork data
+    const artworksData = artworks.map((artwork) => ({
+      ...artwork,
+      // Optionally remove the ID field to ensure Firebase generates a unique ID
+      id: undefined,
+    }));
+  
+    // Add all artworks to the collection in a single operation
+    await Promise.all(artworksData.map((artwork) => addDoc(artworkRef, artwork)));
+  
+    // Close the dialog
     setOpenArtworkDialog(false);
   };
-
+  
+  
   const openArtworkDialogForCollection = (collectionId) => {
     setSelectedCollectionId(collectionId);
     setOpenArtworkDialog(true);
@@ -331,6 +423,18 @@ const UserProfile = () => {
       ...doc.data(),
     }));
     setExhibitArtworks(exhibitList);
+  };
+
+  const handleDeleteExhibitArtwork = async (artworkId) => {
+    const artworkRef = doc(db, "accounts", userId, "exhibit", artworkId);
+    await deleteDoc(artworkRef);
+    // Fetch exhibit artworks again after deletion
+    const exhibitSnapshot = await getDocs(collection(db, "accounts", userId, "exhibit"));
+    const updatedExhibitList = exhibitSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    setExhibitArtworks(updatedExhibitList);
   };
 
   const handleTagChange = (tag) => {
@@ -545,6 +649,37 @@ const UserProfile = () => {
           >
             Edit Profile
           </Button>
+          <Box mt={2}>
+          {collections.map((collection) => (
+            <Box
+              key={collection.id} // Assuming collection.id is unique
+              p={2}
+              border={1}
+              borderColor="grey.400"
+              mb={2}
+            >
+                <img
+                  src={collection.coverPhoto}
+                  alt={collection.name}
+                  style={{
+                    width: "100%",
+                    maxHeight: "200px",
+                    objectFit: "cover",
+                  }}
+                />
+                <Typography variant="h6">{collection.name}</Typography>
+                <Typography>{collection.description}</Typography>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => handleDeleteCollection(collection.id)}
+                >
+                  Delete Collection
+                </Button>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => openArtworkDialogForCollection(collection.id)}
         </Box> */}
       </Box>
 
@@ -715,6 +850,45 @@ const UserProfile = () => {
           </Box>
         )}
 
+      {tabIndex === 2 && (
+        <Box p={2}>
+          <Typography variant="h6">Exhibit</Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setOpenExhibitDialog(true)}
+          >
+            Add Artwork to Exhibit
+          </Button>
+          <Box mt={2}>
+            {exhibitArtworks.map((artwork) => (
+              <Box
+                key={artwork.id}
+                p={2}
+                border={1}
+                borderColor="grey.400"
+                mb={2}
+              >
+                <img
+                  src={artwork.coverPhoto}
+                  alt={artwork.name}
+                  style={{
+                    width: "100%",
+                    maxHeight: "200px",
+                    objectFit: "cover",
+                  }}
+                />
+                <Typography variant="h6">{artwork.name}</Typography>
+                <Typography>{artwork.description}</Typography>
+                <Typography>Tags: {artwork.tags.join(", ")}</Typography>
+                <Typography>Price: ${artwork.price}</Typography>
+                <Typography>Stock: {artwork.stock}</Typography>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() =>
+                    handleDeleteExhibitArtwork(artwork.id)
+                  }
         {tabIndex === 2 && (
           <Box p={2}>
             <Typography variant="h6">Exhibit</Typography>
@@ -848,7 +1022,7 @@ const UserProfile = () => {
             type="file"
             fullWidth
             inputProps={{ accept: "image/*" }}
-            onChange={handleCoverPhotoChange}
+            onChange={(e) => handleCoverPhotoChange(e, "artwork")}
           />
         </DialogContent>
         <DialogActions>
@@ -1002,7 +1176,7 @@ const UserProfile = () => {
             type="file"
             fullWidth
             inputProps={{ accept: "image/*" }}
-            onChange={handleCoverPhotoChange}
+            onChange={(e) => handleCoverPhotoChange(e, "cover")}
           />
         </DialogContent>
         <DialogActions>
