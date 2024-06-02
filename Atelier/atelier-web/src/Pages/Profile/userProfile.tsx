@@ -127,7 +127,13 @@ const UserProfile = () => {
   };
 
   const handleEditCollection = async (collectionId, newData) => {
-    const collectionRef = doc(db, "accounts", userId, "collections", collectionId);
+    const collectionRef = doc(
+      db,
+      "accounts",
+      userId,
+      "collections",
+      collectionId
+    );
     await updateDoc(collectionRef, newData);
     // Fetch collections again after editing
     const collectionsSnapshot = await getDocs(
@@ -139,7 +145,7 @@ const UserProfile = () => {
     }));
     setCollections(updatedCollectionsList);
   };
-  
+
   const handleDeleteArtworkFromCollection = async (collectionId, artworkId) => {
     const artworkRef = doc(
       db,
@@ -176,9 +182,15 @@ const UserProfile = () => {
     });
     setCollections(updatedCollections);
   };
-  
+
   const handleEditCollectionCoverPhoto = async (collectionId, coverPhoto) => {
-    const collectionRef = doc(db, "accounts", userId, "collections", collectionId);
+    const collectionRef = doc(
+      db,
+      "accounts",
+      userId,
+      "collections",
+      collectionId
+    );
     await updateDoc(collectionRef, { coverPhoto });
     // Fetch collections again after editing
     const collectionsSnapshot = await getDocs(
@@ -190,7 +202,6 @@ const UserProfile = () => {
     }));
     setCollections(updatedCollectionsList);
   };
-  
 
   const handleCollectionClick = async (collectionId) => {
     // Fetch artworks for the selected collection
@@ -208,7 +219,7 @@ const UserProfile = () => {
       id: doc.id,
       ...doc.data(),
     }));
-  
+
     // Update state to store the artworks for the selected collection
     const updatedCollections = collections.map((collectionItem) => {
       if (collectionItem.id === collectionId) {
@@ -219,12 +230,11 @@ const UserProfile = () => {
     });
     setCollections(updatedCollections);
   };
-  
 
   const handleProfilePhotoChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      const fileSize = file.size / 1024 / 1024 /1024; // Size in MB
+      const fileSize = file.size / 1024 / 1024 / 1024; // Size in MB
       if (fileSize > 2) {
         // File size exceeds 2MB, show error message or prevent form submission
         alert("Please upload an image with a maximum size of 2MB.");
@@ -287,7 +297,6 @@ const UserProfile = () => {
       };
     }
   };
-  
 
   const handleAddCollection = async () => {
     const collectionRef = collection(db, "accounts", userId, "collections");
@@ -312,7 +321,7 @@ const UserProfile = () => {
       selectedCollectionId,
       "artworks"
     );
-  
+
     await addDoc(artworkRef, newArtworkData);
     setNewArtworkData({ name: "", description: "", coverPhoto: "" }); // Reset the form after adding
     setOpenArtworkDialog(false);
@@ -324,7 +333,7 @@ const UserProfile = () => {
     }));
     saveArtworks(updatedArtworksList);
   };
-  
+
   const handleDeleteCollection = async (collectionId) => {
     const collectionRef = doc(
       db,
@@ -383,22 +392,23 @@ const UserProfile = () => {
       selectedCollectionId,
       "artworks"
     );
-  
+
     // Prepare an array to hold the artwork data
     const artworksData = artworks.map((artwork) => ({
       ...artwork,
       // Optionally remove the ID field to ensure Firebase generates a unique ID
       id: undefined,
     }));
-  
+
     // Add all artworks to the collection in a single operation
-    await Promise.all(artworksData.map((artwork) => addDoc(artworkRef, artwork)));
-  
+    await Promise.all(
+      artworksData.map((artwork) => addDoc(artworkRef, artwork))
+    );
+
     // Close the dialog
     setOpenArtworkDialog(false);
   };
-  
-  
+
   const openArtworkDialogForCollection = (collectionId) => {
     setSelectedCollectionId(collectionId);
     setOpenArtworkDialog(true);
@@ -429,7 +439,9 @@ const UserProfile = () => {
     const artworkRef = doc(db, "accounts", userId, "exhibit", artworkId);
     await deleteDoc(artworkRef);
     // Fetch exhibit artworks again after deletion
-    const exhibitSnapshot = await getDocs(collection(db, "accounts", userId, "exhibit"));
+    const exhibitSnapshot = await getDocs(
+      collection(db, "accounts", userId, "exhibit")
+    );
     const updatedExhibitList = exhibitSnapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
@@ -461,18 +473,21 @@ const UserProfile = () => {
   return (
     <div>
       <Header />
+
       <Box
+        //Mother box
         sx={{
           display: "flex",
-          flexDirection: "column", // Corrected property name
+          flexDirection: "column",
           width: "80vw",
           height: "auto",
           margin: "0 auto",
           //backgroundColor: "red",
-          overflow: "hidden", // Ensure inner boxes are contained
+          overflow: "hidden",
         }}
       >
         <Box
+          //Box for cover photo
           sx={{
             width: "100%",
             height: "40vh",
@@ -494,7 +509,9 @@ const UserProfile = () => {
             />
           )}
         </Box>
+
         <Box
+          // Box for user details, edit btns
           sx={{
             display: "flex",
             flexDirection: "row",
@@ -502,10 +519,11 @@ const UserProfile = () => {
             height: "20vh",
             padding: "1%",
             margin: "0 auto",
-            //backgroundColor: "pink",
+            // backgroundColor: "pink",
           }}
         >
           <Box
+            // Box for avatar
             sx={{
               width: "12%",
               height: "100%",
@@ -518,7 +536,9 @@ const UserProfile = () => {
               sx={{ width: "100%", height: "100%" }}
             />
           </Box>
+
           <Box
+            // box for typography
             sx={{
               width: "73%",
               height: "100%",
@@ -560,7 +580,9 @@ const UserProfile = () => {
               {userData.followers} Followers
             </Typography>{" "}
           </Box>
+
           <Box
+            //Box for edit button
             sx={{
               width: "15%",
               height: "100%",
@@ -590,97 +612,6 @@ const UserProfile = () => {
             </Button>
           </Box>
         </Box>
-
-        {/* <Box
-          sx={{
-            width: "80vw",
-            height: "40vh",
-            margin: "0 auto",
-            // backgroundColor: "pink",
-          }}
-        >
-          {userData.coverPhoto && (
-            <img
-              src={userData.coverPhoto}
-              alt="Cover"
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                borderRadius: "5px",
-              }}
-            />
-          )}
-        </Box>
-        <Box>
-          <Box
-            sx={{
-              width: "80vw",
-              height: "25vh",
-              margin: "0 auto",
-              padding: "1%",
-              backgroundColor: "pink",
-            }}
-          >
-            <Avatar
-              src={userData.profilePhoto}
-              alt={userData.fullName}
-              sx={{ width: "20%", height: "auto" }}
-            />
-          </Box>
-          <Box
-            sx={{
-              width: "80vw",
-              height: "25vh",
-              margin: "0 auto",
-              padding: "1%",
-              backgroundColor: "lightBlue",
-            }}
-          >
-            <Typography variant="h5">{userData.fullName}</Typography>
-            <Typography variant="body1">@{userData.username}</Typography>
-            <Typography variant="body2">{userData.description}</Typography>
-          </Box>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleEditProfile}
-            sx={{ marginTop: 2 }}
-          >
-            Edit Profile
-          </Button>
-          <Box mt={2}>
-          {collections.map((collection) => (
-            <Box
-              key={collection.id} // Assuming collection.id is unique
-              p={2}
-              border={1}
-              borderColor="grey.400"
-              mb={2}
-            >
-                <img
-                  src={collection.coverPhoto}
-                  alt={collection.name}
-                  style={{
-                    width: "100%",
-                    maxHeight: "200px",
-                    objectFit: "cover",
-                  }}
-                />
-                <Typography variant="h6">{collection.name}</Typography>
-                <Typography>{collection.description}</Typography>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={() => handleDeleteCollection(collection.id)}
-                >
-                  Delete Collection
-                </Button>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={() => openArtworkDialogForCollection(collection.id)}
-        </Box> */}
       </Box>
 
       <Box
@@ -850,45 +781,6 @@ const UserProfile = () => {
           </Box>
         )}
 
-      {tabIndex === 2 && (
-        <Box p={2}>
-          <Typography variant="h6">Exhibit</Typography>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => setOpenExhibitDialog(true)}
-          >
-            Add Artwork to Exhibit
-          </Button>
-          <Box mt={2}>
-            {exhibitArtworks.map((artwork) => (
-              <Box
-                key={artwork.id}
-                p={2}
-                border={1}
-                borderColor="grey.400"
-                mb={2}
-              >
-                <img
-                  src={artwork.coverPhoto}
-                  alt={artwork.name}
-                  style={{
-                    width: "100%",
-                    maxHeight: "200px",
-                    objectFit: "cover",
-                  }}
-                />
-                <Typography variant="h6">{artwork.name}</Typography>
-                <Typography>{artwork.description}</Typography>
-                <Typography>Tags: {artwork.tags.join(", ")}</Typography>
-                <Typography>Price: ${artwork.price}</Typography>
-                <Typography>Stock: {artwork.stock}</Typography>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  onClick={() =>
-                    handleDeleteExhibitArtwork(artwork.id)
-                  }
         {tabIndex === 2 && (
           <Box p={2}>
             <Typography variant="h6">Exhibit</Typography>
