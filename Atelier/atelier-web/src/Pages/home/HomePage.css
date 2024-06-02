@@ -191,12 +191,14 @@ img {
 }
 
 .popup-content {
+  width: 50%;
+  height: 60%;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: white;
-  padding: 20px;
+  padding: 2% 2% 5% 2%;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
@@ -206,6 +208,8 @@ img {
   height: 100%;
   /* Set maximum width for the image */
   align-items: center;
+  object-fit: contain;
+  /* background-color: #7A5980; */
 }
 
 #popup-description {

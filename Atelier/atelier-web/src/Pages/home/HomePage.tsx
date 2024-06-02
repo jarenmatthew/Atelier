@@ -2,10 +2,20 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from "../../../FirebaseConfig";
-import { Box } from "@mui/material";
 import "./HomePage.css";
 import Header from "../../Header";
 import Footer from "../../Footer";
+import CloseIcon from "@mui/icons-material";
+import {
+  Box,
+  ImageList,
+  ImageListItem,
+  ImageListItemBar,
+  Dialog,
+  Typography,
+  DialogTitle,
+  IconButton,
+} from "@mui/material";
 
 const Home: React.FC = () => {
   const [slideIndex, setSlideIndex] = useState(1);
@@ -201,10 +211,10 @@ const Home: React.FC = () => {
           </div>
         </Box>
 
-        <Box style={{ marginBottom: "200px" }}>
+        <Box m="0 auto" sx={{ width: "80vw", height: "auto" }}>
           <p className="text-header">Explore</p>
 
-          <div className="collage">
+          {/* <div className="collage">
             {imageURLs.slice(6).map((url, index) => (
               <div
                 key={index}
@@ -218,11 +228,55 @@ const Home: React.FC = () => {
                 />
               </div>
             ))}
-          </div>
+          </div> */}
+
+          <ImageList variant="masonry" cols={4} gap={25}>
+            {imageURLs.map((url, index) => (
+              <ImageListItem key={index}>
+                <img
+                  key={index}
+                  src={url}
+                  onClick={showDescription}
+                  //alt={artwork.type}
+                  //className="artwork"
+                />
+
+                <ImageListItemBar
+                  position="below"
+                  title={"Title"}
+                  subtitle={`by Artist Name`}
+                />
+              </ImageListItem>
+            ))}
+          </ImageList>
+
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end", // Align children to the start (left)
+              alignItems: "center", // Center align items vertically
+              height: "100%", // Optional: ensure the Box takes up full height of its container
+              paddingBottom: "5%",
+              paddingTop: "3%",
+            }}
+          >
+            <Link to={"/explore"} style={{ textDecoration: "none" }}>
+              <Typography
+                sx={{
+                  margin: "0 auto",
+                  fontFamily: "Montserrat",
+                  fontSize: "120%",
+                  fontWeight: "500",
+                  textDecoration: "underline",
+                }}
+              >
+                Explore more...
+              </Typography>
+            </Link>
+          </Box>
         </Box>
 
-        <div
-          id="popup-container"
+        <Box
           className="popup-container"
           onClick={handleClosePopup}
           style={{ display: popupDisplay }}
@@ -233,7 +287,7 @@ const Home: React.FC = () => {
               <Link to="/product">{popupDescription}</Link>
             </p>
           </div>
-        </div>
+        </Box>
       </div>
       <Footer />
     </div>

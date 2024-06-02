@@ -102,7 +102,7 @@ const Header: React.FC = () => {
               <div className="cart-count">0</div>
             </div>
             <div>
-              <Link to="/">
+              <Link to="/chats">
                 <img src={messageURL} className="icons" alt="message" />
               </Link>
             </div>
