@@ -20,6 +20,11 @@ import {
   InputLabel,
   Button,
   IconButton,
+  Container,
+  Typography,
+  Grid,
+  Paper,
+  styled,
 } from "@mui/material";
 
 const Explore: React.FC = () => {
@@ -135,6 +140,14 @@ const Explore: React.FC = () => {
     setOpen(false);
   };
 
+  const Item = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+    ...theme.typography.body2,
+    padding: "1%",
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+  }));
+
   return (
     <div>
       <Header />
@@ -246,11 +259,11 @@ const Explore: React.FC = () => {
 
         <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
           <DialogTitle
-            display="center"
             sx={{
               fontFamily: "Inknut Antiqua",
               fontWeight: "500",
               fontSize: "100%",
+              justifyContent: "flex-start",
             }}
           >
             {selectedTitle}
@@ -268,15 +281,95 @@ const Explore: React.FC = () => {
             <CloseIcon />
           </IconButton>
           <DialogContent sx={{ display: "flex" }}>
-            <Box sx={{ width: "50%", eight: "100%" }}>
+            <Box sx={{ width: "40%", height: "100%" }}>
               <img
                 src={selectedImage}
                 alt={selectedTitle}
                 style={{ width: "100%", height: "100%" }}
               />
             </Box>
-            <Box>desc</Box>
-            <p>{selectedSubtitle}</p>
+            <Box
+              sx={{
+                width: "60%",
+                height: "100%",
+                padding: "2%",
+                alignment: "flex-start",
+                justifyContent: "flex-start",
+                direction: "column",
+                //backgroundColor: "lightblue",
+              }}
+            >
+              <Box
+                id="artist-box"
+                sx={{
+                  width: "100%",
+                  height: "40%", //40-50-10
+                  padding: "1%",
+                  direction: "row",
+                  justifyContent: "flex-start",
+                  alignment: "center",
+                  //backgroundColor: "pink",
+                }}
+              >
+                <Box sx={{ width: "20%", height: "100%" }}>
+                  <img
+                    src="src/assets/avatar1.png"
+                    alt={selectedSubtitle}
+                    style={{
+                      borderRadius: "100%",
+                    }}
+                  />
+                </Box>
+                <Box
+                  sx={{
+                    width: "60%",
+                    height: "100%",
+                    //backgroundColor: "yellow",
+                  }}
+                >
+                  <Typography style={{ display: "flex-start" }}>
+                    {selectedSubtitle}
+                  </Typography>
+                </Box>
+              </Box>
+              <Box
+                id="desc-box"
+                sx={{
+                  width: "auto",
+                  height: "50%",
+                  padding: "1%",
+                }}
+              >
+                <Typography>Description</Typography>
+                <Typography>
+                  sample description of the artwork on the left. etc. etc. etc.
+                </Typography>
+              </Box>
+              <Box
+                id="tags-box"
+                sx={{
+                  width: "auto",
+                  height: "50%",
+                  flexGrow: 1,
+                }}
+              >
+                <Grid
+                  container
+                  spacing={3}
+                  sx={{ justifyContent: "flex-start" }}
+                >
+                  <Grid item xs>
+                    <Item>category</Item>
+                  </Grid>
+                  <Grid item xs>
+                    <Item>tags</Item>
+                  </Grid>
+                  <Grid item xs>
+                    <Item>tags</Item>
+                  </Grid>
+                </Grid>
+              </Box>
+            </Box>
           </DialogContent>
           <DialogActions></DialogActions>
         </Dialog>
