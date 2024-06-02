@@ -14,7 +14,7 @@ import GetStarted from "./Pages/landingPage/getStarted.tsx";
 import User from "./Pages/Profile/userProfile.tsx";
 import Artist from "./Pages/Profile/artistProfile.tsx";
 import Explore from "./Pages/explore/explorePage.tsx";
-
+import ChatPage from "./Pages/Chat/ChatPage.tsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <GetStarted /> },
@@ -26,11 +26,11 @@ const router = createBrowserRouter([
   { path: "/explore", element: <Explore /> },
   { path: "/about", element: <About /> },
   { path: "/firebaseTest", element: <FirebaseTest /> },
-  { path: "/landingPage", element: <GetStarted />},
-  { path: "/user", element: <User />},
-  { path: "/Profile", element: <Artist />},
-  { path: "/Cart", element: <MyCart />},
-
+  { path: "/landingPage", element: <GetStarted /> },
+  { path: "/user", element: <User /> },
+  { path: "/Profile", element: <Artist /> },
+  { path: "/Cart", element: <MyCart /> },
+  { path: "/Chats", element: <ChatPage /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
