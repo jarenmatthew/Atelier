@@ -1,92 +1,799 @@
 import React, { useEffect, useState } from "react";
-import { useAuth } from "../../auth/AuthContext";
-import { Typography } from "@mui/material";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  collection,
+  addDoc,
+  getDocs,
+  updateDoc,
+  deleteDoc,
+} from "firebase/firestore";
+import {
+  Box,
+  Typography,
+  Avatar,
+  Button,
+  Tab,
+  Tabs,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  Checkbox,
+  FormControlLabel,
+} from "@mui/material";
+import { useParams, useNavigate } from "react-router-dom";
+import "./userProfileStyle.css";
 import Header from "../../Header";
 import Footer from "../../Footer";
-import "./userProfileStyle.css";
-import { getFirestore, getDoc, doc } from "firebase/firestore";
-import { User as FirebaseUser } from "firebase/auth";
 
-const User: React.FC = () => {
-  const currentUser = useAuth().currentUser as FirebaseUser | null;
-  const [userData, setUserData] = useState<any>(null);
+const UserProfile = () => {
+  const { userId } = useParams();
+  const [userData, setUserData] = useState(null);
+  const [tabIndex, setTabIndex] = useState(0);
+  const [collections, setCollections] = useState([]);
+  const [exhibitArtworks, setExhibitArtworks] = useState([]);
+  const [openCollectionDialog, setOpenCollectionDialog] = useState(false);
+  const [openArtworkDialog, setOpenArtworkDialog] = useState(false);
+  const [openExhibitDialog, setOpenExhibitDialog] = useState(false);
+  const [openEditProfileDialog, setOpenEditProfileDialog] = useState(false);
+  const [newCollectionData, setNewCollectionData] = useState({
+    name: "",
+    description: "",
+    coverPhoto: "",
+  });
+  const [selectedCollectionId, setSelectedCollectionId] = useState("");
+  const [newArtworkData, setNewArtworkData] = useState({
+    name: "",
+    description: "",
+    coverPhoto: "",
+  });
+  const [newExhibitArtwork, setNewExhibitArtwork] = useState({
+    name: "",
+    photo: "",
+    description: "",
+    tags: [],
+    price: "",
+    stock: "",
+  });
+  const [editedUserData, setEditedUserData] = useState({});
+  const [selectedCollectionArtworks, setSelectedCollectionArtworks] = useState(
+    []
+  );
+  const db = getFirestore();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUserData = async (uid: string) => {
+    const fetchData = async () => {
       try {
-        const db = getFirestore();
-        const userRef = doc(db, "accounts", uid);
-        const userDoc = await getDoc(userRef);
-        if (userDoc.exists()) {
-          const userData = userDoc.data();
-          setUserData(userData);
-          console.log(userData);
+        const docRef = doc(db, "accounts", userId);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setUserData(docSnap.data());
+          // Fetch collections
+          const collectionsRef = collection(docRef, "collections");
+          const collectionsSnapshot = await getDocs(collectionsRef);
+          const collectionsList = collectionsSnapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          setCollections(collectionsList);
+          // Fetch exhibit artworks
+          const exhibitRef = collection(docRef, "exhibit");
+          const exhibitSnapshot = await getDocs(exhibitRef);
+          const exhibitList = exhibitSnapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          setExhibitArtworks(exhibitList);
         } else {
           console.log("No such document!");
         }
       } catch (error) {
-        console.error("Error fetching user data:", error);
+        console.error("Error fetching document:", error);
       }
     };
 
-    if (currentUser && currentUser.uid) {
-      fetchUserData(currentUser.uid);
+    fetchData();
+  }, [userId, db]);
+
+  const handleTabChange = (_event, newValue) => {
+    setTabIndex(newValue);
+  };
+
+  const handleEditProfile = () => {
+    setEditedUserData(userData);
+    setOpenEditProfileDialog(true);
+  };
+
+  const handleSaveProfileChanges = async () => {
+    const docRef = doc(db, "accounts", userId);
+    await updateDoc(docRef, editedUserData);
+    setUserData(editedUserData);
+    setOpenEditProfileDialog(false);
+  };
+
+  const handleDeleteAccount = async () => {
+    const docRef = doc(db, "accounts", userId);
+    await deleteDoc(docRef);
+    navigate("/");
+  };
+
+  const handleLogout = () => {
+    // Implement logout functionality here, e.g., clearing session, redirecting to login page
+    navigate("/");
+  };
+
+  const handleCollectionClick = async (collectionId) => {
+    // Fetch artworks for the selected collection
+    const artworksSnapshot = await getDocs(
+      collection(
+        db,
+        "accounts",
+        userId,
+        "collections",
+        collectionId,
+        "artworks"
+      )
+    );
+    const artworksList = artworksSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    // Update state to store the artworks for the selected collection
+    const updatedCollections = collections.map((collectionItem) => {
+      if (collectionItem.id === collectionId) {
+        return { ...collectionItem, artworks: artworksList };
+      } else {
+        return collectionItem;
+      }
+    });
+    setCollections(updatedCollections);
+  };
+
+  const handleProfilePhotoChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const fileSize = file.size / 1024 / 1024; // Size in MB
+      if (fileSize > 2) {
+        // File size exceeds 2MB, show error message or prevent form submission
+        alert("Please upload an image with a maximum size of 2MB.");
+        // Reset the file input field
+        event.target.value = "";
+        return;
+      }
+      // Proceed with saving the file
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        // Set the file data to state
+        setEditedUserData({ ...editedUserData, profilePhoto: reader.result });
+      };
     }
-  }, [currentUser]);
+  };
+
+  const handleCoverPhotoChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const fileSize = file.size / 1024 / 1024; // Size in MB
+      if (fileSize > 2) {
+        // File size exceeds 2MB, show error message or prevent form submission
+        alert("Please upload an image with a maximum size of 2MB.");
+        // Reset the file input field
+        event.target.value = "";
+        return;
+      }
+      // Proceed with saving the file
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        // Set the file data to state
+        setNewCollectionData({
+          ...newCollectionData,
+          coverPhoto: reader.result,
+        });
+        // or setNewArtworkData({ ...newArtworkData, coverPhoto: reader.result });
+      };
+    }
+  };
+
+  const handleAddCollection = async () => {
+    const collectionRef = collection(db, "accounts", userId, "collections");
+    await addDoc(collectionRef, newCollectionData);
+    setNewCollectionData({ name: "", description: "", coverPhoto: "" }); // Reset the form after adding
+    setOpenCollectionDialog(false);
+    // Fetch collections again
+    const collectionsSnapshot = await getDocs(collectionRef);
+    const collectionsList = collectionsSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    setCollections(collectionsList);
+  };
+
+  const handleAddArtwork = async () => {
+    const artworkRef = collection(
+      db,
+      "accounts",
+      userId,
+      "collections",
+      selectedCollectionId,
+      "artworks"
+    );
+    await addDoc(artworkRef, newArtworkData);
+    setNewArtworkData({ name: "", description: "", coverPhoto: "" }); // Reset the form after adding
+    // Fetch artworks again after adding
+    const artworksSnapshot = await getDocs(
+      collection(
+        db,
+        "accounts",
+        userId,
+        "collections",
+        selectedCollectionId,
+        "artworks"
+      )
+    );
+    const updatedArtworksList = artworksSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    saveArtworks(updatedArtworksList);
+  };
+
+  const handleDeleteCollection = async (collectionId) => {
+    const collectionRef = doc(
+      db,
+      "accounts",
+      userId,
+      "collections",
+      collectionId
+    );
+    await deleteDoc(collectionRef);
+    // Fetch collections again after deletion
+    const collectionsSnapshot = await getDocs(
+      collection(db, "accounts", userId, "collections")
+    );
+    const updatedCollectionsList = collectionsSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    setCollections(updatedCollectionsList);
+  };
+
+  const handleDeleteArtwork = async (collectionId, artworkId) => {
+    const artworkRef = doc(
+      db,
+      "accounts",
+      userId,
+      "collections",
+      collectionId,
+      "artworks",
+      artworkId
+    );
+    await deleteDoc(artworkRef);
+    // Fetch artworks again after deletion
+    const artworksSnapshot = await getDocs(
+      collection(
+        db,
+        "accounts",
+        userId,
+        "collections",
+        collectionId,
+        "artworks"
+      )
+    );
+    const updatedArtworksList = artworksSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    saveArtworks(updatedArtworksList);
+  };
+
+  const saveArtworks = async (artworks) => {
+    for (const artwork of artworks) {
+      const artworkRef = collection(
+        db,
+        "accounts",
+        userId,
+        "collections",
+        selectedCollectionId,
+        "artworks"
+      );
+      await addDoc(artworkRef, artwork);
+    }
+    setOpenArtworkDialog(false);
+  };
+
+  const openArtworkDialogForCollection = (collectionId) => {
+    setSelectedCollectionId(collectionId);
+    setOpenArtworkDialog(true);
+  };
+
+  const handleAddExhibitArtwork = async () => {
+    const exhibitRef = collection(db, "accounts", userId, "exhibit");
+    await addDoc(exhibitRef, newExhibitArtwork);
+    setNewExhibitArtwork({
+      name: "",
+      photo: "",
+      description: "",
+      tags: [],
+      price: "",
+      stock: "",
+    });
+    setOpenExhibitDialog(false);
+    // Fetch exhibit artworks again
+    const exhibitSnapshot = await getDocs(exhibitRef);
+    const exhibitList = exhibitSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    setExhibitArtworks(exhibitList);
+  };
+
+  const handleTagChange = (tag) => {
+    setNewExhibitArtwork((prevState) => {
+      const tags = prevState.tags.includes(tag)
+        ? prevState.tags.filter((t) => t !== tag)
+        : [...prevState.tags, tag];
+      return { ...prevState, tags };
+    });
+  };
+
+  const availableTags = [
+    "Painting",
+    "Oil Pastel",
+    "Digital",
+    "Sculpture",
+    "Photography",
+  ];
+
+  if (!userData) {
+    return <Typography>Loading...</Typography>;
+  }
 
   return (
     <div>
       <Header />
-      <div className="container">
-        {/* Display user profile information */}
-        <div id="profile-banner">
-          <div id="profile-cover">
-            <img
-              src={userData?.coverPhoto}
-              className="cover-photo"
-              alt="User cover photo"
-            />
-          </div>
-
-          <div id="profile-elements">
-            <div id="profile-cont">
-              <div id="profile-picture">
+      <Box display="flex" flexDirection="column" alignItems="center" p={2}>
+        {userData.coverPhoto && (
+          <img
+            src={userData.coverPhoto}
+            alt="Cover"
+            style={{ width: "100%", maxHeight: "200px", objectFit: "cover" }}
+          />
+        )}
+        <Avatar
+          src={userData.profilePhoto}
+          alt={userData.fullName}
+          sx={{ width: 100, height: 100 }}
+        />
+        <Typography variant="h5">{userData.fullName}</Typography>
+        <Typography variant="body1">@{userData.username}</Typography>
+        <Typography variant="body2">{userData.description}</Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleEditProfile}
+          sx={{ marginTop: 2 }}
+        >
+          Edit Profile
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={handleLogout}
+          sx={{ marginTop: 2 }}
+        >
+          Logout
+        </Button>
+        <Button
+          variant="contained"
+          color="error"
+          onClick={handleDeleteAccount}
+          sx={{ marginTop: 2 }}
+        >
+          Delete Account
+        </Button>
+      </Box>
+      <Tabs value={tabIndex} onChange={handleTabChange} centered>
+        <Tab label="About" />
+        <Tab label="Collection" />
+        <Tab label="Exhibit" />
+      </Tabs>
+      {tabIndex === 0 && (
+        <Box p={2}>
+          <Typography variant="h6">About</Typography>
+          <Typography>{userData.description}</Typography>
+        </Box>
+      )}
+      {tabIndex === 1 && (
+        <Box p={2}>
+          <Typography variant="h6">Collection</Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setOpenCollectionDialog(true)}
+          >
+            Add Collection
+          </Button>
+          <Box mt={2}>
+            {collections.map((collection) => (
+              <Box
+                key={collection.id}
+                p={2}
+                border={1}
+                borderColor="grey.400"
+                mb={2}
+              >
                 <img
-                  src={userData?.profilePhoto}
-                  className="profile-photo"
-                  alt="User profile photo"
+                  src={collection.coverPhoto}
+                  alt={collection.name}
+                  style={{
+                    width: "100%",
+                    maxHeight: "200px",
+                    objectFit: "cover",
+                  }}
                 />
-              </div>
+                <Typography variant="h6">{collection.name}</Typography>
+                <Typography>{collection.description}</Typography>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => handleDeleteCollection(collection.id)}
+                >
+                  Delete Collection
+                </Button>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => openArtworkDialogForCollection(collection.id)}
+                >
+                  Add Artwork
+                </Button>
+                {/* Render artworks for this collection */}
+                <Box mt={2}>
+                  {collection.artworks &&
+                    collection.artworks.map((artwork) => (
+                      <Box
+                        key={artwork.id}
+                        p={2}
+                        border={1}
+                        borderColor="grey.400"
+                        mb={2}
+                      >
+                        <img
+                          src={artwork.coverPhoto}
+                          alt={artwork.name}
+                          style={{
+                            width: "100%",
+                            maxHeight: "200px",
+                            objectFit: "cover",
+                          }}
+                        />
+                        <Typography variant="h6">{artwork.name}</Typography>
+                        <Typography>{artwork.description}</Typography>
+                        {/* Add more artwork details here */}
+                      </Box>
+                    ))}
+                </Box>
+                {/* Add event handler for collection click */}
+                <Box mt={2}>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => handleCollectionClick(collection.id)}
+                  >
+                    View Artworks
+                  </Button>
+                </Box>
+              </Box>
+            ))}
+          </Box>
+        </Box>
+      )}
 
-              <div id="profile-deets">
-                <p id="user-name">{userData?.fullName}</p>
-                <p id="user-username">@{userData?.username}</p>
-              </div>
-            </div>
+      {tabIndex === 2 && (
+        <Box p={2}>
+          <Typography variant="h6">Exhibit</Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setOpenExhibitDialog(true)}
+          >
+            Add Artwork to Exhibit
+          </Button>
+          <Box mt={2}>
+            {exhibitArtworks.map((artwork) => (
+              <Box
+                key={artwork.id}
+                p={2}
+                border={1}
+                borderColor="grey.400"
+                mb={2}
+              >
+                <img
+                  src={artwork.coverPhoto}
+                  alt={artwork.name}
+                  style={{
+                    width: "100%",
+                    maxHeight: "200px",
+                    objectFit: "cover",
+                  }}
+                />
+                <Typography variant="h6">{artwork.name}</Typography>
+                <Typography>{artwork.description}</Typography>
+                <Typography>Tags: {artwork.tags.join(", ")}</Typography>
+                <Typography>Price: ${artwork.price}</Typography>
+                <Typography>Stock: {artwork.stock}</Typography>
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() =>
+                    handleDeleteArtwork(selectedCollectionId, artwork.id)
+                  }
+                >
+                  Delete Artwork
+                </Button>
+              </Box>
+            ))}
+          </Box>
+        </Box>
+      )}
 
-            <div id="profile-buttons">
-              <button className="user-profile-btns" id="edit-button">
-                Edit Profile
-              </button>
-            </div>
-          </div>
-        </div>
+      <Dialog
+        open={openCollectionDialog}
+        onClose={() => setOpenCollectionDialog(false)}
+      >
+        <DialogTitle>Add Collection</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Collection Name"
+            type="text"
+            fullWidth
+            value={newCollectionData.name}
+            onChange={(e) =>
+              setNewCollectionData({
+                ...newCollectionData,
+                name: e.target.value,
+              })
+            }
+          />
+          <TextField
+            margin="dense"
+            label="Description"
+            type="text"
+            fullWidth
+            value={newCollectionData.description}
+            onChange={(e) =>
+              setNewCollectionData({
+                ...newCollectionData,
+                description: e.target.value,
+              })
+            }
+          />
+          <TextField
+            margin="dense"
+            label="Cover Photo"
+            type="file"
+            fullWidth
+            inputProps={{ accept: "image/*" }}
+            onChange={handleCoverPhotoChange}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenCollectionDialog(false)}>Cancel</Button>
+          <Button onClick={handleAddCollection}>Save</Button>
+        </DialogActions>
+      </Dialog>
 
-        <div className="user-bio">
-          {/* Display user's bio */}
-          <p>{userData?.description}</p>
-        </div>
+      <Dialog
+        open={openArtworkDialog}
+        onClose={() => setOpenArtworkDialog(false)}
+      >
+        <DialogTitle>Add Artwork</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Artwork Name"
+            type="text"
+            fullWidth
+            value={newArtworkData.name}
+            onChange={(e) =>
+              setNewArtworkData({ ...newArtworkData, name: e.target.value })
+            }
+          />
+          <TextField
+            margin="dense"
+            label="Description"
+            type="text"
+            fullWidth
+            value={newArtworkData.description}
+            onChange={(e) =>
+              setNewArtworkData({
+                ...newArtworkData,
+                description: e.target.value,
+              })
+            }
+          />
+          <TextField
+            margin="dense"
+            label="Cover Photo"
+            type="file"
+            fullWidth
+            inputProps={{ accept: "image/*" }}
+            onChange={handleCoverPhotoChange}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenArtworkDialog(false)}>Cancel</Button>
+          <Button onClick={handleAddArtwork}>Save</Button>
+        </DialogActions>
+      </Dialog>
 
-        <Typography>hi {currentUser?.email}</Typography>
+      {/* Dialog for adding exhibit artwork */}
+      <Dialog
+        open={openExhibitDialog}
+        onClose={() => setOpenExhibitDialog(false)}
+      >
+        <DialogTitle>Add Artwork to Exhibit</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Artwork Name"
+            type="text"
+            fullWidth
+            value={newExhibitArtwork.name}
+            onChange={(e) =>
+              setNewExhibitArtwork({
+                ...newExhibitArtwork,
+                name: e.target.value,
+              })
+            }
+          />
+          <TextField
+            margin="dense"
+            label="Cover Photo"
+            type="file"
+            fullWidth
+            inputProps={{ accept: "image/*" }}
+            onChange={handleCoverPhotoChange}
+          />
+          <TextField
+            margin="dense"
+            label="Description"
+            type="text"
+            fullWidth
+            value={newExhibitArtwork.description}
+            onChange={(e) =>
+              setNewExhibitArtwork({
+                ...newExhibitArtwork,
+                description: e.target.value,
+              })
+            }
+          />
+          <Typography>Tags</Typography>
+          {availableTags.map((tag) => (
+            <FormControlLabel
+              key={tag}
+              control={
+                <Checkbox
+                  checked={newExhibitArtwork.tags.includes(tag)}
+                  onChange={() => handleTagChange(tag)}
+                  name={tag}
+                />
+              }
+              label={tag}
+            />
+          ))}
+          <TextField
+            margin="dense"
+            label="Price"
+            type="number"
+            fullWidth
+            value={newExhibitArtwork.price}
+            onChange={(e) =>
+              setNewExhibitArtwork({
+                ...newExhibitArtwork,
+                price: e.target.value,
+              })
+            }
+          />
+          <TextField
+            margin="dense"
+            label="Stock"
+            type="number"
+            fullWidth
+            value={newExhibitArtwork.stock}
+            onChange={(e) =>
+              setNewExhibitArtwork({
+                ...newExhibitArtwork,
+                stock: e.target.value,
+              })
+            }
+          />
+        </DialogContent>
 
-        <div className="user-contact-info">
-          {/* Display user's contact information */}
-          <p>Email: {userData?.email}</p>
-        </div>
-      </div>
+        <DialogActions>
+          <Button onClick={() => setOpenExhibitDialog(false)}>Cancel</Button>
+          <Button onClick={handleAddExhibitArtwork}>Save</Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Dialog for editing profile */}
+      <Dialog
+        open={openEditProfileDialog}
+        onClose={() => setOpenEditProfileDialog(false)}
+      >
+        <DialogTitle>Edit Profile</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="Full Name"
+            type="text"
+            fullWidth
+            value={editedUserData.fullName}
+            onChange={(e) =>
+              setEditedUserData({ ...editedUserData, fullName: e.target.value })
+            }
+          />
+          <TextField
+            margin="dense"
+            label="Username"
+            type="text"
+            fullWidth
+            value={editedUserData.username}
+            onChange={(e) =>
+              setEditedUserData({ ...editedUserData, username: e.target.value })
+            }
+          />
+          <TextField
+            margin="dense"
+            label="Description"
+            type="text"
+            fullWidth
+            value={editedUserData.description}
+            onChange={(e) =>
+              setEditedUserData({
+                ...editedUserData,
+                description: e.target.value,
+              })
+            }
+          />
+          <TextField
+            margin="dense"
+            label="Profile Photo"
+            type="file"
+            fullWidth
+            inputProps={{ accept: "image/*" }}
+            onChange={handleProfilePhotoChange}
+          />
+          <TextField
+            margin="dense"
+            label="Cover Photo"
+            type="file"
+            fullWidth
+            inputProps={{ accept: "image/*" }}
+            onChange={handleCoverPhotoChange}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenEditProfileDialog(false)}>
+            Cancel
+          </Button>
+          <Button onClick={handleSaveProfileChanges}>Save</Button>
+        </DialogActions>
+      </Dialog>
       <Footer />
     </div>
   );
 };
 
-export default User;
+export default UserProfile;

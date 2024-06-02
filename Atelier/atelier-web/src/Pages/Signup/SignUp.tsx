@@ -83,8 +83,10 @@ function SignUpPage() {
         coverPhoto: coverPhotoURL,
       });
       console.log("Document written with ID: ", docRef.id);
+      return docRef.id; // Return the document ID
     } catch (err) {
       console.error("Error adding document: ", err);
+      return null;
     }
   };
 
@@ -113,10 +115,20 @@ function SignUpPage() {
     }
   };
 
-  const handleDialogClose = () => {
+  const handleDialogClose = async () => {
     setOpenDialog(false);
-    saveDataToFirestore();
-    navigate("/user");
+    const docId = await saveDataToFirestore(); // Get the document ID
+
+    if (docId) {
+      // Save the document ID to local storage
+      localStorage.setItem("currentUserDocId", docId);
+
+      // Navigate to the profile page with the document ID
+      navigate(`/user/${docId}`);
+    } else {
+      // Handle error
+      console.error("Failed to save data to Firestore.");
+    }
   };
 
   return (

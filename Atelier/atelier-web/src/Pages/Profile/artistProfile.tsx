@@ -1,77 +1,172 @@
-import React, { useState, useEffect } from 'react';
-//import { Link } from 'react-router-dom';
-import { getDownloadURL, ref } from 'firebase/storage';
-import { storage } from '../../../FirebaseConfig';
-import './artistProfileStyle.css';
-import Header from '../../Header';
-import Footer from '../../Footer';
+import React, { useEffect, useState } from "react";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  updateDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
+import { Box, Typography, Avatar, Tabs, Tab, Button } from "@mui/material";
+import { useParams } from "react-router-dom";
+import "./artistProfileStyle.css";
+import Header from "../../Header";
+import Footer from "../../Footer";
 
-const Artist: React.FC = () => {
-    const [coverURL, setLogoIconURL] = useState('');
-    const [profileURL, setProfileURL] = useState('');
+const ArtistProfile = () => {
+  const { userId } = useParams();
+  const [userData, setUserData] = useState(null);
+  const [followers, setFollowers] = useState(0);
+  const [tabIndex, setTabIndex] = useState(0);
+  const [collections, setCollections] = useState([]);
+  const [exhibits, setExhibits] = useState([]);
+  const db = getFirestore();
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const docRef = doc(db, "accounts", userId);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          setUserData(data);
+          setFollowers(data.followers || 0);
 
-    useEffect(() => {
-        fetchIconURLs(); // Fetch icon URLs
-    }, []);
+          // Fetch collections
+          const collectionRef = collection(db, "collections");
+          const collectionsQuery = query(
+            collectionRef,
+            where("userId", "==", userId)
+          );
+          const collectionsSnapshot = await getDocs(collectionsQuery);
+          setCollections(collectionsSnapshot.docs.map((doc) => doc.data()));
 
-    const fetchIconURLs = async () => {
-        try {
-          // Fetch icon URLs from Firebase Storage
-          const iconsRef = ref(storage, 'img');
-          const coverURL = await getDownloadURL(ref(iconsRef, 'hero3.jpg'));
-          const profileURL = await getDownloadURL(ref(iconsRef, '/profile/pp3.jpg'));
-          
-          setLogoIconURL(coverURL);
-          setProfileURL(profileURL);
-          
-        } catch (error) {
-          console.error('Error fetching icon URLs:', error);
+          // Fetch exhibits
+          const exhibitRef = collection(db, "exhibits");
+          const exhibitsQuery = query(
+            exhibitRef,
+            where("userId", "==", userId)
+          );
+          const exhibitsSnapshot = await getDocs(exhibitsQuery);
+          setExhibits(exhibitsSnapshot.docs.map((doc) => doc.data()));
+        } else {
+          console.log("No such document!");
         }
+      } catch (error) {
+        console.error("Error fetching document:", error);
+      }
     };
-    
-    return (
-        <div>
-            <Header />
-            
-            <div id='profile-banner'>
 
-                <div id='profile-cover'>
-                <img src={coverURL} className="cover-photo" alt="Artist cover photo" />
-                </div>
+    fetchData();
+  }, [userId, db]);
 
-                <div id='profile-elements'>
+  const handleTabChange = (_event, newValue) => {
+    setTabIndex(newValue);
+  };
 
-                    <div id='profile-cont'>
-                        <div id='profile-picture'>
-                        <img src={profileURL} className="profile-photo" alt="Artist profile photo" />
-                        </div>
+  const handleFollow = async () => {
+    try {
+      const docRef = doc(db, "accounts", userId);
+      const newFollowersCount = followers + 1;
+      await updateDoc(docRef, { followers: newFollowersCount });
+      setFollowers(newFollowersCount);
+    } catch (error) {
+      console.error("Error updating followers count:", error);
+    }
+  };
 
-                        <div id='profile-deets'>
-                            <p id='artist-name'>John Doe</p>
-                            <p id='artist-username'>@johndoe</p>
-                            <p id='artist-followers'>21 Followers</p>
-                        </div>
+  const handleUnfollow = async () => {
+    try {
+      const docRef = doc(db, "accounts", userId);
+      const newFollowersCount = followers - 1;
+      await updateDoc(docRef, { followers: newFollowersCount });
+      setFollowers(newFollowersCount);
+    } catch (error) {
+      console.error("Error updating followers count:", error);
+    }
+  };
 
-                    </div>
+  if (!userData) {
+    return <Typography>Loading...</Typography>;
+  }
 
-                    <div id='profile-buttons'>
-                        <button className='artist-profile-btns' id='msg-button'>
-                            Message
-                        </button>
-
-                        <button className='artist-profile-btns' id='follow-button'>
-                            Follow
-                        </button>
-                    </div>
-                </div>
-
-            </div>
-
-
-            <Footer />
-        </div>
-    );
+  return (
+    <div>
+      <Header />
+      <Box display="flex" flexDirection="column" alignItems="center" p={2}>
+        {userData.coverPhoto && (
+          <img
+            src={userData.coverPhoto}
+            alt="Cover"
+            style={{ width: "100%", maxHeight: "200px", objectFit: "cover" }}
+          />
+        )}
+        <Avatar
+          src={userData.profilePhoto}
+          alt={userData.fullName}
+          sx={{ width: 100, height: 100 }}
+        />
+        <Typography variant="h5">{userData.fullName}</Typography>
+        <Typography variant="body1">@{userData.username}</Typography>
+        <Typography variant="body2">{userData.description}</Typography>
+        <Box mt={2}>
+          <Button
+            variant="contained"
+            onClick={() => console.log("Message Button Clicked")}
+          >
+            Message
+          </Button>
+          {followers === 0 ? (
+            <Button variant="contained" onClick={handleFollow}>
+              Follow
+            </Button>
+          ) : (
+            <Button variant="outlined" onClick={handleUnfollow}>
+              Unfollow
+            </Button>
+          )}
+          <Typography variant="body2">Followers: {followers}</Typography>
+        </Box>
+      </Box>
+      <Tabs value={tabIndex} onChange={handleTabChange} centered>
+        <Tab label="About" />
+        <Tab label="Collection" />
+        <Tab label="Exhibit" />
+      </Tabs>
+      {tabIndex === 0 && (
+        <Box p={2}>
+          <Typography variant="h6">About</Typography>
+          <Typography>{userData.bio}</Typography>
+        </Box>
+      )}
+      {tabIndex === 1 && (
+        <Box p={2}>
+          <Typography variant="h6">Collection</Typography>
+          {collections.map((collection, index) => (
+            <Box key={index} p={1}>
+              <Typography variant="body1">{collection.name}</Typography>
+              <Typography variant="body2">{collection.description}</Typography>
+            </Box>
+          ))}
+        </Box>
+      )}
+      {tabIndex === 2 && (
+        <Box p={2}>
+          <Typography variant="h6">Exhibit</Typography>
+          {exhibits.map((exhibit, index) => (
+            <Box key={index} p={1}>
+              <Typography variant="body1">{exhibit.title}</Typography>
+              <Typography variant="body2">{exhibit.description}</Typography>
+              <Typography variant="body2">Price: {exhibit.price}</Typography>
+            </Box>
+          ))}
+        </Box>
+      )}
+      <Footer />
+    </div>
+  );
 };
 
-export default Artist;
+export default ArtistProfile;

@@ -2,17 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getDownloadURL, ref } from "firebase/storage";
 import { storage } from "../../../FirebaseConfig";
-import {
-  Box,
-  ImageList,
-  ImageListItem,
-  ImageListItemBar,
-  Dialog,
-  Typography,
-  DialogTitle,
-  IconButton,
-} from "@mui/material";
-import CloseIcon from "@mui/icons-material";
+import { Box } from "@mui/material";
 import "./HomePage.css";
 import Header from "../../Header";
 import Footer from "../../Footer";
@@ -161,15 +151,6 @@ const Home: React.FC = () => {
     }
   };
 
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   return (
     <div>
       <Header />
@@ -220,10 +201,10 @@ const Home: React.FC = () => {
           </div>
         </Box>
 
-        <Box m="0 auto" sx={{ width: "80vw", height: "auto" }}>
+        <Box style={{ marginBottom: "200px" }}>
           <p className="text-header">Explore</p>
 
-          {/* <div className="collage">
+          <div className="collage">
             {imageURLs.slice(6).map((url, index) => (
               <div
                 key={index}
@@ -237,41 +218,22 @@ const Home: React.FC = () => {
                 />
               </div>
             ))}
-          </div> */}
-
-          <ImageList variant="masonry" cols={4} gap={25}>
-            {imageURLs.map((url, index) => (
-              <ImageListItem key={index}>
-                <img
-                  key={index}
-                  src={url}
-                  onClick={showDescription}
-                  //alt={artwork.type}
-                  //className="artwork"
-                />
-
-                <ImageListItemBar
-                  position="below"
-                  title={"Title"}
-                  subtitle={`by Artist Name`}
-                />
-              </ImageListItem>
-            ))}
-          </ImageList>
+          </div>
         </Box>
 
-        <Box
+        <div
+          id="popup-container"
           className="popup-container"
           onClick={handleClosePopup}
           style={{ display: popupDisplay }}
         >
-          <div className="popup-content">
+          <div id="popup-content" className="popup-content">
             <img id="popup-image" src={popupImageSrc} alt="Clicked Image" />
             <p id="popup-description">
               <Link to="/product">{popupDescription}</Link>
             </p>
           </div>
-        </Box>
+        </div>
       </div>
       <Footer />
     </div>
