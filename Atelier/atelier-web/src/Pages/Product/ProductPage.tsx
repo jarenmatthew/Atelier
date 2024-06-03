@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { getDownloadURL, ref } from 'firebase/storage';
-import { storage } from '../../../FirebaseConfig';
-import './ProductStyle.css';
-import Header from '../../Header';
-import Footer from '../../Footer';
+import React, { useState, useEffect } from "react";
+import { getDownloadURL, ref } from "firebase/storage";
+import { storage } from "../../../FirebaseConfig";
+import "./ProductStyle.css";
+import Header from "../../Header";
+import Footer from "../../Footer";
 import { Link as RouterLink, useLocation } from "react-router-dom";
+import { Link } from "@mui/material";
 
 const Product: React.FC = () => {
   var location = useLocation();
@@ -18,10 +19,10 @@ const Product: React.FC = () => {
 
   useEffect(() => {
     // Reference to the image in Firebase storage
-    const imageRef = ref(storage, 'bg2.jpg');
-    const stickerRef = ref(storage, 'bg2.jpg');
-    const bookmarkRef = ref(storage, 'bg2.jpg');
-    const mediumRef = ref(storage, 'bg2.jpg');
+    const imageRef = ref(storage, "bg2.jpg");
+    const stickerRef = ref(storage, "bg2.jpg");
+    const bookmarkRef = ref(storage, "bg2.jpg");
+    const mediumRef = ref(storage, "bg2.jpg");
 
     // Get the download URL of the images
     getDownloadURL(imageRef)
@@ -30,7 +31,7 @@ const Product: React.FC = () => {
         setImageUrl(url);
       })
       .catch((error) => {
-        console.error('Error getting download URL:', error);
+        console.error("Error getting download URL:", error);
       });
 
     getDownloadURL(stickerRef)
@@ -39,7 +40,7 @@ const Product: React.FC = () => {
         setStickerImageUrl(url);
       })
       .catch((error) => {
-        console.error('Error getting sticker image download URL:', error);
+        console.error("Error getting sticker image download URL:", error);
       });
 
     getDownloadURL(bookmarkRef)
@@ -48,7 +49,7 @@ const Product: React.FC = () => {
         setBookmarkImageUrl(url);
       })
       .catch((error) => {
-        console.error('Error getting bookmark image download URL:', error);
+        console.error("Error getting bookmark image download URL:", error);
       });
 
     getDownloadURL(mediumRef)
@@ -57,7 +58,7 @@ const Product: React.FC = () => {
         setMediumImageUrl(url);
       })
       .catch((error) => {
-        console.error('Error getting medium image download URL:', error);
+        console.error("Error getting medium image download URL:", error);
       });
   }, []);
 
@@ -88,13 +89,21 @@ const Product: React.FC = () => {
           </div>
           <div className="price">${artwork.price}</div>
           <div className="buttons">
-            <a href="#" className="button">Buy</a>
-            <a href="#" className="button">Add to Cart</a>
+            <Link to="/chats" className="button">
+              Message
+            </Link>
+            {/* <a href="#" className="button">Buy</a>
+            <a href="#" className="button">Add to Cart</a> */}
           </div>
         </div>
       </div>
-      <div className='available'>
-        <h3>Available as: <div className="tags"><div className="tag">{artwork.tags[0]}</div></div></h3>
+      <div className="available">
+        <h3>
+          Available as:{" "}
+          <div className="tags">
+            <div className="tag">{artwork.tags[0]}</div>
+          </div>
+        </h3>
       </div>
       <div className="availability">
         <h2>Also available as:</h2>
@@ -108,7 +117,9 @@ const Product: React.FC = () => {
           </div>
           <div className="availability-option">
             <div className="availability-item">
-              {bookmarkImageUrl && <img src={bookmarkImageUrl} alt="Bookmarks" />}
+              {bookmarkImageUrl && (
+                <img src={bookmarkImageUrl} alt="Bookmarks" />
+              )}
               <p>Bookmarks</p>
             </div>
             <div className="price">$15</div>
@@ -125,6 +136,6 @@ const Product: React.FC = () => {
       <Footer />
     </div>
   );
-}
+};
 
 export default Product;

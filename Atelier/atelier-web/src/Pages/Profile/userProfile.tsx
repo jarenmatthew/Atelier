@@ -34,7 +34,6 @@ import {
 import { getAuth, deleteUser, signOut } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 
-
 const UserProfile = () => {
   const { userId } = useParams();
   const [userData, setUserData] = useState(null);
@@ -152,7 +151,6 @@ const UserProfile = () => {
     }
   };
 
-
   const handleCollectionClick = async (collectionId) => {
     // Fetch artworks for the selected collection
     const artworksSnapshot = await getDocs(
@@ -184,10 +182,10 @@ const UserProfile = () => {
   const handleProfilePhotoChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      const fileSize = file.size / 1024 / 1024 / 1024; // Size in MB
-      if (fileSize > 2) {
+      const fileSize = file.size / 20480; // Size in MB
+      if (fileSize > 20) {
         // File size exceeds 2MB, show error message or prevent form submission
-        alert("Please upload an image with a maximum size of 2MB.");
+        alert("Please upload an image with a maximum size of 20MB.");
         // Reset the file input field
         event.target.value = "";
         return;
@@ -205,10 +203,10 @@ const UserProfile = () => {
   const handleCoverPhotoChange = (event, type) => {
     const file = event.target.files[0];
     if (file) {
-      const fileSize = file.size / 2048 / 2048; // Size in MB
-      if (fileSize > 5) {
+      const fileSize = file.size / 20480; // Size in MB
+      if (fileSize > 20) {
         // File size exceeds 2MB, show error message or prevent form submission
-        alert("Please upload an image with a maximum size of 5MB.");
+        alert("Please upload an image with a maximum size of 20MB.");
         // Reset the file input field
         event.target.value = "";
         return;
@@ -271,18 +269,18 @@ const UserProfile = () => {
       selectedCollectionId,
       "artworks"
     );
-  
+
     // Add the current timestamp as the dateAdded field
     const currentDate = new Date();
     const newArtworkDataWithDate = {
       ...newArtworkData,
       dateAdded: currentDate.getTime(), // Use getTime() to get the timestamp in milliseconds
     };
-  
+
     await addDoc(artworkRef, newArtworkDataWithDate);
     setNewArtworkData({ name: "", description: "", coverPhoto: "" }); // Reset the form after adding
     setOpenArtworkDialog(false);
-    
+
     // Fetch artworks again after adding
     const artworksSnapshot = await getDocs(artworkRef);
     const updatedArtworksList = artworksSnapshot.docs.map((doc) => ({
@@ -291,7 +289,6 @@ const UserProfile = () => {
     }));
     saveArtworks(updatedArtworksList);
   };
-  
 
   const handleDeleteCollection = async (collectionId) => {
     const collectionRef = doc(
@@ -375,14 +372,14 @@ const UserProfile = () => {
 
   const handleAddExhibitArtwork = async () => {
     const exhibitRef = collection(db, "accounts", userId, "exhibit");
-  
+
     // Add the current timestamp as the dateAdded field
     const currentDate = new Date();
     const newExhibitArtworkWithDate = {
       ...newExhibitArtwork,
       dateAdded: currentDate.getTime(), // Use getTime() to get the timestamp in milliseconds
     };
-  
+
     await addDoc(exhibitRef, newExhibitArtworkWithDate);
     setNewExhibitArtwork({
       name: "",
@@ -393,7 +390,7 @@ const UserProfile = () => {
       stock: "",
     });
     setOpenExhibitDialog(false);
-    
+
     // Fetch exhibit artworks again after adding
     const exhibitSnapshot = await getDocs(exhibitRef);
     const exhibitList = exhibitSnapshot.docs.map((doc) => ({
@@ -402,7 +399,7 @@ const UserProfile = () => {
     }));
     setExhibitArtworks(exhibitList);
   };
-  
+
   const handleDeleteExhibitArtwork = async (artworkId) => {
     const artworkRef = doc(db, "accounts", userId, "exhibit", artworkId);
     await deleteDoc(artworkRef);
@@ -979,9 +976,7 @@ const UserProfile = () => {
                   <Button
                     variant="contained"
                     color="secondary"
-                    onClick={() =>
-                      handleDeleteExhibitArtwork(artwork.id)
-                    }
+                    onClick={() => handleDeleteExhibitArtwork(artwork.id)}
                     sx={{
                       fontFamily: "Montserrat",
                       fontWeight: "500",

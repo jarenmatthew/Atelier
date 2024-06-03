@@ -57,15 +57,6 @@ const Home: React.FC = () => {
           "hero5.png",
           "hero6.jpg",
           "hero7.jpg",
-          "image18.png",
-          "image19.png",
-          "image20.png",
-          "image21.png",
-          "image22.png",
-          "image23.png",
-          "image7.png",
-          "image8.png",
-          "image9.png",
           "image10.png",
           "image11.png",
           "image12.png",
@@ -241,11 +232,11 @@ const Home: React.FC = () => {
                   //className="artwork"
                 />
 
-                <ImageListItemBar
+                {/* <ImageListItemBar
                   position="below"
                   title={"Title"}
                   subtitle={`by Artist Name`}
-                />
+                /> */}
               </ImageListItem>
             ))}
           </ImageList>
