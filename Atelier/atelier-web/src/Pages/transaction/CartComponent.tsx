@@ -3,6 +3,9 @@ import React from 'react';
 import { Card, CardContent, Typography, Button, CardMedia } from '@mui/material';
 // import './CartComponent.css'; 
 import './TransactionStyle.css'; 
+import { Link as RouterLink } from "react-router-dom";
+import { useNavigate } from "react-router";
+
 const CartComponent: React.FC = () => {
   // Dummy data, replace with actual data
   const cartItems = [

@@ -22,6 +22,7 @@ import ChatPage from "./Pages/Chat/ChatPage.tsx";
 import TabsComponent from "./Pages/transaction/TabsComponent.tsx";
 import { AuthContextProvider } from "./AuthContext.tsx";
 import { ChatContextProvider } from "./ChatContext.tsx";
+import Premium from "./Pages/Premium.tsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <GetStarted /> },
@@ -41,6 +42,7 @@ const router = createBrowserRouter([
   { path: "/forgot-password", element: <ForgotPassword /> },
   { path: "/Chats", element: <ChatPage /> },
   { path: "/transaction", element: <TabsComponent /> },
+  { path: "/premium", element: <Premium /> },
   { path: "/Profile", element: <Artist /> },
 ]);
 
