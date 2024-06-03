@@ -20,6 +20,7 @@ import ArtistProfile from "./Pages/Profile/artistProfile";
 import ForgotPassword from "./Pages/forgot-pass/ForgotPassword.tsx";
 import ChatPage from "./Pages/Chat/ChatPage.tsx";
 import TabsComponent from "./Pages/transaction/TabsComponent.tsx";
+import Premium from "./Pages/Premium.tsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <GetStarted /> },
@@ -39,6 +40,7 @@ const router = createBrowserRouter([
   { path: "/forgot-password", element: <ForgotPassword /> },
   { path: "/Chats", element: <ChatPage /> },
   { path: "/transaction", element: <TabsComponent /> },
+  { path: "/premium", element: <Premium /> },
   
 ]);
 

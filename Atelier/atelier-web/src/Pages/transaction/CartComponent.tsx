@@ -3,6 +3,9 @@ import React from 'react';
 import { Card, CardContent, Typography, Button, CardMedia } from '@mui/material';
 // import './CartComponent.css'; 
 import './TransactionStyle.css'; 
+import { Link as RouterLink } from "react-router-dom";
+import { useNavigate } from "react-router";
+
 const CartComponent: React.FC = () => {
   // Dummy data, replace with actual data
   const cartItems = [
@@ -26,6 +29,7 @@ const CartComponent: React.FC = () => {
               Price: {item.price}
             </Typography>
             <div className="item-buttons">
+            <Link to="/premium">
               <Button variant="contained" color="primary" size="small">Buy</Button>
               <Button variant="contained" color="secondary" size="small">Delete</Button>
             </div>
