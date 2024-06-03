@@ -1,12 +1,21 @@
 import { Box, Typography, Avatar } from "@mui/material";
-import React from "react";
+import { doc, onSnapshot } from "firebase/firestore";
+import React, { useContext, useEffect, useState } from "react";
 import { Navigate, Link as RouterLink } from "react-router-dom";
+import { db } from "../../../../FirebaseConfig";
+import { AuthContext } from "../../../AuthContext";
+import { ChatContext } from "../../../ChatContext";
 
 interface MessageProps {
   readonly isOwner?: boolean;
+  message: any[];
 }
 
-function Messages({ isOwner = false }: MessageProps) {
+function Messages({ isOwner = false, message }: MessageProps) {
+  const currentUser = useContext(AuthContext);
+  console.log("messages currentuser", currentUser);
+  const { data } = useContext(ChatContext);
+
   return (
     <Box mb={"20px"} paddingBottom={"4px"}>
       <Box
@@ -16,7 +25,13 @@ function Messages({ isOwner = false }: MessageProps) {
         flexDirection={isOwner ? "row-reverse" : "row"}
       >
         <Box display={"flex"} flexDirection={"column"} alignItems={"flex-end"}>
-          <Avatar src=" assets\avatar1.png" />
+          <Avatar
+            src={
+              message.senderId === currentUser?.uid
+                ? currentUser?.profilePhoto
+                : " assets/avatar1.png"
+            }
+          />
           <Typography fontSize={"12px"}>Just now</Typography>
         </Box>
         <Box display={"flex"} flexDirection={"column"} color={"black"}>
@@ -30,7 +45,7 @@ function Messages({ isOwner = false }: MessageProps) {
               maxWidth: "max-content",
             }}
           >
-            Hello chat!
+            {message.text}
           </Typography>
         </Box>
       </Box>

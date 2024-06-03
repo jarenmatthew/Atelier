@@ -20,6 +20,8 @@ import ArtistProfile from "./Pages/Profile/artistProfile";
 import ForgotPassword from "./Pages/forgot-pass/ForgotPassword.tsx";
 import ChatPage from "./Pages/Chat/ChatPage.tsx";
 import TabsComponent from "./Pages/transaction/TabsComponent.tsx";
+import { AuthContextProvider } from "./AuthContext.tsx";
+import { ChatContextProvider } from "./ChatContext.tsx";
 import Premium from "./Pages/Premium.tsx";
 
 const router = createBrowserRouter([
@@ -42,12 +44,15 @@ const router = createBrowserRouter([
   { path: "/transaction", element: <TabsComponent /> },
   { path: "/premium", element: <Premium /> },
   { path: "/Profile", element: <Artist /> },
-
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <CssBaseline />
-    <RouterProvider router={router} />
-  </React.StrictMode>
+  <AuthContextProvider>
+    <ChatContextProvider>
+      <React.StrictMode>
+        <CssBaseline />
+        <RouterProvider router={router} />
+      </React.StrictMode>
+    </ChatContextProvider>
+  </AuthContextProvider>
 );
