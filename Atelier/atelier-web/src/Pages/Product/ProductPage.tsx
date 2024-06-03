@@ -4,8 +4,13 @@ import { storage } from '../../../FirebaseConfig';
 import './ProductStyle.css';
 import Header from '../../Header';
 import Footer from '../../Footer';
+import { Link as RouterLink, useLocation } from "react-router-dom";
 
 const Product: React.FC = () => {
+  var location = useLocation();
+  const { artwork } = location.state;
+  console.log("artwork", artwork); // Destructure artwork from location.state
+
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [stickerImageUrl, setStickerImageUrl] = useState<string | null>(null);
   const [bookmarkImageUrl, setBookmarkImageUrl] = useState<string | null>(null);
@@ -62,25 +67,26 @@ const Product: React.FC = () => {
       <div className="container">
         <div className="artwork-container">
           <div className="artwork">
-            {imageUrl && <img src={imageUrl} alt="Artwork" />}
+            {imageUrl && <img src={artwork.coverPhoto} alt="Artwork" />}
           </div>
-          <p>Artwork Name</p>
+          <p>{artwork.name}</p>
         </div>
         <div className="details-container">
           <div className="artist-info">
             <div className="profile-pic"></div>
-            <p>Artist Name</p>
+            {/* <p>artwork.</p> */}
+            {/* // name of artist??? */}
           </div>
           <div className="description">
             <h3>Artwork Description</h3>
-            <h5>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit.</h5>
+            <h5>{artwork.description}</h5>
           </div>
           <div className="tags">
             <div className="tag">Tag 1</div>
             <div className="tag">Tag 2</div>
             <div className="tag">Tag 3</div>
           </div>
-          <div className="price">$100</div>
+          <div className="price">${artwork.price}</div>
           <div className="buttons">
             <a href="#" className="button">Buy</a>
             <a href="#" className="button">Add to Cart</a>
@@ -88,7 +94,7 @@ const Product: React.FC = () => {
         </div>
       </div>
       <div className='available'>
-        <h3>Available as: <div className="tags"><div className="tag">Type of Artwork</div></div></h3>
+        <h3>Available as: <div className="tags"><div className="tag">{artwork.tags[0]}</div></div></h3>
       </div>
       <div className="availability">
         <h2>Also available as:</h2>

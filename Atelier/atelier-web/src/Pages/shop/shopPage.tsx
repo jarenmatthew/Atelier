@@ -7,6 +7,9 @@ import Header from "../../Header";
 import Footer from "../../Footer";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+
+import { Link as RouterLink } from "react-router-dom";
+
 import {
   MenuItem,
   Select,
@@ -233,9 +236,11 @@ const Shop: React.FC = () => {
                     padding: "5%",
                     backgroundColor: "#D9ADA9",
                     borderRadius: "5px",
+                    
                   }}
                 >
-                  <Link to={"/product"}>
+
+                  <Link component={RouterLink} to="/product" state={{artwork}}>
                     <Box
                       sx={{
                         width: "250px",
@@ -256,9 +261,9 @@ const Shop: React.FC = () => {
                           borderRadius: "5px",
                         }}
                       />
+                      
                     </Box>
                   </Link>
-
                   <Typography
                     variant="body1"
                     sx={{
