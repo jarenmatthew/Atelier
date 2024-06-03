@@ -203,10 +203,10 @@ const UserProfile = () => {
   const handleCoverPhotoChange = (event, type) => {
     const file = event.target.files[0];
     if (file) {
-      const fileSize = file.size / 20480; // Size in MB
-      if (fileSize > 20) {
+      const fileSize = file.size / 2048 / 2048; // Size in MB
+      if (fileSize > 5) {
         // File size exceeds 2MB, show error message or prevent form submission
-        alert("Please upload an image with a maximum size of 20MB.");
+        alert("Please upload an image with a maximum size of 5MB.");
         // Reset the file input field
         event.target.value = "";
         return;
@@ -803,6 +803,28 @@ const UserProfile = () => {
                                 padding: "0 ",
                               }}
                             />
+                            <Button
+                              variant="contained"
+                              color="secondary"
+                              onClick={() =>
+                                handleDeleteArtwork(collection.id, artwork.id)
+                              }
+                              sx={{
+                                fontFamily: "Montserrat",
+                                fontWeight: "500",
+                                fontSize: "90%",
+                                textTransform: "none",
+                                marginRight: "1%",
+                                backgroundColor: "red",
+                                color: "white",
+                                "&:hover": {
+                                  backgroundColor: "#3B3B58",
+                                  fontWeight: "600",
+                                },
+                              }}
+                            >
+                              Delete Artwork
+                            </Button>
 
                             {/* <Typography variant="h6">{artwork.name}</Typography>
                             <Typography>{artwork.description}</Typography> */}
