@@ -1,6 +1,12 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { getFirestore, addDoc, collection } from "firebase/firestore";
+import {
+  getFirestore,
+  addDoc,
+  collection,
+  setDoc,
+  doc,
+} from "firebase/firestore";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { getDownloadURL } from "firebase/storage";
 import { Link as RouterLink } from "react-router-dom";
@@ -35,6 +41,7 @@ function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate(); // Import useNavigate hook
+  const [userUid, setUserUid] = useState("");
 
   const db = getFirestore();
   const storage = getStorage();
@@ -75,6 +82,7 @@ function SignUpPage() {
         : null;
       const accountCollection = "accounts";
       const docRef = await addDoc(collection(db, accountCollection), {
+        uid: userUid,
         email: email,
         fullName: fullName,
         username: username,
@@ -105,7 +113,14 @@ function SignUpPage() {
     }
 
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      await setDoc(doc(db, "userChats", userCredential.user.uid), {});
+      setUserUid(userCredential.user.uid);
+
       setOpenDialog(true);
     } catch (err) {
       if (err.message.includes("auth/invalid-email")) {

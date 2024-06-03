@@ -11,7 +11,6 @@ function Sidebar() {
       </Box>
       <SearchBar />
       <Chats />
-      <Chats />
     </Box>
   );
 }

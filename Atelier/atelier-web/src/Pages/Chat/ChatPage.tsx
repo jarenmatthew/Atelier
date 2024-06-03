@@ -1,23 +1,14 @@
-import {
-  Box,
-  Typography,
-  TextField,
-  Stack,
-  Link,
-  Checkbox,
-  FormGroup,
-  FormControlLabel,
-  Button,
-  InputAdornment,
-  IconButton,
-} from "@mui/material";
-import React from "react";
-import { Navigate, Link as RouterLink } from "react-router-dom";
+import { Box } from "@mui/material";
+import React, { useContext } from "react";
 import Sidebar from "./components/ChatSidebar";
 import MessageBar from "./components/MessageBar";
 import Header from "../../Header";
+import { AuthContext } from "../../AuthContext";
 
 function ChatPage() {
+  const user = useContext(AuthContext);
+  console.log(user);
+
   return (
     <Box height={"100vh"}>
       <Header />

@@ -19,6 +19,8 @@ import UserProfile from "./Pages/Profile/userProfile"; // Import UserProfile
 import ArtistProfile from "./Pages/Profile/artistProfile";
 import ForgotPassword from "./Pages/forgot-pass/ForgotPassword.tsx";
 import ChatPage from "./Pages/Chat/ChatPage.tsx";
+import { AuthContext, AuthContextProvider } from "./AuthContext.tsx";
+import { ChatContextProvider } from "./ChatContext.tsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <GetStarted /> },
@@ -40,8 +42,12 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <CssBaseline />
-    <RouterProvider router={router} />
-  </React.StrictMode>
+  <AuthContextProvider>
+    <ChatContextProvider>
+      <React.StrictMode>
+        <CssBaseline />
+        <RouterProvider router={router} />
+      </React.StrictMode>
+    </ChatContextProvider>
+  </AuthContextProvider>
 );
