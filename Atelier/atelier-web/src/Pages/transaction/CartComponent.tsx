@@ -29,7 +29,6 @@ const CartComponent: React.FC = () => {
               Price: {item.price}
             </Typography>
             <div className="item-buttons">
-            <Link to="/premium">
               <Button variant="contained" color="primary" size="small">Buy</Button>
               <Button variant="contained" color="secondary" size="small">Delete</Button>
             </div>
