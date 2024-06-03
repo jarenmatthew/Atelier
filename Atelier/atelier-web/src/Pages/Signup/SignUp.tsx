@@ -1,7 +1,14 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { getFirestore, addDoc, collection } from "firebase/firestore";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  getFirestore,
+  addDoc,
+  collection,
+  setDoc,
+  doc,
+} from "firebase/firestore";
+import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL } from "firebase/storage";
 import { Link as RouterLink } from "react-router-dom";
 import { auth } from "../../../FirebaseConfig";
 import { useNavigate } from "react-router";
@@ -34,6 +41,7 @@ function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate(); // Import useNavigate hook
+  const [userUid, setUserUid] = useState("");
 
   const db = getFirestore();
   const storage = getStorage();
@@ -74,6 +82,7 @@ function SignUpPage() {
         : null;
       const accountCollection = "accounts";
       const docRef = await addDoc(collection(db, accountCollection), {
+        uid: userUid,
         email: email,
         fullName: fullName,
         username: username,
@@ -105,7 +114,14 @@ function SignUpPage() {
     }
 
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      await setDoc(doc(db, "userChats", userCredential.user.uid), {});
+      setUserUid(userCredential.user.uid);
+
       setOpenDialog(true);
     } catch (err) {
       if (err.message.includes("auth/invalid-email")) {
@@ -171,8 +187,8 @@ function SignUpPage() {
               disableUnderline: true,
               style: {
                 backgroundColor: "#FFFFFF",
-                border: 'none',
-                outline: 'none',
+                border: "none",
+                outline: "none",
                 borderRadius: "5px",
                 marginBottom: "15px",
                 fontFamily: "Montserrat",
@@ -347,11 +363,16 @@ function SignUpPage() {
             onChange={(e) => setUsername(e.target.value)}
             sx={textFieldStyle.root}
           />
-          <Typography variant="body2" color="textSecondary"
+          <Typography
+            variant="body2"
+            color="textSecondary"
             sx={{
               mb: 0,
               paddingLeft: 0,
-            }}>Description</Typography>
+            }}
+          >
+            Description
+          </Typography>
           <Typography
             variant="body2"
             color="textSecondary"

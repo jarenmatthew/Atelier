@@ -42,6 +42,8 @@ function LogInPage() {
       );
       const userEmail = userCredential.user.email;
 
+      console.log("userCredential", userCredential);
+
       // Query Firestore to find the user document with the corresponding email
       const querySnapshot = await getDocs(
         query(
@@ -50,6 +52,7 @@ function LogInPage() {
         )
       );
 
+      console.log(querySnapshot.docs[0].id);
       if (!querySnapshot.empty) {
         // Assuming there's only one document matching the email
         const docId = querySnapshot.docs[0].id;
