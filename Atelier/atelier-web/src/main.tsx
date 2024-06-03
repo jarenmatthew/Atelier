@@ -12,7 +12,7 @@ import MyCart from "./Pages/MyCart/Cart";
 import About from "./Pages/aboutUs/aboutPage";
 import GetStarted from "./Pages/landingPage/getStarted";
 import User from "./Pages/Profile/userProfile";
-import Artist from "./Pages/Profile/artistProfile";
+import Artist from "./Pages/Profile/artistProfilee";
 import Explore from "./Pages/explore/explorePage";
 import Notification from "./Pages/Notification";
 import UserProfile from "./Pages/Profile/userProfile"; // Import UserProfile
@@ -39,7 +39,7 @@ const router = createBrowserRouter([
   { path: "/forgot-password", element: <ForgotPassword /> },
   { path: "/Chats", element: <ChatPage /> },
   { path: "/transaction", element: <TabsComponent /> },
-  
+  { path: "/Profile", element: <Artist /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
