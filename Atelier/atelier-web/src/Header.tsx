@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { getDownloadURL, ref } from "firebase/storage";
-import { storage } from "../FirebaseConfig";
+import { db, storage } from "../FirebaseConfig";
 import "./HeaderStyle.css";
 import { auth } from "../FirebaseConfig";
+import { AuthContext } from "./AuthContext";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { Avatar } from "@mui/material";
 
-const Header: React.FC = () => {
+const Header: React.FC = () => { 
+  const currentUser = useContext(AuthContext);
   const [logoIconURL, setLogoIconURL] = useState("");
   const [profileIconURL, setProfileIconURL] = useState("");
   const [notifURL, setNotifIconURL] = useState("");
@@ -13,10 +17,39 @@ const Header: React.FC = () => {
   const [cartURL, setCartIconURL] = useState("");
   const navigate = useNavigate(); // Import useNavigate hook
   const [userData, setUserData] = useState(null);
+  const { userId } = useParams();
+
 
   useEffect(() => {
     fetchIconURLs(); // Fetch icon URLs
   }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const docRef = doc(db, "accounts", userId);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          setUserData(docSnap.data());
+          // Fetch collections
+          const collectionsRef = collection(docRef, "collections");
+          const collectionsSnapshot = await getDocs(collectionsRef);
+          const collectionsList = collectionsSnapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+         
+        } else {
+          console.log("No such document!");
+        }
+      } catch (error) {
+        console.error("Error fetching document:", error);
+      }
+    };
+
+    fetchData();
+  }, [userId, db]);
+  // console.log("USERDATA",userData)
 
   const fetchIconURLs = async () => {
     try {
@@ -102,9 +135,9 @@ const Header: React.FC = () => {
           </div>
 
           <div id="profile-box">
-            <img
-              src={profileIconURL}
-              className="profile"
+            <Avatar
+          src={userData?.profilePhoto || profileIconURL}
+          className="profile"
               alt="Profile Circle"
               onClick={handleProfileClick}
             />
