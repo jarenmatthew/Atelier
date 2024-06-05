@@ -227,15 +227,15 @@ const Explore: React.FC = () => {
               <button onClick={() => setSelectedTag("Painting")}>
                 Painting
               </button>
-              <button onClick={() => setSelectedTag("Photograph")}>
-                Photograph
+              <button onClick={() => setSelectedTag("Photography")}>
+                Photography
               </button>
               <button onClick={() => setSelectedTag("Crafts")}>Crafts</button>
               <button onClick={() => setSelectedTag("Scripture")}>
                 Scripture
               </button>
-              <button onClick={() => setSelectedTag("Oil canvas")}>
-                Oil Canvas
+              <button onClick={() => setSelectedTag("Oil Pastel")}>
+                Oil Pastel
               </button>
               <button onClick={() => setSelectedTag("Digital")}>Digital</button>
             </div>
@@ -273,12 +273,6 @@ const Explore: React.FC = () => {
                 </MenuItem>
                 <MenuItem className="menu-item" value="date-desc">
                   Newest Date
-                </MenuItem>
-                <MenuItem className="menu-item" value="price">
-                  Price (Low to High)
-                </MenuItem>
-                <MenuItem className="menu-item" value="price-desc">
-                  Price (High to Low)
                 </MenuItem>
               </Select>
             </FormControl>
